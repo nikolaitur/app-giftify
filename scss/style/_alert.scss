@@ -1,0 +1,105 @@
+.alert {
+	border-radius: 10px;
+	border: 1px solid $color;
+	padding: 15px;
+	background: #fff;
+	font-size: 14px;
+	position: relative;
+	line-height: 1.5;
+
+	.close {
+		width: 30px;
+		height: 30px;
+		top: 5px;
+		right: 5px;
+		position: absolute;
+		border-radius: 50%;
+		border: 1px solid $border;
+		cursor: pointer;
+
+		@media (min-width: 1025px) {
+			&:hover {
+				background: $border;
+			}
+		}
+
+		> div {
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			position: absolute;
+		}
+	}
+
+	.heading {
+		border-bottom: 1px solid $border;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
+	}
+	
+	.message {
+		font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 700;
+	}
+
+	h3 {
+		color: $color;
+		font-size: 18px;
+	}
+
+	.message, .tutorial {
+		a:not(.btn) {
+			color: $color;
+
+			> div {
+				margin-top: -3px!important;
+				margin-bottom: -3px!important;
+			}
+			
+			@media (min-width: 1025px) {
+				&:hover {
+					color: #000;
+				}
+			}
+		}
+	}
+
+	.btn {
+		transform: scale(.75) translateY(-1px);
+		margin: -15px -5px;
+		pointer-events: none;
+
+		@media (max-width: 767px) {
+			transform: scale(.6) translateY(-1px);
+			margin: -15px;
+		}
+	}
+
+	ol {
+		counter-reset: counter;
+
+		li {
+			position: relative;
+			padding-left: 25px;
+			margin-top: 10px;
+			counter-increment: counter;
+
+			&:before {
+				content: counter(counter);
+				display: block;
+				position: absolute;
+				width: 15px;
+				height: 15px;
+				text-align: center;
+				line-height: 16px;
+				font-size: 10px;
+				color: $color;
+				border: 1px solid $color;
+				border-radius: 50%;
+				left: 0;
+				top: 2px;
+			}
+		}
+	}
+}

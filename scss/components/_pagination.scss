@@ -1,0 +1,47 @@
+.pagination {
+	border-top: 1px solid $border;
+
+	a {
+		display: block;
+		width: 50px;
+		height: 30px;
+		border: 1px solid $border;
+		border-top: 0;
+		position: relative;
+		cursor: pointer;
+		border-bottom-right-radius: 10px;
+
+		@media (min-width: 1025px) {
+			&:hover {
+				background: $color;
+
+				svg {
+					fill: #fff;
+					opacity: 1;
+				}
+			}
+		}
+
+		&.disabled {
+			pointer-events: none;
+			opacity: .4;
+		}
+
+		&.prev {
+			border-bottom-right-radius: 0px;
+			border-bottom-left-radius: 10px;
+			margin-right: -1px;
+		}
+
+		svg {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			opacity: .75;
+			fill: #272a3a;
+			transition: all .2s ease;
+			margin-top: -1px;
+		}
+	}
+}

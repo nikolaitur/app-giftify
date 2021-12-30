@@ -1,0 +1,71 @@
+.field {
+	margin-bottom: 15px;
+	position: relative;
+
+	label {
+		margin-bottom: 5px;
+		font-size: 11px;
+		text-transform: uppercase;
+		font-weight: 700;
+		display: block;
+	}
+
+	input {
+		&[type="text"],
+		&[type="email"],
+		&[type="tel"],
+		&[type="phone"],
+		&[type="number"],
+		&[type="password"] {
+			border: 1px solid $border;
+			padding: 8px 10px;
+			border-radius: 5px;
+			font-size: 16px;
+			width: 100%;
+			height: 40px;
+		}
+	}
+
+	select, textarea {
+		border: 1px solid $border;
+		padding: 8px 10px;
+		border-radius: 5px;
+		font-size: 16px;
+		width: 100%;
+		-webkit-appearance: none;
+		appearance: none;
+	}
+
+	select {
+		height: 40px;
+		padding-right: 25px;
+
+		+ div {
+			pointer-events: none;
+			position: absolute!important;
+			bottom: 16px;
+			right: 7px;
+		}
+	}
+
+	.error {
+		position: absolute;
+    bottom: -5px;
+    font-size: 10px;
+    color: red;
+    pointer-events: none;
+    background: #fff;
+    padding: 3px 3px 0 0;
+    text-transform: uppercase;
+
+		+ * {
+			border-color: red!important;
+		}
+	}
+}
+
+.action {
+	a, button {
+		display: inline-block;
+	}
+}

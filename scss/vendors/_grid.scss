@@ -1,0 +1,111 @@
+$i: 24;
+$bp: 'xs', 'm', 'sm', 'md', 'lg';
+$points: 0,480,768,1024,1366;
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0 1 auto;
+  flex-direction: row;
+}
+
+div[class*='col-'] {
+  display: block;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 5px;
+
+  .grid {
+    width: 100%;
+  }
+  
+  &.block {
+    display: block;
+  }
+}
+
+.container, .container-fluid {
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  padding: 0 24px;
+}
+
+[class*="visible"] {
+  display: none;
+}
+
+[class*="hidden"] {
+  display: block;
+}
+
+@mixin cols() {
+
+  @if $k != 1 { 
+    .container {
+      max-width: #{nth($points, $k)}px;
+    }
+  }
+
+  @while $i > 0 {
+    .grid div.col-#{$i}-#{nth($bp, $k)} { 
+      flex-grow: $i;
+      flex-basis: $i / 24 * 100%;
+      max-width: $i / 24 * 100%;
+    }
+    $i: $i - 1;
+  }
+
+  $o: 24;
+  @while $o > 0 {
+    .grid div.order-#{$o}-#{nth($bp, $k)} { 
+      order: $o;
+    }
+    $o: $o - 1;
+  }
+
+  .hcenter-#{nth($bp, $k)} { justify-content: center; }
+  .hspace-between-#{nth($bp, $k)} { justify-content: space-between; }
+  .hstart-#{nth($bp, $k)} { justify-content: flex-start; }
+  .hend-#{nth($bp, $k)} { justify-content: flex-end; }
+
+  .vstart-#{nth($bp, $k)} { align-items: flex-start; }
+  .vend-#{nth($bp, $k)} { align-items: flex-end; }
+  .vcenter-#{nth($bp, $k)} { align-items: center; }
+  .vstretch-#{nth($bp, $k)} { align-items: stretch; }
+
+  .vcenter-self-#{nth($bp, $k)} {  align-self: center; }
+  .vright-self-#{nth($bp, $k)} {  align-self: flex-end; }
+
+  .visible-#{nth($bp, $k)} { display: block; &.table { display: table; } } 
+  .hidden-#{nth($bp, $k)} { display: none; } 
+}
+
+$k: 1;
+@while $k <= length($points) {
+
+  @if $k != 1 { 
+    @media all and (min-width: #{nth($points, $k)}px) {
+
+      @include cols();
+
+    }
+
+  } @else {
+
+    @include cols();
+
+  }
+  
+  $i: 24;
+  $k: $k + 1;
+}
+
+.mt-3 {
+  margin-top: 25px;
+}
+
+

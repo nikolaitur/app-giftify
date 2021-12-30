@@ -1,0 +1,121 @@
+.aside {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 450px;
+	z-index: 9;
+	background: #fff;
+	padding: 15px 25px;
+	transition: transform .75s 0s cubic-bezier(0.405, 0.135, 0.095, 1);
+	transform: translateX(100%);
+
+	@media (max-width: 767px) {
+		width: 90%;
+		max-width: 450px;
+		padding: 15px 10px;
+	}
+
+	&.small {
+		width: 250px;
+	}
+
+	&.active {
+		transform: none;
+
+		+ .inside {
+			.overlay {
+				opacity: .95;
+				visibility: visible;
+				transition-delay: 0s;
+			}
+		}
+	}
+
+	> .disabled {
+		pointer-events: none;
+	}
+
+	.center {
+		position: absolute;
+		top: 50%;
+		left: 0;
+		transform: translateY(-50%);
+		width: 100%;
+		padding: 15px 25px;
+		text-align: center;
+	}
+
+	.body {
+		//overflow: auto;
+		max-height: calc(100% - 25px);
+		margin-top: 15px;
+	}
+
+	.close {
+		width: 30px;
+		height: 30px;
+		top: 5px;
+		right: 5px;
+		position: absolute;
+		border-radius: 50%;
+		border: 1px solid $border;
+		cursor: pointer;
+
+		@media (min-width: 1025px) {
+			&:hover {
+				background: $border;
+			}
+		}
+
+		> div {
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			position: absolute;
+		}
+	}
+
+	ul {
+		text-align: left;
+		font-size: 11px;
+		text-transform: uppercase;
+		font-weight: 700;
+
+		li {
+			display: block;
+			margin: 10px 0;
+			position: relative;
+		}
+
+		span {
+			position: absolute;
+			top: -1px;
+			left: 0;
+			width: 45px;
+			height: 100%;
+			display: block;
+			pointer-events: none;
+
+			> div {
+					top: 50%;
+					transform: translateY(-50%);
+					left: 0;
+					position: absolute;
+				}
+		}
+
+		a {
+			padding: 5px 5px 5px 25px;
+			display: block;
+			color: #272a3a;
+			cursor: pointer;
+
+			@media (min-width: 1025px) {
+				&:hover {
+					color: $color;
+				}
+			}
+		}
+	}
+}
