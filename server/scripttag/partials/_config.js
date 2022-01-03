@@ -46,7 +46,6 @@ module.exports = {
         texts: {
             start: "Send Your Gift",
             "back": "Back",
-            "preview": "Preview",
             "submit": "Buy"
         },
         padding: { top: 10, right: 20, bottom: 10, left: 20 },

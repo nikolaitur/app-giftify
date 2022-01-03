@@ -11,7 +11,7 @@ const _popup = (config) => {
     				<div class="giftify-popup__title">${ config.popup.texts.title }</div>
     			</div>
     			<div class="giftify-popup__steps">
-    				<div class="giftify-popup__step" data-step="1">
+    				<div class="giftify-popup__step giftify-popup__step--active" data-step="1">
     					<ol>
     						<li>${ config.popup.texts.line1 }</li>
     						<li>${ config.popup.texts.line2 }</li>
@@ -24,7 +24,7 @@ const _popup = (config) => {
                             </button>
                         </div>
     				</div>
-                    <div class="giftify-popup__step giftify-popup__step--active" data-step="2">
+                    <div class="giftify-popup__step" data-step="2">
                         <form id="giftify-popup__form" autocomplete="off">
                             <div class="giftify-popup__label">${ config.popup.texts.to }</div>
                             <div class="giftify-popup__grid">
@@ -53,7 +53,7 @@ const _popup = (config) => {
                                     <span>${ config.popup.buttons.texts.back }</span>
                                 </button>
                                 <button class="giftify-popup__button giftify-popup__next" type="submit">
-                                    <span>${ config.popup.buttons.texts.preview }</span>
+                                    <span>${ config.popup.buttons.texts.submit }</span>
                                 </button>
                             </div>
                         </form>

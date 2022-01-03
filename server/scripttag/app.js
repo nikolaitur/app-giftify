@@ -12,6 +12,7 @@ const generateScriptTag = (settings, dev) => {
 
   const render = `
   	window.Giftify = {
+      checkoutButton: false,
   		init: function() {
         this.insertStyle();
   			this.initiateButton();
@@ -24,20 +25,20 @@ const generateScriptTag = (settings, dev) => {
         head.appendChild(style);
       },
   		initiateButton: function() {
-  			var wrappers = document.querySelectorAll('.giftify-wrapper');
+  			var wrappers = document.querySelectorAll('.giftify-wrapper'),
+            checkoutButtons = document.querySelectorAll('[name="checkout"]');
   			if (wrappers.length) {
   				this.renderButton(wrappers);
-  			} else {
-  				var checkoutButtons = document.querySelectorAll('[name="checkout"]');
-          if (checkoutButtons.length) {
-            checkoutButtons.forEach(function(checkoutButton) {
-              var el = document.createElement('div');
-              el.classList.add('giftify-wrapper');
-              checkoutButton.parentNode.insert${ config.button.place }(el, checkoutButton);
-            });
-            this.renderButton();
-          }
   			}
+        if (checkoutButtons.length) {
+          this.checkoutButton = checkoutButtons[0];
+          checkoutButtons.forEach(function(checkoutButton) {
+            var el = document.createElement('div');
+            el.classList.add('giftify-wrapper');
+            checkoutButton.parentNode.insert${ config.button.place }(el, checkoutButton);
+          });
+          this.renderButton();
+        }
   		},
   		renderButton: function(wrappers = null) {
         if (!wrappers) {
@@ -58,10 +59,16 @@ const generateScriptTag = (settings, dev) => {
           popupEl.innerHTML = '${ popup.replace(/'/g, "’") }';
           document.body.appendChild(popupEl);
 
-          document.querySelector('.giftify-popup__bg').addEventListener('click', window.Giftify.closePopup);
-          document.querySelector('.giftify-popup__close').addEventListener('click', window.Giftify.closePopup);
+          this.initiatePopupListeners();
         }
   		},
+      initiatePopupListeners: function() {
+        document.querySelector('.giftify-popup__bg').addEventListener('click', this.closePopup);
+        document.querySelector('.giftify-popup__close').addEventListener('click', this.closePopup);
+        document.querySelector('.giftify-popup__step[data-step="1"] .giftify-popup__next').addEventListener('click', this.buttonNext);
+        document.querySelector('.giftify-popup__step[data-step="2"] .giftify-popup__prev').addEventListener('click', this.buttonPrev);
+        document.querySelector('.giftify-popup__step[data-step="2"] form').addEventListener('submit', this.submitGift);
+      },
       openPopup: function(e) {
         e.preventDefault();
         var popup = document.querySelector('.giftify-popup');
@@ -75,6 +82,38 @@ const generateScriptTag = (settings, dev) => {
         if (popup) {
           popup.classList.remove('giftify-popup--active');
         }
+      },
+      buttonNext: function(e) {
+        e.preventDefault();
+        var step = document.querySelector('.giftify-popup__step[data-step="1"]');
+        step.classList.remove('giftify-popup__step--active');
+        step.nextElementSibling.classList.add('giftify-popup__step--active');
+      },
+      buttonPrev: function(e) {
+        e.preventDefault();
+        var step = document.querySelector('.giftify-popup__step[data-step="2"]');
+        step.classList.remove('giftify-popup__step--active');
+        step.previousElementSibling.classList.add('giftify-popup__step--active');
+      },
+      submitGift: function(e) {
+        e.preventDefault();
+        var form = e.target;
+        document.querySelector('.giftify-popup').classList.add('giftify-popup--loading');
+        var xhr = new XMLHttpRequest;
+        xhr.open('POST', '/cart/update.js');
+        xhr.onload = function() {
+          if (window.Giftify.checkoutButton) {
+            window.Giftify.checkoutButton.click();
+          } else {
+            location.href = '/checkout';
+          }
+        };
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.send(JSON.stringify({
+          attributes: {
+            Giftify: 'To: ' + form.rname.value + ' (' + form.remail.value + ') \\nFrom: ' + form.yname.value + ' (' + form.yemail.value + ') \\nMessage: ' + (form.ymessage.value ? form.ymessage.value : '-')
+          }
+        }));
       }
   	};
 

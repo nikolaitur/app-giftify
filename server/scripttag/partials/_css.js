@@ -45,6 +45,9 @@ const _css = (config) => {
       pointer-events: none;
       transition: all .5s ease;
     }
+    .giftify-popup.giftify-popup--loading {
+      pointer-events: none;
+    }
     .giftify-popup.giftify-popup--active {
       opacity: 1;
       visibility: visible;
@@ -132,7 +135,7 @@ const _css = (config) => {
       justify-content: center;
     }
     .giftify-popup__button { 
-      margin: 5px 2px; 
+      margin: 5px; 
       display: inline-block;
       transition: all .2s ease;
       padding: 0;
@@ -146,11 +149,13 @@ const _css = (config) => {
       display: flex;
       white-space: nowrap;
       transition: all .2s ease;
+      position: relative;
     }
     .giftify-popup__next span {
       background: ${ config.popup.buttons.next.bgColor };
       color: ${ config.popup.buttons.next.txtColor };
       border: 2px solid ${ config.popup.buttons.next.borderColor };
+      position: relative;
     }
     .giftify-popup__next:hover span {
       background: ${ config.popup.buttons.next.hoverBgColor };
@@ -166,6 +171,31 @@ const _css = (config) => {
       background: ${ config.popup.buttons.prev.hoverBgColor };
       color: ${ config.popup.buttons.prev.hoverTxtColor };
       border-color: ${ config.popup.buttons.prev.hoverBorderColor };
+    }
+    .giftify-popup__next span::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      border: 3px solid ${ config.popup.buttons.next.txtColor };
+      border-top: 3px solid transparent;
+      border-radius: 50%;
+      margin-left: -10px;
+      margin-top: -10px;
+      opacity: 0;
+      -webkit-animation: giftify_spin .7s linear infinite;
+      animation: giftify_spin .7s linear infinite;
+    }
+    @-webkit-keyframes giftify_spin { 
+      100% { -webkit-transform: rotate(360deg); } 
+    }
+    @keyframes giftify_spin { 
+      100% { 
+          -webkit-transform: rotate(360deg); 
+          transform:rotate(360deg); 
+      } 
     }
     .giftify-popup__step ol {
       counter-reset: giftify;
@@ -205,6 +235,12 @@ const _css = (config) => {
     }
     .giftify-popup__field > * {
       width: 100%;
+    }
+    .giftify-popup--loading .giftify-popup__next span {
+      color: transparent!important;
+    }
+    .giftify-popup--loading .giftify-popup__next span::after {
+      opacity: 1;
     }
   `;
 
