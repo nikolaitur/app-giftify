@@ -11,6 +11,7 @@ const _css = (config) => {
       background: ${ config.button.bgColor };
       color: ${ config.button.txtColor };
       border-radius: ${ config.button.borderRadius }px;
+      border: 2px solid ${ config.button.borderColor };
       padding: ${ config.button.padding.top }px ${ config.button.padding.right }px ${ config.button.padding.bottom }px ${ config.button.padding.left }px; 
       display: flex;
       white-space: nowrap;
@@ -27,6 +28,7 @@ const _css = (config) => {
     .giftify-button:hover span {
       background: ${ config.button.hoverBgColor };
       color: ${ config.button.hoverTxtColor };
+      border-color: ${ config.button.hoverBorderColor };
     }
     .giftify-button:hover svg {
       fill: ${ config.button.hoverIconColor };
@@ -96,6 +98,12 @@ const _css = (config) => {
       display: flex;
       width: 100%;
     }
+    .giftify-popup__right {
+      width: 50%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
     .giftify-popup__left {
       width: ${ config.popup.image == '' ? 100 : 50 }%;
       padding: 75px 50px;
@@ -109,7 +117,55 @@ const _css = (config) => {
     .giftify-popup__title {
       color: ${ config.popup.title.txtColor };
       font-size: ${ config.popup.title.fontSize };
-      margin: ${ config.popup.title.margin.top }px ${ config.popup.title.margin.right }px ${ config.popup.title.margin.bottom }px ${ config.popup.title.margin.left }px; 
+      margin-bottom: 20px;
+    }
+    .giftify-popup__step {
+      display: none;
+    }
+    .giftify-popup__step--active {
+      display: block;
+    }
+    .giftify-popup__action {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .giftify-popup__button { 
+      margin: 5px 2px; 
+      display: inline-block;
+      transition: all .2s ease;
+      padding: 0;
+      border: 0;
+      border-radius: 0!important;
+      background: none!important;
+    }
+    .giftify-popup__button span {
+      border-radius: ${ config.button.borderRadius }px;
+      padding: ${ config.button.padding.top }px ${ config.button.padding.right }px ${ config.button.padding.bottom }px ${ config.button.padding.left }px; 
+      display: flex;
+      white-space: nowrap;
+      transition: all .2s ease;
+    }
+    .giftify-popup__next span {
+      background: ${ config.popup.buttons.next.bgColor };
+      color: ${ config.popup.buttons.next.txtColor };
+      border: 2px solid ${ config.popup.buttons.next.borderColor };
+    }
+    .giftify-popup__next:hover span {
+      background: ${ config.popup.buttons.next.hoverBgColor };
+      color: ${ config.popup.buttons.next.hoverTxtColor };
+      border-color: ${ config.popup.buttons.next.hoverBorderColor };
+    }
+    .giftify-popup__prev span {
+      background: ${ config.popup.buttons.prev.bgColor };
+      color: ${ config.popup.buttons.prev.txtColor };
+      border: 2px solid ${ config.popup.buttons.prev.borderColor };
+    }
+    .giftify-popup__prev:hover span {
+      background: ${ config.popup.buttons.prev.hoverBgColor };
+      color: ${ config.popup.buttons.prev.hoverTxtColor };
+      border-color: ${ config.popup.buttons.prev.hoverBorderColor };
     }
     .giftify-popup__step ol {
       counter-reset: giftify;
@@ -133,11 +189,22 @@ const _css = (config) => {
       left: 0;
       position: absolute;
     }
-    .giftify-popup__right {
+    .giftify-popup__label { 
+      font-weight: bold;
+      text-align: center;
+    }
+    .giftify-popup__field {
+      margin: 5px 0 10px;
+    }
+    .giftify-popup__grid > .giftify-popup__field {
       width: 50%;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      padding-right: 2px;
+    }
+    .giftify-popup__grid > .giftify-popup__field + .giftify-popup__field {
+      padding-left: 2px;
+    }
+    .giftify-popup__field > * {
+      width: 100%;
     }
   `;
 

@@ -11,14 +11,53 @@ const _popup = (config) => {
     				<div class="giftify-popup__title">${ config.popup.texts.title }</div>
     			</div>
     			<div class="giftify-popup__steps">
-    				<div class="giftify-popup__step active" data-step="1">
+    				<div class="giftify-popup__step" data-step="1">
     					<ol>
     						<li>${ config.popup.texts.line1 }</li>
     						<li>${ config.popup.texts.line2 }</li>
     						<li>${ config.popup.texts.line3 }</li>
     						<li>${ config.popup.texts.line4 }</li>
     					</ol>
+                        <div class="giftify-popup__action">
+                            <button class="giftify-popup__button giftify-popup__next">
+                                <span>${ config.popup.buttons.texts.start }</span>
+                            </button>
+                        </div>
     				</div>
+                    <div class="giftify-popup__step giftify-popup__step--active" data-step="2">
+                        <form id="giftify-popup__form" autocomplete="off">
+                            <div class="giftify-popup__label">${ config.popup.texts.to }</div>
+                            <div class="giftify-popup__grid">
+                                <div class="giftify-popup__field">
+                                    <input type="text" name="rname" placeholder="${ config.popup.texts.rname }" required />
+                                </div>
+                                <div class="giftify-popup__field">
+                                    <input type="email" name="remail" placeholder="${ config.popup.texts.remail }" required />
+                                </div>
+                            </div>
+                            <div class="giftify-popup__label">${ config.popup.texts.from }</div>
+                            <div class="giftify-popup__grid">
+                                <div class="giftify-popup__field">
+                                    <input type="text" name="yname" placeholder="${ config.popup.texts.yname }" required />
+                                </div>
+                                <div class="giftify-popup__field">
+                                    <input type="email" name="yemail" placeholder="${ config.popup.texts.yemail }" required />
+                                </div>
+                            </div>
+                            <div class="giftify-popup__label">${ config.popup.texts.message }</div>
+                            <div class="giftify-popup__field">
+                                <textarea name="ymessage" placeholder="${ config.popup.texts.yemail }"></textarea>
+                            </div>
+                            <div class="giftify-popup__action">
+                                <button class="giftify-popup__button giftify-popup__prev">
+                                    <span>${ config.popup.buttons.texts.back }</span>
+                                </button>
+                                <button class="giftify-popup__button giftify-popup__next" type="submit">
+                                    <span>${ config.popup.buttons.texts.preview }</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
     			</div>
     		</div>
     		${ config.popup.image != '' ? '<div class="giftify-popup__right" style="background-image: url(' + config.popup.image + ')"></div>' : '' }
