@@ -102,11 +102,6 @@ const Index = () => {
               <h1>Gifts Sent</h1>
             </div>
           </div>
-          <button type="button" onClick={() => {
-              throw new Error("Sentry Frontend Error");
-          }}>
-              Throw error
-          </button>
           { (loading) && (
             <Loadbars />
           )}
