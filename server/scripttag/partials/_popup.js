@@ -46,7 +46,7 @@ const _popup = (config) => {
                             </div>
                             <div class="giftify-popup__label">${ config.popup.texts.message }</div>
                             <div class="giftify-popup__field">
-                                <textarea name="ymessage" placeholder="${ config.popup.texts.yemail }"></textarea>
+                                <textarea name="ymessage" placeholder="${ config.popup.texts.ymessage }"></textarea>
                             </div>
                             <div class="giftify-popup__action">
                                 <button class="giftify-popup__button giftify-popup__prev">
