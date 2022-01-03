@@ -127,7 +127,7 @@ app.prepare().then(() => {
         await registerScriptTag(HOST, shop, accessToken);
 
         // Redirect to app with shop parameter upon auth and subscription
-        const subscriptionUrl = await subscribe(shop, accessToken, `${ HOST }/confirm?shop=${ shop }`, trial, dev || store == 'minion-made-apps');
+        const subscriptionUrl = await subscribe(shop, accessToken, `${ HOST }/confirm?shop=${ shop }`, trial, dev || store == 'minion-made-apps' || store == 'minionmadeapps');
 
         ctx.redirect(subscriptionUrl);
       },
