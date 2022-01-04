@@ -40,13 +40,14 @@ const ordersCreate = async (ctx) => {
             created_at: Fdate().format('server')
           });
 
-          const to = giftify.To.split('(');
+          const to = giftify.To.split('('), from = giftify.From.split('(');
           const mailgun = new Mailgun(formData);
           const mg = mailgun.client({ username: 'api', key: MAILGUN_API });
 
-          await mg.messages.create('mg.galianowine.com', {
+          await mg.messages.create('mg.giftify.email', {
             to: to[1].replace(')', ''),
-            from: queue.store + '<noreply@mg.galianowine.com>',
+            from: queue.store + '<noreply@giftify.email>',
+            'h:Reply-To': from[1].replace(')', ''),
             subject: to[0] + ' got you a gift!',
             html: 'Hello, this is sample email'
           }).catch(function(err) {
