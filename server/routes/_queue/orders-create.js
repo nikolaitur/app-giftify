@@ -1,8 +1,11 @@
-const { MONGO_CRON, MAILGUN_API, MAILGUN_PUBLIC } = process.env;
+const { HOST, MONGO_CRON, MAILGUN_API, MAILGUN_PUBLIC } = process.env;
+import path from 'path';
 import { ObjectId } from 'mongodb';
+import { Liquid } from 'liquidjs';
 import formData from 'form-data';
 import Mailgun from 'mailgun.js';
 import Fdate from '~/helpers/fdate';
+import Shopify from '~/helpers/shopify';
 
 const ordersCreate = async (ctx) => {
   const queue = ctx.request.body;
@@ -16,7 +19,7 @@ const ordersCreate = async (ctx) => {
   }
 
   try {
-    const order = queue.doc.details,
+    const order = JSON.parse(queue.doc.details),
           giftify = {};
 
     if (order.note_attributes.length) {
@@ -33,10 +36,27 @@ const ordersCreate = async (ctx) => {
         );
 
         if (doc && doc.status == 'active' && doc.settings.active) {
+
+          const products = {};
+          order.line_items.forEach(function(line_item) {
+            products[line_item.product_id] = {};
+          });
+
+          const s = await Shopify({ store: queue.store });
+          Object.keys(products).forEach(function(id) {
+            await sleep(600);
+            let product = await s.product.get(id,
+              { fields: 'id, images, variants' }
+            );
+
+            console.log(product);
+            return
+          });
+
           await ctx.db.collection('gifts').insertOne({ 
             _store: queue.store,
             gift: giftify,
-            order: JSON.stringify(order), // NEED TO BE REDUCED
+            order: order, // NEED TO BE REDUCED
             created_at: Fdate().format('server')
           });
 
@@ -44,14 +64,39 @@ const ordersCreate = async (ctx) => {
           const mailgun = new Mailgun(formData);
           const mg = mailgun.client({ username: 'api', key: MAILGUN_API });
 
-          await mg.messages.create('mg.giftify.email', {
-            to: to[1].replace(')', ''),
-            from: queue.store + '<noreply@giftify.email>',
-            'h:Reply-To': from[1].replace(')', ''),
-            subject: to[0] + ' got you a gift!',
-            html: 'Hello, this is sample email'
-          }).catch(function(err) {
-            console.log('Error during email Orders Create: ', err);
+          const engine = new Liquid({
+            root: path.resolve(__dirname, './../../emails/'),
+            extname: '.liquid'
+          });
+          await engine.renderFile('gift', {
+            giftify: {
+              to: {
+                name: to[0],
+                email: to[1].replace(')', '')
+              },
+              from: {
+                name: from[0],
+                email: from[1].replace(')', '')
+              },
+              message: giftify.Message
+            },
+            line_items: order.line_items,
+            shop: {
+              name: queue.store,
+              permanent_domain: queue.store + '.myshopify.com',
+              email: 'test@test.com'
+            },  
+            host: HOST
+          }).then(function(html) {
+            mg.messages.create('mg.giftify.email', {
+              to: to[1].replace(')', ''),
+              from: queue.store + '<noreply@giftify.email>',
+              'h:Reply-To': from[1].replace(')', ''),
+              subject: to[0] + ' got you a gift!',
+              html: html
+            }).catch(function(err) {
+              console.log('Error during email Orders Create: ', err);
+            });
           });
         }
       }

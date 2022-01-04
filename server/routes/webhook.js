@@ -9,7 +9,7 @@ const webhook = async (ctx) => {
   await ctx.db.collection('queue').insertOne({
     _action: ctx._matchedRoute.replace(/\//g, '-').replace('-webhook-', ''),
     _store: ctx.state.webhook.domain.replace('.myshopify.com', ''),
-    details: ctx.state.webhook.payload
+    details: JSON.stringify(ctx.state.webhook.payload)
   });
 
   ctx.body = {
