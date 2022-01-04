@@ -111,7 +111,9 @@ const generateScriptTag = (settings, dev) => {
         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         xhr.send(JSON.stringify({
           attributes: {
-            Giftify: 'To: ' + form.rname.value + ' (' + form.remail.value + ') \\nFrom: ' + form.yname.value + ' (' + form.yemail.value + ') \\nMessage: ' + (form.ymessage.value ? form.ymessage.value : '-')
+            'Giftify • To': form.rname.value + ' (' + form.remail.value + ')',
+            'Giftify • From': form.yname.value + ' (' + form.yemail.value + ')',
+            'Giftify • Message': (form.ymessage.value ? form.ymessage.value : '-')
           }
         }));
       }

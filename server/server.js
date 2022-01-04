@@ -47,9 +47,9 @@ Shopify.Context.initialize({
 });
 
 // --- FUNCTIONS ---------------------------------------------- //
-const webhook = async (shop, accessToken, topic) => {
+const webhook = async (shop, accessToken, hook) => {
   const registration = await registerWebhook(
-    { address: `${ HOST }/webhook/${ topic.replace('_', '/').replace('.', '_').toLowerCase() }`, topic: topic, accessToken: accessToken, shop: shop, apiVersion: API_VERSION }
+    { address: `${ HOST }/webhook/${ hook }`, topic: hook.replace('/', '_').toUpperCase(), accessToken: accessToken, shop: shop, apiVersion: API_VERSION }
   );
 };
 
@@ -123,7 +123,9 @@ app.prepare().then(() => {
         }
 
         // Add webhooks
-        webhook(shop, accessToken, 'APP_UNINSTALLED');
+        webhook(shop, accessToken, 'app/uninstalled');
+        webhook(shop, accessToken, 'orders/create');
+        webhook(shop, accessToken, 'fulfillment_events/create');
         await registerScriptTag(HOST, shop, accessToken);
 
         // Redirect to app with shop parameter upon auth and subscription

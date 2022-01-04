@@ -1,6 +1,5 @@
 const { MONGO_CRON } = process.env;
 import { ObjectId } from 'mongodb';
-import Gall from '~/helpers/gall';
 
 const appUninstalled = async (ctx) => {
   const queue = ctx.request.body;
@@ -20,14 +19,6 @@ const appUninstalled = async (ctx) => {
         $set: { status: 'uninstalled' },
         $unset: { token: "" } 
       }
-    );
-    
-    await ctx.db.collection('events').deleteMany(
-      { _store: queue.store }
-    );
-
-    await ctx.db.collection('history').deleteMany(
-      { _store: queue.store }
     );
 
     await ctx.db.collection('queue').deleteOne(

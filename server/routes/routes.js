@@ -19,19 +19,12 @@ const gifts = new Router({ prefix: '/a/gifts' });
 const gift = load('gifts');
 
 gifts.get('/:page?', verify(), gift.get.default);
-gifts.delete('/:id', verify(), gift.destroy.default);
-
-// --- HISTORY ---------------------------------------------------- //
-const history = new Router({ prefix: '/a/history' });
-const story = load('history');
-
-history.get('/:page?', verify(), story.get.default);
 
 // --- WEBHOOKS --------------------------------------------------- //
 const { SHOPIFY_API_SECRET } = process.env;
 const webhookValidate = receiveWebhook({ secret: SHOPIFY_API_SECRET });
 const webhooks = new Router({ prefix: '/webhook' });
-const webhooks_list = ['themes/delete', 'app/uninstalled', 'gdpr/customers/redact', 'gdpr/shop/redact', 'gdpr/customers/data_request'];
+const webhooks_list = ['orders/create', 'fulfillment_events/create', 'app/uninstalled', 'gdpr/customers/redact', 'gdpr/shop/redact', 'gdpr/customers/data_request'];
 
 for(const value of webhooks_list) {
   webhooks.post('/' + value, webhookValidate, webhook);
@@ -52,7 +45,6 @@ for(const value of Object.keys(queue)) {
 const router = combineRouters(
 	globals,
   gifts,
-  history,
   webhooks,
   crons,
   queues
