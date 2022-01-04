@@ -44,7 +44,6 @@
     "html-react-parser": "^1.2.4",
     "import-modules": "^2.1.0",
     "isomorphic-fetch": "^3.0.0",
-    "json2mongo": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.8.2",
     "koa-body": "^4.2.0",

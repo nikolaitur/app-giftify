@@ -36,7 +36,7 @@ const ordersCreate = async (ctx) => {
         );
 
         if (doc && doc.status == 'active' && doc.settings.active) {
-
+          /*
           const products = {};
           order.line_items.forEach(function(line_item) {
             products[line_item.product_id] = {};
@@ -52,6 +52,7 @@ const ordersCreate = async (ctx) => {
             console.log(product);
             return
           });
+          */
 
           await ctx.db.collection('gifts').insertOne({ 
             _store: queue.store,
