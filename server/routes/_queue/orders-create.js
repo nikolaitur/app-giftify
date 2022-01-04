@@ -93,7 +93,7 @@ const ordersCreate = async (ctx) => {
               to: to[1].replace(')', ''),
               from: queue.store + '<noreply@giftify.email>',
               'h:Reply-To': from[1].replace(')', ''),
-              subject: to[0] + ' got you a gift!',
+              subject: from[0] + ' got you a gift!',
               html: html
             }).catch(function(err) {
               console.log('Error during email Orders Create: ', err);
