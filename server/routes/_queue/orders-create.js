@@ -1,5 +1,7 @@
-const { MONGO_CRON } = process.env;
+const { MONGO_CRON, MAILGUN_API, MAILGUN_PUBLIC } = process.env;
 import { ObjectId } from 'mongodb';
+import formData from 'form-data';
+import Mailgun from 'mailgun.js';
 import Fdate from '~/helpers/fdate';
 
 const ordersCreate = async (ctx) => {
@@ -32,10 +34,23 @@ const ordersCreate = async (ctx) => {
 
         if (doc && doc.status == 'active' && doc.settings.active) {
           await ctx.db.collection('gifts').insertOne({ 
-            _store: ctx.store,
+            _store: queue.store,
             gift: giftify,
-            order: order, // NEED TO BE REDUCED
+            order: JSON.stringify(order), // NEED TO BE REDUCED
             created_at: Fdate().format('server')
+          });
+
+          const to = giftify.To.split('(');
+          const mailgun = new Mailgun(formData);
+          const mg = mailgun.client({ username: 'api', key: MAILGUN_API });
+
+          await mg.messages.create('mg.galianowine.com', {
+            to: to[1].replace(')', ''),
+            from: queue.store + '<noreply@mg.galianowine.com>',
+            subject: to[0] + ' got you a gift!',
+            html: 'Hello, this is sample email'
+          }).catch(function(err) {
+            console.log('Error during email Orders Create: ', err);
           });
         }
       }
