@@ -13,6 +13,7 @@ import Sidebar from '../partials/sidebar';
 
 // --- HELPERS -------------------------------------------------- //
 import Fdate from '../helpers/fdate';
+import money from '../helpers/money';
 import X from '../helpers/x';
 import Toast from '../helpers/toast';
 
@@ -99,7 +100,7 @@ const Index = () => {
           <div className="grid vcenter-xs">
             <div className="col-24-xs">
               <Hamburger />
-              <h1>Gifts Sent</h1>
+              <h1>Gifts</h1>
             </div>
           </div>
           { (loading) && (
@@ -111,7 +112,7 @@ const Index = () => {
                 <table className="mt-3 empty">
                   <thead>
                     <tr>
-                      <th className="text-center">No Gifts have been sent yet.</th>
+                      <th className="text-center">No Gifts have been created yet.</th>
                     </tr>
                   </thead>
                 </table>
@@ -121,10 +122,45 @@ const Index = () => {
                   <table className="mt-3" id="events">
                     <thead>
                       <tr>
+                        <th>Order</th>
+                        <th className="text-center">Value</th>
+                        <th className="text-center">Customer</th>
+                        <th className="text-center">Status</th>
+                        <th className="text-center">Created at</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
+                      { items.slice(0,10).map((item, i) =>
+                        <tr key={ item._id }>
+                          <td>
+                            <a>
+                              <strong>{ item.order.name }</strong>
+                            </a>
+                          </td>
+                          <td className="text-center cell" data-title="Value:">
+                            { money(item.order.total_price, item.order.currency) }
+                          </td>
+                          <td className="text-center cell" data-title="Customer:">
+                            <a>
+                              { item.order.customer.first_name } { item.order.customer.last_name }
+                            </a>
+                          </td>
+                          <td className="text-center cell" data-title="Status:">
+                            { {
+                              null: <span className="label">Unfulfilled</span>
+                            } [item.order.fulfillment_status] }
+                          </td>
+                          <td className="text-center cell" data-title="Created at:">
+                            { Fdate(item.order.created_at).format('client') }
+                          </td>
+                          <td className="nowrap cell last">
+                            { (item.status != 'completed' && item.status != 'run') && (
+                              <span className="action info" onClick={ () => { $_modal_active(true) ; $_data(item, true) } }><span>View</span><Image src="/icons/info.svg" width="14" height="14" /></span>
+                            )}
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                   <Pagination items={ items } onPageChange={ (p) => { $_updating(true) ; $_page(p) } } />
@@ -137,20 +173,31 @@ const Index = () => {
       <div className={ modal_active ? 'aside active' : 'aside' }>
         <a className="close" onClick={ () => $_modal_active(false) }><Image src="/icons/x.svg" width="20" height="20" /></a>
         <h2 className="mb-4">
-          Gift for: <span>John Smith</span>
+          Gift details: { data.order.name }
         </h2>
         <div className="body">
-          
-        </div>
-      </div>
-      <div className={ destroy_active ? 'aside small active' : 'aside small' }>
-        <a className="close" onClick={ () => $_destroy_active(false) }><Image src="/icons/x.svg" width="20" height="20" /></a>
-        <div className="center">
-          <h2 className="mb-4">Delete gift?</h2>
-          <div className="body">
-            <div className="end">
-              <button className={ `error btn w-100 ${ updating ? 'updating' : '' }` } onClick={ destroy }>Yes</button>
-              <button className="default btn w-100 mt-2" onClick={ () => $_destroy_active(false) }>No</button>
+          <div className="grid">
+            <div className="col-24-xs">
+              <div className="field">
+                <label class="text-success">Recipient Name</label>
+                { data.gift.To.split(' (')[0] }
+              </div>
+              <div className="field">
+                <label class="text-success">Recipient Email</label>
+                { data.gift.To.replace(')', '').split(' (')[1] }
+              </div>
+              <div className="field">
+                <label class="text-success">Sender Name</label>
+                { data.gift.From.split(' (')[0] }
+              </div>
+              <div className="field">
+                <label class="text-success">Sender Email</label>
+                { data.gift.From.replace(')', '').split(' (')[1] }
+              </div>
+              <div className="field">
+                <label class="text-success">Message</label>
+                { data.gift.Message }
+              </div>
             </div>
           </div>
         </div>
