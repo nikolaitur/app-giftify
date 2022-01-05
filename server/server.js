@@ -13,11 +13,13 @@ import { Shopify, ApiVersion } from '@shopify/shopify-api';
 import shopifyAuth, { verifyRequest } from '@shopify/koa-shopify-auth';
 import { registerWebhook } from "@shopify/koa-shopify-webhooks";
 import routes from './routes/routes';
+import thumb from './routes/thumb';
 import subscribe from './subscribe';
 import confirm from './confirm';
 import RedisStore from './redis';
 import registerScriptTag from './scripttag/register';
 import generateScriptTag from './scripttag/app';
+import getShopInfo from './info';
 
 // --- ENV ----------------------------------------------------- //
 dotenv.config();
@@ -108,9 +110,16 @@ app.prepare().then(() => {
         const store = shop.replace('.myshopify.com', '');
 
         // Set store's offline token for webhooks
+        const info = await getShopInfo(shop, accessToken);
         const doc = await ctx.db.collection('stores').findOneAndUpdate(
           { _store: store },
-          { $set: { token: CryptoJS.AES.encrypt(accessToken, SHOPIFY_API_SECRET).toString(), status: 'pending', guide: true, settings: { active: false } } },
+          { $set: { 
+            token: CryptoJS.AES.encrypt(accessToken, SHOPIFY_API_SECRET).toString(), 
+            status: 'pending', 
+            guide: true, 
+            settings: { active: false },
+            info: info 
+          } },
           { upsert: true }
         );
 
@@ -151,12 +160,24 @@ app.prepare().then(() => {
       { fields: { status: 1, settings: 1 } }
     );
 
-    if (doc && doc.status == 'active') {
+    if (doc && doc.status == 'active' && doc.settings.active) {
       ctx.res.write(generateScriptTag(doc.settings, dev));
     } else {
       ctx.res.write('');
     }
     
+    ctx.res.end();
+  };
+
+  const handleThumbnails = async (ctx) => {
+    ctx.res.statusCode = 200;
+    const store = ctx.query.shop.replace('.myshopify.com', '');
+    ctx.store = store;
+    const thumbnail = await thumb(ctx);
+    if (thumbnail.mime) {
+      ctx.res.type = thumbnail.mime;
+      ctx.res.write(thumbnail.stream);
+    }
     ctx.res.end();
   };
 
@@ -193,6 +214,7 @@ app.prepare().then(() => {
   router.get("(/_next/static/.*)", handleRequest);
   router.get("/_next/webpack-hmr", handleRequest);
   router.get("/app.js", handleJS);
+  router.get("/img", handleThumbnails);
   router.get("(.*)", verifyRequest({accessMode: 'offline'}), handleRequest);
 
   server.use(router.allowedMethods());

@@ -32,27 +32,14 @@ const ordersCreate = async (ctx) => {
       if (giftify.To) {
         const doc = await ctx.db.collection('stores').findOne(
           { _store: queue.store },
-          { fields: { status: 1, 'settings.active': 1 } }
+          { fields: { status: 1, 'settings.active': 1, info: 1 } }
         );
 
         if (doc && doc.status == 'active' && doc.settings.active) {
-          /*
-          const products = {};
-          order.line_items.forEach(function(line_item) {
-            products[line_item.product_id] = {};
+          
+          order.line_items.forEach(function(line_item, index) {
+            order.line_items[index].image = HOST + '/img?shop=' + queue.store + '.myshopify.com&pid=' + line_item.product_id + '&vid=' + line_item.variant_id
           });
-
-          const s = await Shopify({ store: queue.store });
-          Object.keys(products).forEach(function(id) {
-            await sleep(600);
-            let product = await s.product.get(id,
-              { fields: 'id, images, variants' }
-            );
-
-            console.log(product);
-            return
-          });
-          */
 
           await ctx.db.collection('gifts').insertOne({ 
             _store: queue.store,
@@ -83,9 +70,9 @@ const ordersCreate = async (ctx) => {
             },
             line_items: order.line_items,
             shop: {
-              name: queue.store,
+              name: doc.info.name,
               permanent_domain: queue.store + '.myshopify.com',
-              email: 'test@test.com'
+              email: doc.info.email
             },  
             host: HOST
           }).then(function(html) {
