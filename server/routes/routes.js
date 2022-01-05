@@ -14,11 +14,17 @@ const global = load('globals');
 
 globals.get('/guide', verify(), global.guide.default);
 
-// --- EVENTS ----------------------------------------------------- //
+// --- GIFTS ------------------------------------------------------ //
 const gifts = new Router({ prefix: '/a/gifts' });
 const gift = load('gifts');
 
 gifts.get('/:page?', verify(), gift.get.default);
+
+// --- SETTINGS --------------------------------------------------- //
+const settings = new Router({ prefix: '/a/settings' });
+const setting = load('settings');
+
+settings.get('/', verify(), setting.get.default);
 
 // --- WEBHOOKS --------------------------------------------------- //
 const { SHOPIFY_API_SECRET } = process.env;
@@ -31,8 +37,10 @@ for(const value of webhooks_list) {
 }
 
 // --- CRON ------------------------------------------------------- //
+/*
 const crons = new Router({ prefix: '/cron' });
 crons.post('/', cron);
+*/
 
 // --- QUEUES ----------------------------------------------------- //
 const queues = new Router({ prefix: '/queue' });
@@ -45,8 +53,9 @@ for(const value of Object.keys(queue)) {
 const router = combineRouters(
 	globals,
   gifts,
+  settings,
   webhooks,
-  crons,
+  //crons,
   queues
 )
 

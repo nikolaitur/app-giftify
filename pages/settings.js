@@ -18,27 +18,24 @@ const Settings = () => {
 
   // --- STATES ------------------------------------------------- //
   const [ loading, $_loading ] = useState(true);
-  const [ items, $_items ] = useState([]);
+  const [ settings, $_settings ] = useState([]);
   const [ updating, $_updating ] = useState(false);
+  const [ tabs, $_tabs ] = useState(1);
 
   // --- EFFECTS ------------------------------------------------ //
   useEffect(() => {
     async function start() {
-      
+      X(app).get('/a/settings', res => {
+        $_settings(res.settings);
+        $_loading(false);
+        return () => { mount.current = false; }
+      }, (error) => {
+        $_loading(false);
+        Toast(app, error, 'ERROR');
+      });
     }
     start();
   }, []);
-
-  useEffect(() => {
-    if (!loading) {
-      load();
-    }
-  }, []);
-
-  // --- METHODS ------------------------------------------------ //
-  const load = async () => {
-    
-  };
 
   const overlay_off = () => {
     document.getElementById('support').classList.remove('active');
@@ -54,7 +51,18 @@ const Settings = () => {
             <div className="grid vcenter-xs">
               <div className="col-24-xs">
                 <Hamburger />
-                <h1>Settings</h1>
+                <div className="grid vcenter-xs hspace-between-xs">
+                  <h1>Settings</h1>
+                  <span className="toggleSwitch">
+                    <input type="checkbox" id="toggle" checked={ window.active } />
+                    <label for="toggle" className="grid vcenter-xs">
+                      <span>{ window.active ? 'App is enabled' : 'App is disabled' }</span>
+                      <div className="switch">
+                        <div className="dot"></div>
+                      </div>
+                    </label>
+                  </span>
+                </div>
               </div>
             </div>
             { (loading) && (
