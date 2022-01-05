@@ -1,0 +1,32 @@
+.tabs {
+	width: 100%;
+
+	.tabs-nav {
+		border-bottom: 1px solid $border;
+		text-align: center;
+
+		a {
+			display: block;
+			font-size: 11px;
+			text-transform: uppercase;
+			font-weight: 700;
+			padding: 15px 25px;
+			margin-bottom: -1px;
+
+			@media (min-width: 1025px) {
+				&:hover {
+					background: #f3f8fc;
+				}
+			}
+
+			&.active {
+				color: #fff;
+				background: $color!important;
+			}
+		}
+	}
+
+	.tab {
+		padding: 25px 0;
+	}
+}

@@ -7,26 +7,34 @@ import Loadbars from '../partials/loadbars';
 import Sidebar from '../partials/sidebar';
 
 // --- HELPERS -------------------------------------------------- //
+import Formify from '../helpers/formify';
 import X from '../helpers/x';
 import Toast from '../helpers/toast';
+
+// --- VALIDATORS ----------------------------------------------- //
+import SettingsValidator from '../validators/settings';
 
 const Settings = () => {
 
   // --- INITS -------------------------------------------------- //
   const app = useAppBridge();
+  const init_data = {
+    settings: {},
+    info: {}
+  }
   const mount = useRef(true);
 
   // --- STATES ------------------------------------------------- //
   const [ loading, $_loading ] = useState(true);
-  const [ settings, $_settings ] = useState([]);
   const [ updating, $_updating ] = useState(false);
   const [ tabs, $_tabs ] = useState(1);
+  const [ data, $_data, $_valid, errors ] = Formify(init_data, SettingsValidator);
 
   // --- EFFECTS ------------------------------------------------ //
   useEffect(() => {
     async function start() {
       X(app).get('/a/settings', res => {
-        $_settings(res.settings);
+        $_data(res.data);
         $_loading(false);
         return () => { mount.current = false; }
       }, (error) => {
@@ -69,9 +77,36 @@ const Settings = () => {
               <Loadbars />
             )}
             { (!loading) && (
-              <>
-                
-              </>
+              <div className="tabs mt-3">
+                <div className="tabs-nav grid">
+                  <a onClick={ () => { $_tabs(1) } } className={ tabs == 1 ? 'active' : '' }>General</a>
+                  <a onClick={ () => { $_tabs(2) } } className={ tabs == 2 ? 'active' : '' }>Popup</a>
+                  <a onClick={ () => { $_tabs(3) } } className={ tabs == 3 ? 'active' : '' }>Emails</a>
+                </div>  
+
+                <div className="tab" style={{display : tabs == 1 ? 'block' : 'none' }}>
+                  <div className="grid">
+                    <div className="col-24-xs">
+                      <div className="field">
+                        <label>Store Name</label>
+                        { (errors['info.name']) && (
+                          <div className="error">{ errors['info.name'] }</div>
+                        )}
+                        <input value={ data.info.name } onChange={ $_data } name="info.name" type="text" placeholder="e.g. My Best Store" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="tab" style={{display : tabs == 2 ? 'block' : 'none' }}>
+                  POP
+                </div>
+
+                <div className="tab" style={{display : tabs == 3 ? 'block' : 'none' }}>
+                  EM
+                </div>
+
+              </div>
             )}
           </div>
         </div>

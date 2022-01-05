@@ -17,9 +17,6 @@ import money from '../helpers/money';
 import X from '../helpers/x';
 import Toast from '../helpers/toast';
 
-// --- VALIDATORS ----------------------------------------------- //
-import EventValidator from '../validators/event';
-
 // --- VIEW ----------------------------------------------------- //
 const Index = () => {
 
@@ -119,7 +116,7 @@ const Index = () => {
               )}
               { (items.length > 0) && (
                 <div className={ updating ? 'up' : '' }>
-                  <table className="mt-3" id="events">
+                  <table className="mt-3" id="gifts">
                     <thead>
                       <tr>
                         <th>Order</th>

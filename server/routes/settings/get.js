@@ -1,9 +1,15 @@
 const get = async (ctx) => {
-  const settings = {};
+  const store = await ctx.db.collection('stores').findOne(
+    { _store: ctx.store },
+    { fields: { settings: 1, info: 1 } }
+  );
 
   ctx.body = {
     status: 'success',
-    settings: settings
+    data: {
+    	settings: store.settings,
+    	info: store.info
+    }
   };
 };
 
