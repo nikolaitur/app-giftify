@@ -34,7 +34,7 @@ const Settings = () => {
   useEffect(() => {
     async function start() {
       X(app).get('/a/settings', res => {
-        $_data(res.data);
+        $_data(res.data, true);
         $_loading(false);
         return () => { mount.current = false; }
       }, (error) => {
@@ -86,13 +86,22 @@ const Settings = () => {
 
                 <div className="tab" style={{display : tabs == 1 ? 'block' : 'none' }}>
                   <div className="grid">
-                    <div className="col-24-xs">
+                    <div className="col-12-xs">
                       <div className="field">
                         <label>Store Name</label>
                         { (errors['info.name']) && (
                           <div className="error">{ errors['info.name'] }</div>
                         )}
                         <input value={ data.info.name } onChange={ $_data } name="info.name" type="text" placeholder="e.g. My Best Store" />
+                      </div>
+                    </div>
+                    <div className="col-12-xs">
+                      <div className="field">
+                        <label>Store Email</label>
+                        { (errors['info.email']) && (
+                          <div className="error">{ errors['info.email'] }</div>
+                        )}
+                        <input value={ data.info.email } onChange={ $_data } name="info.email" type="email" placeholder="e.g. contact@store.com" />
                       </div>
                     </div>
                   </div>
