@@ -28,7 +28,7 @@ const Index = () => {
   const mount = useRef(true);
 
   // --- STATES ------------------------------------------------- //
-  const [ data, $_data ] = useState({});
+  const [ data, $_data ] = useState({ order: {}, gift: {} });
   const [ items, $_items ] = useState([]);
   const [ loading, $_loading ] = useState(true);
   const [ modal_active, $_modal_active ] = useState(false);
@@ -172,35 +172,39 @@ const Index = () => {
       </div>
       <div className={ modal_active ? 'aside active' : 'aside' }>
         <a className="close" onClick={ () => $_modal_active(false) }><Image src="/icons/x.svg" width="20" height="20" /></a>
-        <h2 className="mb-4">
-          Gift details: { data.order.name }
-        </h2>
-        <div className="body">
-          <div className="grid">
-            <div className="col-24-xs">
-              <div className="field">
-                <label class="text-success">Recipient Name</label>
-                { data.gift.To.split(' (')[0] }
-              </div>
-              <div className="field">
-                <label class="text-success">Recipient Email</label>
-                { data.gift.To.replace(')', '').split(' (')[1] }
-              </div>
-              <div className="field">
-                <label class="text-success">Sender Name</label>
-                { data.gift.From.split(' (')[0] }
-              </div>
-              <div className="field">
-                <label class="text-success">Sender Email</label>
-                { data.gift.From.replace(')', '').split(' (')[1] }
-              </div>
-              <div className="field">
-                <label class="text-success">Message</label>
-                { data.gift.Message }
+        { (data.gift.To) && (
+          <>
+            <h2 className="mb-4">
+              Gift details: { data.order.name }
+            </h2>
+            <div className="body">
+              <div className="grid">
+                <div className="col-24-xs">
+                  <div className="field">
+                    <label class="text-success">Recipient Name</label>
+                    { data.gift.To.split(' (')[0] }
+                  </div>
+                  <div className="field">
+                    <label class="text-success">Recipient Email</label>
+                    { data.gift.To.replace(')', '').split(' (')[1] }
+                  </div>
+                  <div className="field">
+                    <label class="text-success">Sender Name</label>
+                    { data.gift.From.split(' (')[0] }
+                  </div>
+                  <div className="field">
+                    <label class="text-success">Sender Email</label>
+                    { data.gift.From.replace(')', '').split(' (')[1] }
+                  </div>
+                  <div className="field">
+                    <label class="text-success">Message</label>
+                    { data.gift.Message }
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );
