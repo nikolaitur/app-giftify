@@ -5,7 +5,6 @@ const Formify = (init, validation = []) => {
   const [ errors, $_errors ] = useState({});
 
   const change = (e, replace = false) => {
-    console.log('EEE', e, replace);
   	if (replace) {
   		if (typeof replace == 'boolean') {
         $_inputs(e);
@@ -13,7 +12,9 @@ const Formify = (init, validation = []) => {
         $_inputs(inputs => ({ ...inputs, [replace]: e }));
       }
   	} else {
-  		e.persist();
+      if (!e.picker) {
+        e.persist();
+      }
 	    //$_inputs(inputs => ({ ...inputs, [e.target.name]: e.target.value }));
       const path = e.target.name.split('.');
       const depth = path.length;
@@ -24,7 +25,7 @@ const Formify = (init, validation = []) => {
 
       for (let i = 0; i < depth; i += 1) {
         if (i === depth - 1) {
-          newStateLevel[path[i]] = event.target.value;
+          newStateLevel[path[i]] = e.target.value;
         } else {
           newStateLevel[path[i]] = { ...oldStateLevel[path[i]] };
           oldStateLevel = oldStateLevel[path[i]];

@@ -16,6 +16,7 @@ const _css = (config) => {
       display: flex;
       white-space: nowrap;
       transition: all .2s ease;
+      align-items: center;
     }
     .giftify-button svg { 
       fill: ${ config.button.iconColor };

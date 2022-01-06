@@ -11,7 +11,7 @@ const SettingsValidator = [
     field: 'general.email',
     check: (value) => {
       if (!value || (value && value.trim() === '')) { return 'Required'; }
-      if (value && /\S+@\S+\.\S+/.test(value)) { return 'Invalid email address'; }
+      //if (value && /\S+@\S+\.\S+/.test(value)) { return 'Invalid email address'; }
       return null;
     }
   }

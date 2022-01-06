@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Hamburger from '../partials/hamburger';
 import Loadbars from '../partials/loadbars';
 import Sidebar from '../partials/sidebar';
+import GlobalStyle from '../partials/css';
 
 // --- HELPERS -------------------------------------------------- //
 import Formify from '../helpers/formify';
@@ -23,8 +24,7 @@ const Settings = () => {
   const app = useAppBridge();
   const redirect = Redirect.create(app);
   const init_data = {
-    settings: {},
-    info: {}
+    settings: {}
   }
   const mount = useRef(true);
 
@@ -85,7 +85,6 @@ const Settings = () => {
     document.getElementById('support').classList.remove('active');
   };
 
-
   // --- RENDER ------------------------------------------------- //
   return (
     <div className="inside">
@@ -115,6 +114,9 @@ const Settings = () => {
             )}
             { (!loading) && (
               <div className="tabs mt-3">
+                { (data.general) && (
+                  <GlobalStyle config={ data } />
+                )}
                 <div className="tabs-nav grid">
                   <a onClick={ () => { $_tabs(1) } } className={ `${ tabs == 1 ? 'active' : '' } ${ JSON.stringify(errors).indexOf('general.') > -1 ? 'has-errors' : '' }` }>General</a>
                   <a onClick={ () => { $_tabs(2) } } className={ tabs == 2 ? 'active' : '' }>Button</a>
@@ -176,8 +178,61 @@ const Settings = () => {
                       <div className="grid">
                         <div className="col-12-sm">
                           <div className="field">
+                            <label>Text</label>
+                            <input value={ data.button.text } onChange={ $_data } name="button.text" type="text" placeholder="e.g. Send as a gift" />
+                          </div>
+                        </div>
+                        <div className="col-12-sm">
+                          <div className="field">
+                            <label>Gift Icon</label>
+                            <span className="toggleSwitch">
+                              <input type="checkbox" id="toggle" checked={ data.button.icon } />
+                              <label for="toggle" className="grid vcenter-xs">
+                                <div className="switch empty">
+                                  <div className="dot"></div>
+                                </div>
+                              </label>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="grid">
+                        <div className="col-8-sm">
+                          <div className="field">
                             <label>Background Color</label>
-                            <ColorPicker />
+                            <ColorPicker color={ data.button.bgColor } name="button.bgColor" onChange={ $_data } />
+                          </div>
+                        </div>
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Text Color</label>
+                            <ColorPicker color={ data.button.txtColor } name="button.txtColor" onChange={ $_data } />
+                          </div>
+                        </div>
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Border Color</label>
+                            <ColorPicker color={ data.button.borderColor } name="button.borderColor" onChange={ $_data } />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="grid">
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Hover Background Color</label>
+                            <ColorPicker color={ data.button.hoverBgColor } name="button.hoverBgColor" onChange={ $_data } />
+                          </div>
+                        </div>
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Hover Text Color</label>
+                            <ColorPicker color={ data.button.hoverTxtColor } name="button.hoverTxtColor" onChange={ $_data } />
+                          </div>
+                        </div>
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Hover Border Color</label>
+                            <ColorPicker color={ data.button.hoverBorderColor } name="button.hoverBorderColor" onChange={ $_data } />
                           </div>
                         </div>
                       </div>
@@ -186,7 +241,21 @@ const Settings = () => {
                       <div className="field">
                         <label>Button Preview</label>
                         <small>Please mind differences due to theme CSS</small>
+                        <a className="giftify-button">
+                          <span>
+                            { (data.button.icon) && (
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M 9 2 C 7.3545455 2 6 3.3545455 6 5 C 6 5.3884621 6.2790206 5.6579606 6.4160156 6 L 2 6 L 2 7 L 2 12 L 3 12 L 3 19.099609 C 3 20.132943 3.8670573 21 4.9003906 21 L 19.099609 21 C 20.132943 21 21 20.132943 21 19.099609 L 21 12 L 22 12 L 22 6 L 17.583984 6 C 17.720979 5.6579606 18 5.3884621 18 5 C 18 3.3545455 16.645455 2 15 2 C 14.084324 2 13.268996 2.4283349 12.716797 3.0839844 L 12 3.8007812 L 11.283203 3.0839844 C 10.731004 2.4283349 9.9156763 2 9 2 z M 9 4 C 9.5545455 4 10 4.4454545 10 5 C 10 5.5545455 9.5545455 6 9 6 C 8.4454545 6 8 5.5545455 8 5 C 8 4.4454545 8.4454545 4 9 4 z M 15 4 C 15.554545 4 16 4.4454545 16 5 C 16 5.5545455 15.554545 6 15 6 C 14.445455 6 14 5.5545455 14 5 C 14 4.4454545 14.445455 4 15 4 z M 4 8 L 9 8 L 15 8 L 20 8 L 20 10 L 4 10 L 4 8 z M 5 12 L 11 12 L 11 19 L 5 19 L 5 12 z M 13 12 L 19 12 L 19 19 L 13 19 L 13 12 z"/></svg>
+                            )}
+                            { data.button.text }
+                          </span>
+                        </a>
                       </div>
+                    </div>
+                  </div>
+                  <div className="grid">
+                    <div className="col-24-sm">
+                      <button className={ `btn ${ updating ? 'updating' : '' }` } onClick={ save }>Save</button>
+                      <div className="minheight"></div>
                     </div>
                   </div>
                 </div>

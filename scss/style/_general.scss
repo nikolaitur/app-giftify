@@ -385,6 +385,11 @@ main {
         background: #ECEFFC;
         margin-left: 15px;
 
+        &.empty {
+        	margin-left: 0;
+        	margin-top: 4px;
+        }
+
         &:before {
           content: '';
           position: absolute;
@@ -426,4 +431,8 @@ main {
       }
 		}
 	}
+}
+
+.minheight {
+	height: 170px;
 }

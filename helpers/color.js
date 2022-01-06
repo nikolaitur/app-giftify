@@ -1,13 +1,13 @@
 'use strict'
 
-import React from 'react'
-import reactCSS from 'reactcss'
-import { ChromePicker } from 'react-color'
+import React from 'react';
+import reactCSS from 'reactcss';
+import { ChromePicker } from 'react-color';
 
 class ColorPicker extends React.Component {
   state = {
     displayColorPicker: false,
-    color: '#000',
+    color: this.props.color,
   };
 
   handleClick = () => {
@@ -19,7 +19,14 @@ class ColorPicker extends React.Component {
   };
 
   handleChange = (color) => {
-    this.setState({ color: color.hex })
+    this.setState({ color: color.hex });
+    this.props.onChange({
+      target: {
+        name: this.props.name,
+        value: color.hex
+      },
+      picker: true
+    })
   };
 
   render() {
