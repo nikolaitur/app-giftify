@@ -12,6 +12,7 @@
 			font-weight: 700;
 			padding: 12px 25px;
 			margin-bottom: -1px;
+			border-bottom: 2px solid transparent;
 
 			@media (min-width: 1025px) {
 				&:hover {
@@ -20,8 +21,24 @@
 			}
 
 			&.active {
-				color: #fff;
-				background: $color!important;
+				color: $color;
+				border-bottom-color: $color;
+			}
+
+			&.has-errors {
+				position: relative;
+
+				&:after {
+					content: '';
+					position: absolute;
+					width: 5px;
+					height: 5px;
+					border-radius: 50%;
+					left: 15px;
+					top: 50%;
+					margin-top: -4px;
+					background: $error;
+				}
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 const guide = async (ctx) => {
   const store = await ctx.db.collection('stores').findOne(
     { _store: ctx.store },
-    { fields: { guide: 1, 'settings.active': 1 } }
+    { fields: { guide: 1, active: 1 } }
   );
 
   if (store.guide) {
@@ -14,7 +14,7 @@ const guide = async (ctx) => {
   ctx.body = {
     status: 'success',
     guide: store.guide,
-    active: store.settings.active
+    active: store.active
   };
 };
 

@@ -17,7 +17,6 @@ import thumb from './routes/thumb';
 import subscribe from './subscribe';
 import confirm from './confirm';
 import RedisStore from './redis';
-import registerScriptTag from './scripttag/register';
 import generateScriptTag from './scripttag/app';
 import getShopInfo from './info';
 
@@ -116,9 +115,11 @@ app.prepare().then(() => {
           { $set: { 
             token: CryptoJS.AES.encrypt(accessToken, SHOPIFY_API_SECRET).toString(), 
             status: 'pending', 
-            guide: true, 
-            settings: { active: false },
-            info: info 
+            guide: true,
+            active: false, 
+            settings: { 
+              general: info
+            }
           } },
           { upsert: true }
         );
@@ -135,7 +136,6 @@ app.prepare().then(() => {
         webhook(shop, accessToken, 'app/uninstalled');
         webhook(shop, accessToken, 'orders/create');
         webhook(shop, accessToken, 'fulfillment_events/create');
-        await registerScriptTag(HOST, shop, accessToken);
 
         // Redirect to app with shop parameter upon auth and subscription
         const subscriptionUrl = await subscribe(shop, accessToken, `${ HOST }/confirm?shop=${ shop }`, trial, dev || store == 'minion-made-apps' || store == 'minionmadeapps');
@@ -157,10 +157,10 @@ app.prepare().then(() => {
     const store = ctx.query.shop.replace('.myshopify.com', '');
     const doc = await ctx.db.collection('stores').findOne(
       { _store: store },
-      { fields: { status: 1, settings: 1 } }
+      { fields: { status: 1, settings: 1, active: 1 } }
     );
 
-    if (doc && doc.status == 'active' && doc.settings.active) {
+    if (doc && doc.status == 'active' && doc.active) {
       ctx.res.write(generateScriptTag(doc.settings, dev));
     } else {
       ctx.res.write('');

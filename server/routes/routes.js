@@ -25,6 +25,8 @@ const settings = new Router({ prefix: '/a/settings' });
 const setting = load('settings');
 
 settings.get('/', verify(), setting.get.default);
+settings.post('/', verify(), setting.set.default);
+settings.post('/activate', verify(), setting.activate.default);
 
 // --- WEBHOOKS --------------------------------------------------- //
 const { SHOPIFY_API_SECRET } = process.env;

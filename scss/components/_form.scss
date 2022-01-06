@@ -8,6 +8,23 @@
 		text-transform: uppercase;
 		font-weight: 700;
 		display: block;
+
+		+ small {
+			font-size: 12px;
+			display: block;
+			margin-bottom: 5px;
+
+			a {
+				color: $color;
+				border-bottom: 1px solid;
+
+				@media (min-width: 1025px) {
+					&:hover {
+						color: #272a3a;
+					}
+				}
+			}
+		}
 	}
 
 	input {

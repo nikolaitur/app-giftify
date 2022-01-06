@@ -5,7 +5,7 @@ const Validate = (name, inputs) => {
   let err = {}, result = null;
   
   validator[name].default.forEach((param) => {
-    result = param.check(inputs[param.field]);
+    result = param.check(param.field.split('.').reduce((p,c)=>p&&p[c]||null, inputs));
     if (result) {
       err[param.field] = result;
     }

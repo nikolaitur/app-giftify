@@ -1,15 +1,16 @@
+import config from './../../scripttag/partials/_config';
+
 const get = async (ctx) => {
   const store = await ctx.db.collection('stores').findOne(
     { _store: ctx.store },
-    { fields: { settings: 1, info: 1 } }
+    { fields: { settings: 1 } }
   );
+
+  Object.assign(config, store.settings);
 
   ctx.body = {
     status: 'success',
-    data: {
-    	settings: store.settings,
-    	info: store.info
-    }
+    data: config
   };
 };
 
