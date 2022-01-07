@@ -16,8 +16,7 @@ module.exports = {
     hoverIconColor: '#ffffff'
   },
   popup: {
-    logo: 'https://cdn.shopify.com/s/files/1/0002/7184/3379/files/Chardonnay_2018_B.png?10415920476731679034',
-    image: 'https://cdn.shopify.com/s/files/1/0002/7184/3379/files/IMG_0907.jpg?v=1626317116',
+    image: '',
     texts: {
         title: "Send As a Gift",
         line1: "Select the items you'd like to gift",
@@ -35,11 +34,11 @@ module.exports = {
     },
     closeColor: "#191919",
     title: {
-        fontSize: '32px',
+        fontSize: 32,
         txtColor: '#191919'
     },
     lines: {
-        fontSize: '16px',
+        fontSize: 16,
         txtColor: '#191919'
     },
     buttons: {

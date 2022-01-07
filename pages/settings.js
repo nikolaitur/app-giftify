@@ -8,6 +8,7 @@ import Hamburger from '../partials/hamburger';
 import Loadbars from '../partials/loadbars';
 import Sidebar from '../partials/sidebar';
 import GlobalStyle from '../partials/css';
+import _popup from '../server/scripttag/partials/_popup';
 
 // --- HELPERS -------------------------------------------------- //
 import Formify from '../helpers/formify';
@@ -32,6 +33,7 @@ const Settings = () => {
   const [ loading, $_loading ] = useState(true);
   const [ updating, $_updating ] = useState(false);
   const [ tabs, $_tabs ] = useState(1);
+  const [ step, $_step ] = useState(1);
   const [ data, $_data, $_valid, errors ] = Formify(init_data, SettingsValidator);
 
   // --- EFFECTS ------------------------------------------------ //
@@ -40,6 +42,9 @@ const Settings = () => {
       X(app).get('/a/settings', res => {
         $_data(res.data, true);
         $_loading(false);
+
+
+
         return () => { mount.current = false; }
       }, (error) => {
         $_loading(false);
@@ -51,6 +56,8 @@ const Settings = () => {
 
   // --- METHODS ------------------------------------------------ //
   const save = async () => {
+    console.log(data)
+    return
     if ($_valid()) {
       $_updating(true);
       X(app).post('/a/settings', data, res => {
@@ -74,6 +81,16 @@ const Settings = () => {
     }, (error) => {
       $_updating(false);
       Toast(app, error, 'ERROR');
+    });
+  };
+
+  const toggleGiftIcon = () => {
+    $_data({
+      target: {
+        name: 'button.icon',
+        value: !data.button.icon
+      },
+      persist: () => {}
     });
   };
 
@@ -176,23 +193,37 @@ const Settings = () => {
                   <div className="grid">
                     <div className="order-2-xs order-1-sm col-12-sm">
                       <div className="grid">
-                        <div className="col-12-sm">
+                        <div className="col-24-sm">
                           <div className="field">
                             <label>Text</label>
                             <input value={ data.button.text } onChange={ $_data } name="button.text" type="text" placeholder="e.g. Send as a gift" />
                           </div>
                         </div>
-                        <div className="col-12-sm">
+                      </div>
+                      <div className="grid">
+                        <div className="col-8-sm">
                           <div className="field">
                             <label>Gift Icon</label>
                             <span className="toggleSwitch">
-                              <input type="checkbox" id="toggle" checked={ data.button.icon } />
-                              <label for="toggle" className="grid vcenter-xs">
+                              <input type="checkbox" id="toggleIcon" checked={ data.button.icon } />
+                              <label for="toggleIcon" className="grid vcenter-xs" onClick={ toggleGiftIcon }>
                                 <div className="switch empty">
                                   <div className="dot"></div>
                                 </div>
                               </label>
                             </span>
+                          </div>
+                        </div>
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Icon Color</label>
+                            <ColorPicker color={ data.button.iconColor } name="button.iconColor" onChange={ $_data } />
+                          </div>
+                        </div>
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Hover Icon Color</label>
+                            <ColorPicker color={ data.button.hoverIconColor } name="button.hoverIconColor" onChange={ $_data } />
                           </div>
                         </div>
                       </div>
@@ -236,6 +267,74 @@ const Settings = () => {
                           </div>
                         </div>
                       </div>
+                      <div className="grid">
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Border Radius (px)</label>
+                            <input value={ data.button.borderRadius } onChange={ $_data } name="button.borderRadius" type="number" min="0" />
+                          </div>
+                        </div>
+                        <div className="col-16-sm">
+                          <div className="field">
+                            <label>Placement</label>
+                            <select value={ data.status } onChange={ $_data } name="button.place">
+                              <option value="Before">Before Checkout Button</option>
+                              <option value="After">After Checkout Button</option>
+                            </select> 
+                            <Image src="/icons/dropdown.svg" width="9" height="9" />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="grid">
+                        <div className="col-24-sm">
+                          <div className="field">
+                            <label>Padding (px)</label>
+                            <div className="grid">
+                              <div class="col-12-xs col-6-sm">
+                                <label></label><small>Top</small>
+                                <input value={ data.button.padding.top } onChange={ $_data } name="button.padding.top" type="number" min="0" />
+                              </div>
+                              <div class="col-12-xs col-6-sm">
+                                <label></label><small>Right</small>
+                                <input value={ data.button.padding.right } onChange={ $_data } name="button.padding.right" type="number" min="0" />
+                              </div>
+                              <div class="col-12-xs col-6-sm">
+                                <label></label><small>Bottom</small>
+                                <input value={ data.button.padding.bottom } onChange={ $_data } name="button.padding.bottom" type="number" min="0" />
+                              </div>
+                              <div class="col-12-xs col-6-sm">
+                                <label></label><small>Left</small>
+                                <input value={ data.button.padding.left } onChange={ $_data } name="button.padding.left" type="number" min="0" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="grid">
+                        <div className="col-24-sm">
+                          <div className="field">
+                            <label>Margin (px)</label>
+                            <div className="grid">
+                              <div class="col-12-xs col-6-sm">
+                                <label></label><small>Top</small>
+                                <input value={ data.button.margin.top } onChange={ $_data } name="button.margin.top" type="number" />
+                              </div>
+                              <div class="col-12-xs col-6-sm">
+                                <label></label><small>Right</small>
+                                <input value={ data.button.margin.right } onChange={ $_data } name="button.margin.right" type="number" />
+                              </div>
+                              <div class="col-12-xs col-6-sm">
+                                <label></label><small>Bottom</small>
+                                <input value={ data.button.margin.bottom } onChange={ $_data } name="button.margin.bottom" type="number" />
+                              </div>
+                              <div class="col-12-xs col-6-sm">
+                                <label></label><small>Left</small>
+                                <input value={ data.button.margin.left } onChange={ $_data } name="button.margin.left" type="number" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div className="order-1-xs order-2-sm col-12-sm">
                       <div className="field">
@@ -255,13 +354,103 @@ const Settings = () => {
                   <div className="grid">
                     <div className="col-24-sm">
                       <button className={ `btn ${ updating ? 'updating' : '' }` } onClick={ save }>Save</button>
-                      <div className="minheight"></div>
                     </div>
                   </div>
                 </div>
 
                 <div className="tab" style={{display : tabs == 3 ? 'block' : 'none' }}>
-                  POP
+                  <div className="grid">
+                    <div className="col-11-sm">
+                      <div className="grid">
+                        <div className="col-24-sm">
+                          <div className="field">
+                            <label>Image URL</label>
+                            <small>You can use <a onClick={ () => { adminURL('/settings/files') } }>Files</a> to store your logo. Read more <a href="https://help.shopify.com/en/manual/shopify-admin/productivity-tools/file-uploads" target="_blank">here</a></small>
+                            <input value={ data.popup.image } onChange={ $_data } name="popup.image" type="text" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-1-sm"></div>
+                    <div className="col-12-sm">
+                      <div className="field">
+                        <label>Title</label>
+                        <input value={ data.popup.texts.title } onChange={ $_data } name="popup.texts.title" type="text" placeholder="e.g. Send As a Gift" />
+                      </div>
+                      <div className="field">
+                        <label>Guide - Line 1</label>
+                        <input value={ data.popup.texts.line1 } onChange={ $_data } name="popup.texts.line1" type="text" />
+                      </div>
+                      <div className="field">
+                        <label>Guide - Line 2</label>
+                        <input value={ data.popup.texts.line2 } onChange={ $_data } name="popup.texts.line2" type="text" />
+                      </div>
+                      <div className="field">
+                        <label>Guide - Line 3</label>
+                        <input value={ data.popup.texts.line3 } onChange={ $_data } name="popup.texts.line3" type="text" />
+                      </div>
+                      <div className="field">
+                        <label>Guide - Line 4</label>
+                        <input value={ data.popup.texts.line4 } onChange={ $_data } name="popup.texts.line4" type="text" />
+                      </div>
+                      <div className="grid">
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Button - Start</label>
+                            <input value={ data.popup.buttons.texts.start } onChange={ $_data } name="popup.buttons.texts.start" type="text" />
+                          </div>
+                        </div>
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Button - Back</label>
+                            <input value={ data.popup.buttons.texts.back } onChange={ $_data } name="popup.buttons.texts.back" type="text" />
+                          </div>
+                        </div>
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Button - Buy</label>
+                            <input value={ data.popup.buttons.texts.submit } onChange={ $_data } name="popup.buttons.texts.submit" type="text" />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="grid">
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Label - To</label>
+                            <input value={ data.popup.texts.to } onChange={ $_data } name="popup.texts.to" type="text" />
+                          </div>
+                        </div>
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Label - From</label>
+                            <input value={ data.popup.texts.from } onChange={ $_data } name="popup.texts.from" type="text" />
+                          </div>
+                        </div>
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Label - Message</label>
+                            <input value={ data.popup.texts.message } onChange={ $_data } name="popup.texts.message" type="text" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid">
+                    <div className="col-24-sm">
+                      <button className={ `btn ${ updating ? 'updating' : '' }` } onClick={ save }>Save</button>
+                    </div>
+                  </div>
+                  <div className="grid mt-3">
+                    <div className="col-24-sm">
+                      <div className="field">
+                        <label>Popup Preview</label>
+                        <small>Please mind differences due to theme CSS</small>
+                        <div className="popup-preview" data-step={ step }>
+                          <div dangerouslySetInnerHTML={{__html: _popup(data, true) }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="tab" style={{display : tabs == 4 ? 'block' : 'none' }}>

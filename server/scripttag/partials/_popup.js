@@ -1,4 +1,4 @@
-const _popup = (config) => {
+const _popup = (config, backend = false) => {
 
 	return `
     <div class="giftify-popup__bg"></div>
@@ -7,19 +7,19 @@ const _popup = (config) => {
     	<div class="giftify-popup__grid">
     		<div class="giftify-popup__left">
     			<div class="giftify-popup__header">
-    				${ config.popup.logo != '' ? '<img src="' + config.popup.logo + '" />' : '' }
+    				${ config.general.logo && config.general.logo != '' ? '<img src="' + config.general.logo + '" />' : '' }
     				<div class="giftify-popup__title">${ config.popup.texts.title }</div>
     			</div>
     			<div class="giftify-popup__steps">
     				<div class="giftify-popup__step giftify-popup__step--active" data-step="1">
     					<ol>
-    						<li>${ config.popup.texts.line1 }</li>
-    						<li>${ config.popup.texts.line2 }</li>
-    						<li>${ config.popup.texts.line3 }</li>
-    						<li>${ config.popup.texts.line4 }</li>
+                            ${ config.popup.texts.line1 && config.popup.texts.line1 != '' ? '<li>' + config.popup.texts.line1 + '</li>' : '' }
+                            ${ config.popup.texts.line2 && config.popup.texts.line2 != '' ? '<li>' + config.popup.texts.line2 + '</li>' : '' }
+                            ${ config.popup.texts.line3 && config.popup.texts.line3 != '' ? '<li>' + config.popup.texts.line3 + '</li>' : '' }
+                            ${ config.popup.texts.line4 && config.popup.texts.line4 != '' ? '<li>' + config.popup.texts.line4 + '</li>' : '' }
     					</ol>
                         <div class="giftify-popup__action">
-                            <button class="giftify-popup__button giftify-popup__next">
+                            <button class="giftify-popup__button giftify-popup__next" ${ backend ? 'id="popup-start"' : '' }>
                                 <span>${ config.popup.buttons.texts.start }</span>
                             </button>
                         </div>
@@ -49,10 +49,10 @@ const _popup = (config) => {
                                 <textarea name="ymessage" placeholder="${ config.popup.texts.ymessage }"></textarea>
                             </div>
                             <div class="giftify-popup__action">
-                                <button class="giftify-popup__button giftify-popup__prev">
+                                <button class="giftify-popup__button giftify-popup__prev"${ backend ? 'id="popup-prev"' : '' }>
                                     <span>${ config.popup.buttons.texts.back }</span>
                                 </button>
-                                <button class="giftify-popup__button giftify-popup__next" type="submit">
+                                <button class="giftify-popup__button giftify-popup__next" ${ backend ? '' : 'type="submit"' }>
                                     <span>${ config.popup.buttons.texts.submit }</span>
                                 </button>
                             </div>

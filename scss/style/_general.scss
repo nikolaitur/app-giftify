@@ -436,3 +436,40 @@ main {
 .minheight {
 	height: 170px;
 }
+
+.popup-preview {
+	padding: 50px;
+	background: rgba(0,0,0,.6);
+	position: relative;
+
+	.giftify-popup__step {
+		display: none!important;
+	}
+
+	&[data-step="1"] {
+		[data-step="1"] {
+			display: block!important;
+		}
+	}
+
+	&[data-step="2"] {
+		[data-step="2"] {
+			display: block!important;
+		}
+	}
+
+	.giftify-popup__inside {
+		position: relative!important;
+		margin: 0 auto!important;
+		top: 0!important;
+		left: 0!important;
+		transform: none!important;
+		opacity: 1!important;
+	}
+
+	button {
+		span {
+			pointer-events: none;
+		}
+	}
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAppBridge } from '@shopify/app-bridge-react';
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
+import { Redirect } from '@shopify/app-bridge/actions';
 
 // --- NEXT ----------------------------------------------------- //
 import Image from 'next/image';
@@ -22,6 +23,7 @@ const Index = () => {
 
   // --- INITS -------------------------------------------------- //
   const app = useAppBridge();
+  const redirect = Redirect.create(app);
   const mount = useRef(true);
 
   // --- STATES ------------------------------------------------- //
@@ -81,6 +83,10 @@ const Index = () => {
     }, { });
   };
 
+  const adminURL = (target) => {
+    redirect.dispatch(Redirect.Action.ADMIN_PATH, { path: target, newContext: true });
+  };
+
   const overlay_off = () => {
     $_modal_active(false);
     $_destroy_active(false);
@@ -131,7 +137,7 @@ const Index = () => {
                       { items.slice(0,10).map((item, i) =>
                         <tr key={ item._id }>
                           <td>
-                            <a>
+                            <a onClick={ () => { adminURL('/orders/' + item.order.id) } } className="text-success">
                               <strong>{ item.order.name }</strong>
                             </a>
                           </td>
@@ -139,7 +145,7 @@ const Index = () => {
                             { money(item.order.total_price, item.order.currency) }
                           </td>
                           <td className="text-center cell" data-title="Customer:">
-                            <a>
+                            <a onClick={ () => { adminURL('/customers/' + item.order.customer.id) } } className="text-success">
                               { item.order.customer.first_name } { item.order.customer.last_name }
                             </a>
                           </td>

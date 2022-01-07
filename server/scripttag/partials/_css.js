@@ -3,16 +3,16 @@ const _css = (config) => {
 	return `
     .giftify-wrapper { width: 100% }
     .giftify-button { 
-      margin: ${ config.button.margin.top }px ${ config.button.margin.right }px ${ config.button.margin.bottom }px ${ config.button.margin.left }px; 
+      margin: ${ config.button.margin.top ? config.button.margin.top : 0 }px ${ config.button.margin.right ? config.button.margin.right : 0 }px ${ config.button.margin.bottom ? config.button.margin.bottom : 0 }px ${ config.button.margin.left ? config.button.margin.left : 0 }px; 
       display: inline-block;
       transition: all .2s ease;
     }
     .giftify-button span {
       background: ${ config.button.bgColor };
       color: ${ config.button.txtColor };
-      border-radius: ${ config.button.borderRadius }px;
-      border: 2px solid ${ config.button.borderColor };
-      padding: ${ config.button.padding.top }px ${ config.button.padding.right }px ${ config.button.padding.bottom }px ${ config.button.padding.left }px; 
+      border-radius: ${ config.button.borderRadius ? config.button.borderRadius : 0 }px;
+      border: 2px solid ${ config.button.borderColor ? config.button.borderColor : 'transparent' };
+      padding: ${ config.button.padding.top ? config.button.padding.top : 0 }px ${ config.button.padding.right ? config.button.padding.right : 0 }px ${ config.button.padding.bottom ? config.button.padding.bottom : 0 }px ${ config.button.padding.left ? config.button.padding.left : 0 }px; 
       display: flex;
       white-space: nowrap;
       transition: all .2s ease;
@@ -120,8 +120,8 @@ const _css = (config) => {
     }
     .giftify-popup__title {
       color: ${ config.popup.title.txtColor };
-      font-size: ${ config.popup.title.fontSize };
-      margin-bottom: 20px;
+      font-size: ${ config.popup.title.fontSize }px;
+      margin: 20px 0;
     }
     .giftify-popup__step {
       display: none;
@@ -204,7 +204,7 @@ const _css = (config) => {
     }
     .giftify-popup__step li {
       color: ${ config.popup.lines.txtColor };
-      font-size: ${ config.popup.lines.fontSize };
+      font-size: ${ config.popup.lines.fontSize }px;
       counter-increment: giftify;
       position: relative;
       padding-left: 30px;
