@@ -43,7 +43,16 @@ const Settings = () => {
         $_data(res.data, true);
         $_loading(false);
 
-
+        document.body.addEventListener('click', function(e) {
+          if (e.target.id == 'popup-start') {
+            e.preventDefault();
+            $_step(2);
+          }
+          if (e.target.id == 'popup-prev') {
+            e.preventDefault();
+            $_step(1);
+          }
+        });
 
         return () => { mount.current = false; }
       }, (error) => {
@@ -360,19 +369,180 @@ const Settings = () => {
 
                 <div className="tab" style={{display : tabs == 3 ? 'block' : 'none' }}>
                   <div className="grid">
-                    <div className="col-11-sm">
+                    <div className="col-12-sm">
                       <div className="grid">
                         <div className="col-24-sm">
                           <div className="field">
                             <label>Image URL</label>
-                            <small>You can use <a onClick={ () => { adminURL('/settings/files') } }>Files</a> to store your logo. Read more <a href="https://help.shopify.com/en/manual/shopify-admin/productivity-tools/file-uploads" target="_blank">here</a></small>
+                            <small>You can use <a onClick={ () => { adminURL('/settings/files') } }>Files</a> to store the image. Read more <a href="https://help.shopify.com/en/manual/shopify-admin/productivity-tools/file-uploads" target="_blank">here</a></small>
                             <input value={ data.popup.image } onChange={ $_data } name="popup.image" type="text" />
+                          </div>
+                          <div className="grid">
+                            <div className="col-24-sm">
+                              <div className="field">
+                                <label className="hr"><span>Button - Start & Buy</span></label>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Background Color</label>
+                                <ColorPicker color={ data.popup.buttons.next.bgColor } name="popup.buttons.next.bgColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Text Color</label>
+                                <ColorPicker color={ data.popup.buttons.next.txtColor } name="popup.buttons.next.txtColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Border Color</label>
+                                <ColorPicker color={ data.popup.buttons.next.borderColor } name="popup.buttons.next.borderColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Hover Background Color</label>
+                                <ColorPicker color={ data.popup.buttons.next.hoverBgColor } name="popup.buttons.next.hoverBgColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Hover Text Color</label>
+                                <ColorPicker color={ data.popup.buttons.next.hoverTxtColor } name="popup.buttons.next.hoverTxtColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Hover Border Color</label>
+                                <ColorPicker color={ data.popup.buttons.next.hoverBorderColor } name="popup.buttons.next.hoverBorderColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-24-sm">
+                              <div className="field">
+                                <label className="hr"><span>Button - Back</span></label>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Background Color</label>
+                                <ColorPicker color={ data.popup.buttons.prev.bgColor } name="popup.buttons.prev.bgColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Text Color</label>
+                                <ColorPicker color={ data.popup.buttons.prev.txtColor } name="popup.buttons.prev.txtColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Border Color</label>
+                                <ColorPicker color={ data.popup.buttons.prev.borderColor } name="popup.buttons.prev.borderColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Hover Background Color</label>
+                                <ColorPicker color={ data.popup.buttons.prev.hoverBgColor } name="popup.buttons.prev.hoverBgColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Hover Text Color</label>
+                                <ColorPicker color={ data.popup.buttons.prev.hoverTxtColor } name="popup.buttons.prev.hoverTxtColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Hover Border Color</label>
+                                <ColorPicker color={ data.popup.buttons.prev.hoverBorderColor } name="popup.buttons.prev.hoverBorderColor" onChange={ $_data } />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-24-sm">
+                              <div className="field">
+                                <label className="hr"><span>Buttons General</span></label>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Border Radius (px)</label>
+                                <input value={ data.popup.buttons.borderRadius } onChange={ $_data } name="popup.buttons.borderRadius" type="number" min="0" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-24-sm">
+                              <div className="field">
+                                <label>Padding (px)</label>
+                                <div className="grid">
+                                  <div class="col-12-xs col-6-sm">
+                                    <label></label><small>Top</small>
+                                    <input value={ data.popup.buttons.padding.top } onChange={ $_data } name="popup.buttons.padding.top" type="number" min="0" />
+                                  </div>
+                                  <div class="col-12-xs col-6-sm">
+                                    <label></label><small>Right</small>
+                                    <input value={ data.popup.buttons.padding.right } onChange={ $_data } name="popup.buttons.padding.right" type="number" min="0" />
+                                  </div>
+                                  <div class="col-12-xs col-6-sm">
+                                    <label></label><small>Bottom</small>
+                                    <input value={ data.popup.buttons.padding.bottom } onChange={ $_data } name="popup.buttons.padding.bottom" type="number" min="0" />
+                                  </div>
+                                  <div class="col-12-xs col-6-sm">
+                                    <label></label><small>Left</small>
+                                    <input value={ data.popup.buttons.padding.left } onChange={ $_data } name="popup.buttons.padding.left" type="number" min="0" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-24-sm">
+                              <div className="field">
+                                <label className="hr"><span>Buttons Labels</span></label>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Start</label>
+                                <input value={ data.popup.buttons.texts.start } onChange={ $_data } name="popup.buttons.texts.start" type="text" />
+                              </div>
+                            </div>
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Back</label>
+                                <input value={ data.popup.buttons.texts.back } onChange={ $_data } name="popup.buttons.texts.back" type="text" />
+                              </div>
+                            </div>
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Buy</label>
+                                <input value={ data.popup.buttons.texts.submit } onChange={ $_data } name="popup.buttons.texts.submit" type="text" />
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="col-1-sm"></div>
-                    <div className="col-12-sm">
+                    <div className="col-11-sm">
                       <div className="field">
                         <label>Title</label>
                         <input value={ data.popup.texts.title } onChange={ $_data } name="popup.texts.title" type="text" placeholder="e.g. Send As a Gift" />
@@ -393,25 +563,25 @@ const Settings = () => {
                         <label>Guide - Line 4</label>
                         <input value={ data.popup.texts.line4 } onChange={ $_data } name="popup.texts.line4" type="text" />
                       </div>
-                      <div className="grid">
-                        <div className="col-8-sm">
-                          <div className="field">
-                            <label>Button - Start</label>
-                            <input value={ data.popup.buttons.texts.start } onChange={ $_data } name="popup.buttons.texts.start" type="text" />
-                          </div>
-                        </div>
-                        <div className="col-8-sm">
-                          <div className="field">
-                            <label>Button - Back</label>
-                            <input value={ data.popup.buttons.texts.back } onChange={ $_data } name="popup.buttons.texts.back" type="text" />
-                          </div>
-                        </div>
-                        <div className="col-8-sm">
-                          <div className="field">
-                            <label>Button - Buy</label>
-                            <input value={ data.popup.buttons.texts.submit } onChange={ $_data } name="popup.buttons.texts.submit" type="text" />
-                          </div>
-                        </div>
+                      <div className="field">
+                        <label>Recipient Full Name</label>
+                        <input value={ data.popup.texts.rname } onChange={ $_data } name="popup.texts.rname" type="text" />
+                      </div>
+                      <div className="field">
+                        <label>Recipient Email</label>
+                        <input value={ data.popup.texts.remail } onChange={ $_data } name="popup.texts.remail" type="text" />
+                      </div>
+                      <div className="field">
+                        <label>Your Full Name</label>
+                        <input value={ data.popup.texts.yname } onChange={ $_data } name="popup.texts.yname" type="text" />
+                      </div>
+                      <div className="field">
+                        <label>Your Email</label>
+                        <input value={ data.popup.texts.yemail } onChange={ $_data } email="popup.texts.yemail" type="text" />
+                      </div>
+                      <div className="field">
+                        <label>Your Message</label>
+                        <input value={ data.popup.texts.ymessage } onChange={ $_data } email="popup.texts.ymessage" type="text" />
                       </div>
                       <div className="grid">
                         <div className="col-8-sm">

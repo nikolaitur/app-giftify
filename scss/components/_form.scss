@@ -9,6 +9,31 @@
 		font-weight: 700;
 		display: block;
 
+		&.hr {
+			color: $color;
+			margin: 10px 0;
+			position: relative;
+
+			&:before {
+				content: '';
+				position: absolute;
+				width: 100%;
+				top: 50%;
+				height: 1px;
+				background: $color;
+				z-index: 0;
+				margin-top: -1px;
+			}
+
+			span {
+				display: inline-block;
+				padding-right: 10px;
+				position: relative;
+				background: #fff;
+				z-index: 1;
+			}
+		}
+
 		+ small {
 			font-size: 12px;
 			display: block;

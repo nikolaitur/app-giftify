@@ -120,7 +120,7 @@ const _css = (config) => {
     }
     .giftify-popup__title {
       color: ${ config.popup.title.txtColor };
-      font-size: ${ config.popup.title.fontSize }px;
+      font-size: ${ config.popup.title.fontSize ? config.popup.title.fontSize : 32 }px;
       margin: 20px 0;
     }
     .giftify-popup__step {
@@ -145,8 +145,8 @@ const _css = (config) => {
       background: none!important;
     }
     .giftify-popup__button span {
-      border-radius: ${ config.button.borderRadius }px;
-      padding: ${ config.button.padding.top }px ${ config.button.padding.right }px ${ config.button.padding.bottom }px ${ config.button.padding.left }px; 
+      border-radius: ${ config.popup.buttons.borderRadius ? config.popup.buttons.borderRadius : 0 }px;
+      padding: ${ config.popup.buttons.padding.top ? config.popup.buttons.padding.top : 0 }px ${ config.popup.buttons.padding.right ? config.popup.buttons.padding.right : 0 }px ${ config.popup.buttons.padding.bottom ? config.popup.buttons.padding.bottom : 0 }px ${ config.popup.buttons.padding.left ? config.popup.buttons.padding.left : 0 }px; 
       display: flex;
       white-space: nowrap;
       transition: all .2s ease;
@@ -204,7 +204,7 @@ const _css = (config) => {
     }
     .giftify-popup__step li {
       color: ${ config.popup.lines.txtColor };
-      font-size: ${ config.popup.lines.fontSize }px;
+      font-size: ${ config.popup.lines.fontSize ? config.popup.lines.fontSize : 16 }px;
       counter-increment: giftify;
       position: relative;
       padding-left: 30px;
