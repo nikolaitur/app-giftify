@@ -1,9 +1,9 @@
 import ShopifyApi from 'shopify-api-node';
 
-const getSubscriptionUrl = async (shop, accessToken, returnUrl, trial, dev) => {
+const getSubscriptionUrl = async (shop, accessToken, returnUrl, trial, dev, plan = 1) => {
   const query = `mutation {
     appSubscriptionCreate(
-      name: "Theme on Time Monthly Plan"
+      name: "${ plan == 1 ? 'Giftify Basic Plan' : 'Giftify Premium Plan' }"
       returnUrl: "${returnUrl}"
       test: ${ dev ? true : null }
       ${ trial > 0 ? "trialDays: " + trial : "" }
@@ -11,7 +11,7 @@ const getSubscriptionUrl = async (shop, accessToken, returnUrl, trial, dev) => {
         {
           plan: {
             appRecurringPricingDetails: {
-              price: { amount: 5, currencyCode: USD }
+              price: { amount: ${ plan == 1 ? '5' : '10' }, currencyCode: USD }
             }
           }
         }

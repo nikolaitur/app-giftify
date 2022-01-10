@@ -27,6 +27,8 @@ const setting = load('settings');
 settings.get('/', verify(), setting.get.default);
 settings.post('/', verify(), setting.set.default);
 settings.post('/activate', verify(), setting.activate.default);
+settings.get('/plan', verify(), setting.plan.default);
+settings.post('/plan', verify(), setting.plan.default);
 
 // --- WEBHOOKS --------------------------------------------------- //
 const { SHOPIFY_API_SECRET } = process.env;

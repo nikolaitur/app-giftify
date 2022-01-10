@@ -117,6 +117,7 @@ app.prepare().then(() => {
             status: 'pending', 
             guide: true,
             active: false, 
+            plan: 1,
             settings: { 
               general: info
             }
