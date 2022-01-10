@@ -65,8 +65,6 @@ const Settings = () => {
 
   // --- METHODS ------------------------------------------------ //
   const save = async () => {
-    console.log(data)
-    return
     if ($_valid()) {
       $_updating(true);
       X(app).post('/a/settings', data, res => {
