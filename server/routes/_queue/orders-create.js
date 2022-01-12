@@ -70,9 +70,10 @@ const ordersCreate = async (ctx) => {
             },
             line_items: order.line_items,
             shop: {
-              name: doc.info.name,
+              name: doc.settings.general.name,
               permanent_domain: queue.store + '.myshopify.com',
-              email: doc.info.email
+              email: doc.settings.general.email,
+              logo: doc.settings.general.logo
             },  
             host: HOST
           }).then(function(html) {

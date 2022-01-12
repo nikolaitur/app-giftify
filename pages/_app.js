@@ -7,7 +7,9 @@ import Support from '../partials/support';
 import "../scss/main.scss";
 
 class MyApp extends App {
+
   render() {
+
     const { Component, pageProps, host } = this.props;
     return (
       <Provider

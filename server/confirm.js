@@ -21,7 +21,6 @@ const confirm = async (ctx) => {
   const token = bytes.toString(CryptoJS.enc.Utf8);
 
   if (doc && doc.status == 'active') {
-    console.log(ctx.query.action)
     if (ctx.query.action && ctx.query.action == 'upgrade') {
       const s = new ShopifyApi(
         { shopName: store, accessToken: token, autoLimit: true }
@@ -30,35 +29,33 @@ const confirm = async (ctx) => {
         { fields: 'id, status, name' }
       );
 
-      console.log(charge)
-
       if (charge && charge.status == 'active') {
         await ctx.db.collection('stores').updateOne(
           { _store: store },
-          { $set: { plan: charge.name.indexOf('Premium') ? 2 : 1 } }
+          { $set: { plan: charge.name.indexOf('Premium') > -1 ? 2 : 1 } }
         );
       }
-      ctx.redirect(`/plans/?shop=${shop}`);
-    } else {
-      ctx.redirect(`/?shop=${shop}`);
     }
-  }
 
-  const s = new ShopifyApi(
-    { shopName: store, accessToken: token, autoLimit: true }
-  );
-  const charge = await s.recurringApplicationCharge.get(ctx.query.charge_id,
-  	{ fields: 'id, status' }
-  );
+    ctx.redirect(`/?shop=${shop}&view=plan`);
 
-  if (charge && charge.status == 'active') {
-    await ctx.db.collection('stores').updateOne(
-      { _store: store },
-      { $set: { status: 'active' } }
-    );
-    ctx.redirect(`/?shop=${shop}`);
   } else {
-    ctx.redirect(`/auth?shop=${shop}`);
+    const s = new ShopifyApi(
+      { shopName: store, accessToken: token, autoLimit: true }
+    );
+    const charge = await s.recurringApplicationCharge.get(ctx.query.charge_id,
+      { fields: 'id, status' }
+    );
+
+    if (charge && charge.status == 'active') {
+      await ctx.db.collection('stores').updateOne(
+        { _store: store },
+        { $set: { status: 'active' } }
+      );
+      ctx.redirect(`/?shop=${shop}`);
+    } else {
+      ctx.redirect(`/auth?shop=${shop}`);
+    }
   }
 }
 

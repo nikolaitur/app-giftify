@@ -202,7 +202,7 @@ app.prepare().then(() => {
       ctx.redirect(`/auth?shop=${shop}`);
     } else {
       if (!ctx.query.host) {
-        ctx.redirect(`https://${ ctx.query.shop }/admin/apps/${ SHOPIFY_API_KEY }`);
+        ctx.redirect(`https://${ ctx.query.shop }/admin/apps/${ SHOPIFY_API_KEY }${ ctx.query.view ? '?view=' + ctx.query.view : '' }`);
       } else {
         await handleRequest(ctx);
       }
