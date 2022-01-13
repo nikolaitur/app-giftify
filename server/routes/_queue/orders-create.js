@@ -32,10 +32,10 @@ const ordersCreate = async (ctx) => {
       if (giftify.To) {
         const doc = await ctx.db.collection('stores').findOne(
           { _store: queue.store },
-          { fields: { status: 1, 'settings.active': 1, info: 1 } }
+          { fields: { status: 1, settings: 1, active: 1 } }
         );
 
-        if (doc && doc.status == 'active' && doc.settings.active) {
+        if (doc && doc.status == 'active' && doc.active) {
           
           order.line_items.forEach(function(line_item, index) {
             order.line_items[index].image = HOST + '/img?shop=' + queue.store + '.myshopify.com&pid=' + line_item.product_id + '&vid=' + line_item.variant_id

@@ -151,6 +151,8 @@ const Index = () => {
                           </td>
                           <td className="text-center cell" data-title="Status:">
                             { {
+                              fulfilled: <span className="label success">Fullfilled</span>,
+                              partial: <span className="label warning">Part. Fullfilled</span>,
                               null: <span className="label">Unfulfilled</span>
                             } [item.order.fulfillment_status] }
                           </td>

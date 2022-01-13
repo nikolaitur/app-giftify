@@ -34,7 +34,7 @@ settings.post('/plan', verify(), setting.plan.default);
 const { SHOPIFY_API_SECRET } = process.env;
 const webhookValidate = receiveWebhook({ secret: SHOPIFY_API_SECRET });
 const webhooks = new Router({ prefix: '/webhook' });
-const webhooks_list = ['orders/create', 'fulfillment_events/create', 'app/uninstalled', 'gdpr/customers/redact', 'gdpr/shop/redact', 'gdpr/customers/data_request'];
+const webhooks_list = ['orders/create', 'fulfillments/create', 'orders/fulfilled', 'orders/partially_fulfilled', 'app/uninstalled', 'gdpr/customers/redact', 'gdpr/shop/redact', 'gdpr/customers/data_request'];
 
 for(const value of webhooks_list) {
   webhooks.post('/' + value, webhookValidate, webhook);
