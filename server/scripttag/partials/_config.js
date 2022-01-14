@@ -69,6 +69,14 @@ module.exports = {
     }
   },
   pro: {
-    branding: true
+    branding: true,
+    smtp: {
+        active: false,
+        username: '',
+        password: '',
+        encryption: '',
+        authentication: 1,
+        host: ''
+    }
   }
 };

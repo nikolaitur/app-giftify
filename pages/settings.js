@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAppBridge } from '@shopify/app-bridge-react';
 import { Redirect } from '@shopify/app-bridge/actions';
+
+// --- NEXT ----------------------------------------------------- //
 import Image from 'next/image';
+import Link from 'next/link';
 
 // --- PARTIALS ------------------------------------------------- //
 import Hamburger from '../partials/hamburger';
@@ -93,35 +96,15 @@ const Settings = () => {
     });
   };
 
-  const toggleGiftIcon = () => {
+  const toggle = (param1, param2, param3) => {
     $_data({
       target: {
-        name: 'button.icon',
-        value: !data.button.icon
+        name: param1 + '.' + param2 + (param3 ? '.' + param3 : ''),
+        value: param3 ? !data[param1][param2][param3] : !data[param1][param2]
       },
       persist: () => {}
     });
-  };
-
-  const toggleLogo = () => {
-    $_data({
-      target: {
-        name: 'popup.logo',
-        value: !data.popup.logo
-      },
-      persist: () => {}
-    });
-  };
-
-  const toggleBranding = () => {
-    $_data({
-      target: {
-        name: 'pro.branding',
-        value: !data.pro.branding
-      },
-      persist: () => {}
-    });
-  };
+  }
 
   const adminURL = (target) => {
     redirect.dispatch(Redirect.Action.ADMIN_PATH, { path: target, newContext: true });
@@ -235,7 +218,7 @@ const Settings = () => {
                             <label>Gift Icon</label>
                             <span className="toggleSwitch">
                               <input type="checkbox" id="toggleGiftIcon" checked={ data.button.icon } readOnly />
-                              <label htmlFor="toggleGiftIcon" className="grid vcenter-xs" onClick={ toggleGiftIcon }>
+                              <label htmlFor="toggleGiftIcon" className="grid vcenter-xs" onClick={ () => { toggle('button', 'icon') } }>
                                 <div className="switch empty">
                                   <div className="dot"></div>
                                 </div>
@@ -404,7 +387,7 @@ const Settings = () => {
                             <small>Set in General settings</small>
                             <span className="toggleSwitch">
                               <input type="checkbox" id="toggleLogo" checked={ data.popup.logo } readOnly />
-                              <label htmlFor="toggleLogo" className="grid vcenter-xs" onClick={ toggleLogo }>
+                              <label htmlFor="toggleLogo" className="grid vcenter-xs" onClick={ () => { toggle('popup', 'logo') } }>
                                 <div className="switch empty">
                                   <div className="dot"></div>
                                 </div>
@@ -658,25 +641,127 @@ const Settings = () => {
                 </div>
 
                 <div className="tab" style={{display : tabs == 4 ? 'block' : 'none' }}>
-                  { (loading) && (
-                    <Loadbars />
-                  )}
-                  { (!loading) && (
-                    <div className="grid">
-                      <div className="col-8-sm">
-                        <div className="field">
-                          <label>Show branding?</label>
-                          <span className="toggleSwitch">
-                            <input type="checkbox" id="toggleBranding" checked={ data.pro.branding } readOnly />
-                            <label htmlFor="toggleBranding" className="grid vcenter-xs" onClick={ toggleBranding }>
-                              <div className="switch empty">
-                                <div className="dot"></div>
-                              </div>
-                            </label>
-                          </span>
+                  { (plan == 1) && (
+                    <>
+                      <div className="grid">
+                        <div className="col-24-sm">
+                          <p className="grid vcenter-xs"><Image src="/icons/error.svg" width="25" height="24" /><span className="pl-2">You need higher plan to edit these settings. Click <Link href="/plan"><a className="text-success">here</a></Link> to switch plans.</span></p>
                         </div>
                       </div>
-                    </div>
+                      <div className="grid disabled mt-4">
+                        <div className="col-8-sm">
+                          <div className="field">
+                            <label>Show branding?</label>
+                            <span className="toggleSwitch">
+                              <input type="checkbox" id="toggleBranding" checked readOnly />
+                              <label htmlFor="toggleBranding" className="grid vcenter-xs">
+                                <div className="switch empty">
+                                  <div className="dot"></div>
+                                </div>
+                              </label>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  { (plan == 2) && (
+                    <>
+                      <div className="grid">
+                        <div className="col-12-sm">
+                          <div className="grid">
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Show branding?</label>
+                                <span className="toggleSwitch">
+                                  <input type="checkbox" id="toggleBranding" checked={ data.pro.branding } readOnly />
+                                  <label htmlFor="toggleBranding" className="grid vcenter-xs" onClick={ () => { toggle('pro', 'branding') } }>
+                                    <div className="switch empty">
+                                      <div className="dot"></div>
+                                    </div>
+                                  </label>
+                                </span>
+                              </div>
+                            </div>
+                            <div className="col-8-sm">
+                              <div className="field">
+                                <label>Custom SMTP server</label>
+                                <span className="toggleSwitch">
+                                  <input type="checkbox" id="toggleSMTP" checked={ data.pro.smtp.active } readOnly />
+                                  <label htmlFor="toggleSMTP" className="grid vcenter-xs" onClick={ () => { toggle('pro', 'smtp', 'active') } }>
+                                    <div className="switch empty">
+                                      <div className="dot"></div>
+                                    </div>
+                                  </label>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      { (data.pro.smtp.active) && (
+                        <>
+                          <div className="grid">
+                            <div className="col-24-sm">
+                              <div className="field">
+                                <label className="hr"><span>SMTP Settings</span></label>
+                                <small>Fill the fields below to use your own SMTP server to send emails within your domain</small>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-12-sm">
+                              <div className="field">
+                                <label>Username</label>
+                                <input value={ data.pro.smtp.username } onChange={ $_data } name="pro.smtp.username" type="text" />
+                              </div>
+                            </div>
+                            <div className="col-12-sm">
+                              <div className="field">
+                                <label>Password</label>
+                                <input value={ data.pro.smtp.password } onChange={ $_data } name="pro.smtp.password" type="password" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div className="col-6-sm">
+                              <div className="field">
+                                <label>HOST</label>
+                                <input value={ data.pro.smtp.host } onChange={ $_data } name="pro.smtp.port" type="text" />
+                              </div>
+                            </div>
+                            <div className="col-6-sm">
+                              <div className="field">
+                                <label>Port</label>
+                                <input value={ data.pro.smtp.port } onChange={ $_data } name="pro.smtp.port" type="number" />
+                              </div>
+                            </div>
+                            <div className="col-6-sm">
+                              <div className="field">
+                                <label>Encryption</label>
+                                <select value={ data.smtp.encryption } onChange={ $_data } name="pro.smtp.encryption">
+                                  <option value="">None</option>
+                                  <option value="ssl">SSL</option>
+                                  <option value="tls">TLS</option>
+                                </select> 
+                                <Image src="/icons/dropdown.svg" width="9" height="9" />
+                              </div>
+                            </div>
+                            <div className="col-6-sm">
+                              <div className="field">
+                                <label>Authentication</label>
+                                <select value={ data.smtp.authentication } onChange={ $_data } name="pro.smtp.authentication">
+                                  <option value="1">Yes</option>
+                                  <option value="0">No</option>
+                                </select> 
+                                <Image src="/icons/dropdown.svg" width="9" height="9" />
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </>
                   )}
                 </div>
 

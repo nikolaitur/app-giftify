@@ -7,6 +7,11 @@ $points: 0,480,768,1024,1366;
   flex-wrap: wrap;
   flex: 0 1 auto;
   flex-direction: row;
+
+  &.disabled {
+    opacity: .5;
+    pointer-events: none;
+  }
 }
 
 div[class*='col-'] {
