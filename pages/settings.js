@@ -727,7 +727,7 @@ const Settings = () => {
                           <div className="grid">
                             <div className="col-6-sm">
                               <div className="field">
-                                <label>HOST</label>
+                                <label>Host</label>
                                 <input value={ data.pro.smtp.host } onChange={ $_data } name="pro.smtp.port" type="text" />
                               </div>
                             </div>
@@ -740,7 +740,7 @@ const Settings = () => {
                             <div className="col-6-sm">
                               <div className="field">
                                 <label>Encryption</label>
-                                <select value={ data.smtp.encryption } onChange={ $_data } name="pro.smtp.encryption">
+                                <select value={ data.pro.smtp.encryption } onChange={ $_data } name="pro.smtp.encryption">
                                   <option value="">None</option>
                                   <option value="ssl">SSL</option>
                                   <option value="tls">TLS</option>
@@ -751,7 +751,7 @@ const Settings = () => {
                             <div className="col-6-sm">
                               <div className="field">
                                 <label>Authentication</label>
-                                <select value={ data.smtp.authentication } onChange={ $_data } name="pro.smtp.authentication">
+                                <select value={ data.pro.smtp.authentication } onChange={ $_data } name="pro.smtp.authentication">
                                   <option value="1">Yes</option>
                                   <option value="0">No</option>
                                 </select> 
