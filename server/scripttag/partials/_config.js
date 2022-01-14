@@ -17,6 +17,7 @@ module.exports = {
   },
   popup: {
     image: '',
+    logo: true,
     texts: {
         title: "Send As a Gift",
         line1: "Select the items you'd like to gift",
@@ -66,5 +67,8 @@ module.exports = {
             hoverBorderColor: '#d2d2d2'
         }
     }
+  },
+  pro: {
+    branding: true
   }
 };

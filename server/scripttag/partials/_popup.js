@@ -7,7 +7,7 @@ const _popup = (config, backend = false) => {
     	<div class="giftify-popup__grid">
     		<div class="giftify-popup__left">
     			<div class="giftify-popup__header">
-    				${ config.general.logo && config.general.logo != '' ? '<img src="' + config.general.logo + '" />' : '' }
+    				${ config.general.logo && config.general.logo != '' && config.popup.logo ? '<img src="' + config.general.logo + '" />' : '' }
     				<div class="giftify-popup__title">${ config.popup.texts.title }</div>
     			</div>
     			<div class="giftify-popup__steps">
@@ -59,6 +59,7 @@ const _popup = (config, backend = false) => {
                         </form>
                     </div>
     			</div>
+                ${ config.pro.branding ? '<div>Sent via <a href="" target="_blank">Giftify</a></div>' : '' }
     		</div>
     		${ config.popup.image != '' ? '<div class="giftify-popup__right" style="background-image: url(' + config.popup.image + ')"></div>' : '' }
     	</div>

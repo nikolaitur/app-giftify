@@ -111,6 +111,7 @@ const _css = (config) => {
     .giftify-popup__left {
       width: ${ config.popup.image == '' ? 100 : 50 }%;
       padding: 75px 50px;
+      position: relative;
     }
     .giftify-popup__header {
       text-align: center;
@@ -122,6 +123,21 @@ const _css = (config) => {
       color: ${ config.popup.title.txtColor };
       font-size: ${ config.popup.title.fontSize ? config.popup.title.fontSize : 32 }px;
       margin: 20px 0;
+    }
+    .giftify-popup__steps + div {
+      font-size: 13px;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      bottom: 10px;
+      text-align: center;
+    }
+    .giftify-popup__steps + div a {
+      color: ${ config.popup.title.txtColor };
+      border-bottom: 1px solid transparent;
+    }
+    .giftify-popup__steps + div a:hover {
+      border-bottom-color: ${ config.popup.title.txtColor };
     }
     .giftify-popup__step {
       display: none;
