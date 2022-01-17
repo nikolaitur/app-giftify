@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-const smtp = async (ctx) => {
+const vsmtp = async (ctx) => {
   const { ...input } = JSON.parse(ctx.request.body);
 
   try {
@@ -18,28 +18,19 @@ const smtp = async (ctx) => {
       };
     }
     const transporter = nodemailer.createTransport(smtp_options);
-    transporter.verify(function (error, success) {
-      if (error) {
-        ctx.status = 400;
-        ctx.body = {
-          status: 'error',
-          message: error
-        }
-      } else {
-        ctx.body = {
-          status: 'success'
-        };
-      }
-    });
+    let info = await transporter.verify();
+
+    ctx.body = {
+      status: 'success'
+    };
 
   } catch(e) {
-    console.log(ctx.store, e);
     ctx.status = 400;
     ctx.body = {
       status: 'error',
-      message: e
+      message: e.response
     }
   }
 };
 
-export default smtp;
+export default vsmtp;

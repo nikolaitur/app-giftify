@@ -86,9 +86,9 @@ const Settings = () => {
   };
   const smtp_verify = async () => {
     $_smtp_verifing(true);
-    X(app).post('/a/settings/smtp', data.pro.smtp, res => {
+    X(app).post('/a/settings/vsmtp', data.pro.smtp, res => {
       $_smtp_verifing(false);
-      Toast(app, 'SMTP connected successfully');
+      Toast(app, 'SMTP connection works');
     }, (error) => {
       $_smtp_verifing(false);
       Toast(app, error, 'ERROR');
