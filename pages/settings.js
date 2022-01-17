@@ -35,6 +35,7 @@ const Settings = () => {
   // --- STATES ------------------------------------------------- //
   const [ loading, $_loading ] = useState(true);
   const [ updating, $_updating ] = useState(false);
+  const [ smtp_verifing, $_smtp_verifing ] = useState(false);
   const [ tabs, $_tabs ] = useState(1);
   const [ step, $_step ] = useState(1);
   const [ data, $_data, $_valid, errors ] = Formify(init_data, SettingsValidator);
@@ -82,6 +83,16 @@ const Settings = () => {
     } else {
       Toast(app, 'Settings contain errors', 'ERROR');
     }
+  };
+  const smtp_verify = async () => {
+    $_smtp_verifing(true);
+    X(app).post('/a/settings/smtp', data.pro.smtp, res => {
+      $_smtp_verifing(false);
+      Toast(app, 'SMTP connected successfully');
+    }, (error) => {
+      $_smtp_verifing(false);
+      Toast(app, error, 'ERROR');
+    });
   };
 
   const activate = async () => {
@@ -724,7 +735,7 @@ const Settings = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="grid">
+                          <div className="grid vend-xs">
                             <div className="col-6-sm">
                               <div className="field">
                                 <label>Host</label>
@@ -737,7 +748,7 @@ const Settings = () => {
                                 <input value={ data.pro.smtp.port } onChange={ $_data } name="pro.smtp.port" type="number" />
                               </div>
                             </div>
-                            <div className="col-6-sm">
+                            <div className="col-4-sm">
                               <div className="field">
                                 <label>Encryption</label>
                                 <select value={ data.pro.smtp.encryption } onChange={ $_data } name="pro.smtp.encryption">
@@ -748,7 +759,7 @@ const Settings = () => {
                                 <Image src="/icons/dropdown.svg" width="9" height="9" />
                               </div>
                             </div>
-                            <div className="col-6-sm">
+                            <div className="col-4-sm">
                               <div className="field">
                                 <label>Authentication</label>
                                 <select value={ data.pro.smtp.authentication } onChange={ $_data } name="pro.smtp.authentication">
@@ -757,6 +768,10 @@ const Settings = () => {
                                 </select> 
                                 <Image src="/icons/dropdown.svg" width="9" height="9" />
                               </div>
+                            </div>
+                            <div className="col-4-sm">
+                              <button className={ `btn error ${ smtp_verifing ? 'updating' : '' }` } onClick={ smtp_verify }>Verify SMTP</button>
+                              <div className="field"></div>
                             </div>
                           </div>
                         </>

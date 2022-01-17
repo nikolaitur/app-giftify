@@ -29,6 +29,7 @@ settings.post('/', verify(), setting.set.default);
 settings.post('/activate', verify(), setting.activate.default);
 settings.get('/plan', verify(), setting.plan.default);
 settings.post('/plan', verify(), setting.plan.default);
+settings.post('/smtp', verify(), setting.smtp.default);
 
 // --- WEBHOOKS --------------------------------------------------- //
 const { SHOPIFY_API_SECRET } = process.env;

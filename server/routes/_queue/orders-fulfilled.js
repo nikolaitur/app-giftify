@@ -75,14 +75,43 @@ const ordersFulfilled = async (ctx) => {
               },  
               host: HOST
             }).then(function(html) {
-              mg.messages.create('mg.giftify.email', {
-                to: to[1].replace(')', ''),
-                from: queue.store + '<noreply@giftify.email>',
-                subject: 'A shipment for your gift is on the way!',
-                html: html
-              }).catch(function(err) {
-                console.log('Error during email Orders Fulfilled: ', err);
-              });
+              if (doc.plan == 2 && doc.settings.pro.smtp.active) {
+                let smtp_options = {
+                  host: doc.settings.pro.smtp.host,
+                  port: doc.settings.pro.smtp.port
+                };
+                if (parseInt(doc.settings.pro.smtp.port) == 465) {
+                  smtp_options.secure = true;
+                }
+                if (doc.settings.pro.smtp.authentication) {
+                  smtp_options.auth = {
+                    user: doc.settings.pro.smtp.username,
+                    pass: doc.settings.pro.smtp.password
+                  };
+                }
+                const transporter = nodemailer.createTransport(smtp_options);
+                transporter.sendMail({
+                  to: to[1].replace(')', ''),
+                  from: doc.settings.general.name + '<' + doc.settings.general.email + '>',
+                  replyTo: from[1].replace(')', ''),
+                  subject: 'A shipment for your gift is on the way!',
+                  html: html
+                }, function(err, info) {
+                  if (err) {
+                    console.log('Error during email SMTP Orders Fulfilled: ', err);
+                  }
+                });
+
+              } else {
+                mg.messages.create('mg.giftify.email', {
+                  to: to[1].replace(')', ''),
+                  from: queue.store + '<noreply@giftify.email>',
+                  subject: 'A shipment for your gift is on the way!',
+                  html: html
+                }).catch(function(err) {
+                  console.log('Error during email MG Orders Fulfilled: ', err);
+                });
+              }
             });
           }
         }

@@ -93,17 +93,17 @@ const ordersCreate = async (ctx) => {
                 };
               }
               const transporter = nodemailer.createTransport(smtp_options);
-               transporter.sendMail({
+              transporter.sendMail({
                 to: to[1].replace(')', ''),
                 from: doc.settings.general.name + '<' + doc.settings.general.email + '>',
                 replyTo: from[1].replace(')', ''),
                 subject: from[0] + ' got you a gift!',
                 html: html
-               }, function(err, info) {
+              }, function(err, info) {
                 if (err) {
                   console.log('Error during email SMTP Orders Create: ', err);
                 }
-               });
+              });
 
             } else {
               mg.messages.create('mg.giftify.email', {
