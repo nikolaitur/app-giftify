@@ -717,7 +717,7 @@ const Settings = () => {
                             <div className="col-24-sm">
                               <div className="field">
                                 <label className="hr"><span>SMTP Settings</span></label>
-                                <small>Fill the fields below to use your own SMTP server to send emails within your domain. <br /><span className="text-error">IMPORTANT:</span> please verify your settings before saving. Emails will not be sent if SMTP settings are not set properly.</small>
+                                <small>Fill the fields below to use your own SMTP server to send emails within your domain. <br /><span className="text-error">IMPORTANT:</span> please verify your settings before saving. Emails may not be sent if SMTP settings are not set properly.</small>
                               </div>
                             </div>
                           </div>
