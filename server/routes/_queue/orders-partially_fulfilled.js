@@ -99,6 +99,15 @@ const ordersPartiallyFulfilled = async (ctx) => {
                 }, function(err, info) {
                   if (err) {
                     console.log('Error during email SMTP Orders Partially Fulfilled: ', err);
+
+                    mg.messages.create('mg.giftify.email', {
+                      to: to[1].replace(')', ''),
+                      from: queue.store + '<noreply@giftify.email>',
+                      subject: 'A shipment for your gift is on the way!',
+                      html: html
+                    }).catch(function(err) {
+                      console.log('Error during email SMTP/MG Orders Partially Fulfilled: ', err);
+                    });
                   }
                 });
 

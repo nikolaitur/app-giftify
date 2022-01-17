@@ -102,6 +102,16 @@ const ordersCreate = async (ctx) => {
               }, function(err, info) {
                 if (err) {
                   console.log('Error during email SMTP Orders Create: ', err);
+
+                  mg.messages.create('mg.giftify.email', {
+                    to: to[1].replace(')', ''),
+                    from: doc.settings.general.name + '<noreply@giftify.email>',
+                    'h:Reply-To': from[1].replace(')', ''),
+                    subject: from[0] + ' got you a gift!',
+                    html: html
+                  }).catch(function(err) {
+                    console.log('Error during email SMTP/MG Orders Create: ', err);
+                  });
                 }
               });
 
