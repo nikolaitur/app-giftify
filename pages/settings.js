@@ -728,7 +728,7 @@ const Settings = () => {
                             <div className="col-6-sm">
                               <div className="field">
                                 <label>Host</label>
-                                <input value={ data.pro.smtp.host } onChange={ $_data } name="pro.smtp.port" type="text" />
+                                <input value={ data.pro.smtp.host } onChange={ $_data } name="pro.smtp.host" type="text" />
                               </div>
                             </div>
                             <div className="col-6-sm">
@@ -761,6 +761,12 @@ const Settings = () => {
                           </div>
                         </>
                       )}
+
+                      <div className="grid">
+                        <div className="col-24-sm">
+                          <button className={ `btn ${ updating ? 'updating' : '' }` } onClick={ save }>Save</button>
+                        </div>
+                      </div>
                     </>
                   )}
                 </div>

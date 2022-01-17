@@ -1,5 +1,6 @@
 const { HOST, MONGO_CRON, MAILGUN_API, MAILGUN_PUBLIC } = process.env;
 import path from 'path';
+import nodemailer from 'nodemailer';
 import { ObjectId } from 'mongodb';
 import { Liquid } from 'liquidjs';
 import formData from 'form-data';
@@ -32,7 +33,7 @@ const ordersCreate = async (ctx) => {
       if (giftify.To) {
         const doc = await ctx.db.collection('stores').findOne(
           { _store: queue.store },
-          { fields: { status: 1, settings: 1, active: 1 } }
+          { fields: { status: 1, settings: 1, active: 1, plan: 1 } }
         );
 
         if (doc && doc.status == 'active' && doc.active) {
@@ -77,15 +78,44 @@ const ordersCreate = async (ctx) => {
             },  
             host: HOST
           }).then(function(html) {
-            mg.messages.create('mg.giftify.email', {
-              to: to[1].replace(')', ''),
-              from: queue.store + '<noreply@giftify.email>',
-              'h:Reply-To': from[1].replace(')', ''),
-              subject: from[0] + ' got you a gift!',
-              html: html
-            }).catch(function(err) {
-              console.log('Error during email Orders Create: ', err);
-            });
+            if (doc.plan == 2 && doc.settings.pro.smtp.active) {
+              let smtp_options = {
+                host: doc.settings.pro.smtp.host,
+                port: doc.settings.pro.smtp.port
+              };
+              if (parseInt(doc.settings.pro.smtp.port) == 465) {
+                smtp_options.secure = true;
+              }
+              if (doc.settings.pro.smtp.authentication) {
+                smtp_options.auth = {
+                  user: doc.settings.pro.smtp.username,
+                  pass: doc.settings.pro.smtp.password
+                };
+              }
+              const transporter = nodemailer.createTransport(smtp_options);
+               transporter.sendMail({
+                to: to[1].replace(')', ''),
+                from: doc.settings.general.name + '<' + doc.settings.general.email + '>',
+                replyTo: from[1].replace(')', ''),
+                subject: from[0] + ' got you a gift!',
+                html: html
+               }, function(err, info) {
+                if (err) {
+                  console.log('Error during email SMTP Orders Create: ', err);
+                }
+               });
+
+            } else {
+              mg.messages.create('mg.giftify.email', {
+                to: to[1].replace(')', ''),
+                from: doc.settings.general.name + '<noreply@giftify.email>',
+                'h:Reply-To': from[1].replace(')', ''),
+                subject: from[0] + ' got you a gift!',
+                html: html
+              }).catch(function(err) {
+                console.log('Error during email MG Orders Create: ', err);
+              });
+            }
           });
         }
       }
