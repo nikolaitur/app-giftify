@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAppBridge } from '@shopify/app-bridge-react';
-import { Redirect } from '@shopify/app-bridge/actions';
+import { Redirect, History } from '@shopify/app-bridge/actions';
 
 // --- PARTIALS ------------------------------------------------- //
 import Hamburger from '../partials/hamburger';
@@ -16,6 +16,8 @@ const Plan = () => {
   // --- INITS -------------------------------------------------- //
   const app = useAppBridge();
   const redirect = Redirect.create(app);
+  const history = History.create(app);
+  history.dispatch(History.Action.PUSH, '/plan');
   const mount = useRef(true);
 
   // --- STATES ------------------------------------------------- //

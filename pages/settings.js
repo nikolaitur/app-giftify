@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAppBridge } from '@shopify/app-bridge-react';
-import { Redirect } from '@shopify/app-bridge/actions';
+import { Redirect, History } from '@shopify/app-bridge/actions';
 
 // --- NEXT ----------------------------------------------------- //
 import Image from 'next/image';
@@ -27,6 +27,8 @@ const Settings = () => {
   // --- INITS -------------------------------------------------- //
   const app = useAppBridge();
   const redirect = Redirect.create(app);
+  const history = History.create(app);
+  history.dispatch(History.Action.PUSH, '/settings');
   const init_data = {
     settings: {}
   }
@@ -137,15 +139,7 @@ const Settings = () => {
                 <Hamburger />
                 <div className="grid vcenter-xs hspace-between-xs">
                   <h1>Settings</h1>
-                  <span className="toggleSwitch">
-                    <input type="checkbox" id="toggle" checked={ window.active } readOnly />
-                    <label htmlFor="toggle" className="grid vcenter-xs" onClick={ activate }>
-                      <span>{ window.active ? 'App is enabled' : 'App is disabled' }</span>
-                      <div className="switch">
-                        <div className="dot"></div>
-                      </div>
-                    </label>
-                  </span>
+                  <button className={ `btn ${ updating ? 'updating' : '' }` } onClick={ save }>Save</button>
                 </div>
               </div>
             </div>
@@ -165,6 +159,23 @@ const Settings = () => {
                 </div>  
 
                 <div className="tab" style={{display : tabs == 1 ? 'block' : 'none' }}>
+                  <div className="grid">
+                    <div className="col-24-sm">
+                      <div className="field mb-4">
+                        <span className="toggleSwitch">
+                          <input type="checkbox" id="toggle" checked={ window.active } readOnly />
+                          <label htmlFor="toggle" onClick={ activate }>
+                            <div className="grid vcenter-xs">
+                              <span>{ window.active ? 'App is enabled' : 'App is disabled' }</span>
+                              <div className="switch">
+                                <div className="dot"></div>
+                              </div>
+                            </div>
+                          </label>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                   <div className="grid">
                     <div className="col-12-sm">
                       <div className="field">
@@ -203,11 +214,6 @@ const Settings = () => {
                           <div className="mt-3 ml-1 opacity-30"><Image src="/icons/noimage.svg" width="52" height="52" /></div>
                         )}
                       </div>
-                    </div>
-                  </div>
-                  <div className="grid">
-                    <div className="col-24-sm">
-                      <button className={ `btn ${ updating ? 'updating' : '' }` } onClick={ save }>Save</button>
                     </div>
                   </div>
                 </div>
@@ -372,11 +378,6 @@ const Settings = () => {
                           </span>
                         </a>
                       </div>
-                    </div>
-                  </div>
-                  <div className="grid">
-                    <div className="col-24-sm">
-                      <button className={ `btn ${ updating ? 'updating' : '' }` } onClick={ save }>Save</button>
                     </div>
                   </div>
                 </div>
@@ -633,11 +634,6 @@ const Settings = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="grid">
-                    <div className="col-24-sm">
-                      <button className={ `btn ${ updating ? 'updating' : '' }` } onClick={ save }>Save</button>
-                    </div>
-                  </div>
                   <div className="grid mt-3">
                     <div className="col-24-sm">
                       <div className="field">
@@ -660,17 +656,70 @@ const Settings = () => {
                         </div>
                       </div>
                       <div className="grid disabled mt-4">
-                        <div className="col-8-sm">
-                          <div className="field">
-                            <label>Show branding?</label>
-                            <span className="toggleSwitch">
-                              <input type="checkbox" id="toggleBranding" checked readOnly />
-                              <label htmlFor="toggleBranding" className="grid vcenter-xs">
-                                <div className="switch empty">
-                                  <div className="dot"></div>
+                        <div className="col-24-sm">
+                          <div className="grid">
+                            <div className="col-6-sm">
+                              <div className="field">
+                                <label>Show branding?</label>
+                                <small>Show Giftify name in popup and emails</small>
+                                <span className="toggleSwitch">
+                                  <input type="checkbox" id="toggleBranding" checked readOnly />
+                                  <label htmlFor="toggleBranding" className="grid vcenter-xs">
+                                    <div className="switch empty">
+                                      <div className="dot"></div>
+                                    </div>
+                                  </label>
+                                </span>
+                              </div>
+                            </div>
+                            <div className="col-6-sm">
+                              <div className="field">
+                                <label>Custom SMTP server</label>
+                                <small>Send emails using your domain</small>
+                                <span className="toggleSwitch">
+                                  <input type="checkbox" id="toggleSMTP" readOnly />
+                                  <label htmlFor="toggleSMTP" className="grid vcenter-xs">
+                                    <div className="switch empty">
+                                      <div className="dot"></div>
+                                    </div>
+                                  </label>
+                                </span>
+                              </div>
+                            </div>
+                            <div className="col-12-sm">
+                              <div className="field">
+                                <label>Send email updates on fulfillments</label>
+                                <small>Let Recipients know about shipment status of their gifts</small>
+                                <span className="toggleSwitch">
+                                  <input type="checkbox" id="toggleUpdates" checked readOnly />
+                                  <label htmlFor="toggleUpdates" className="grid vcenter-xs">
+                                    <div className="switch empty">
+                                      <div className="dot"></div>
+                                    </div>
+                                  </label>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div class="col-12-sm">
+                              <div className="grid">
+                                <div className="col-24-sm">
+                                  <div className="field">
+                                    <label className="hr"><span>Email template - confirmation</span></label>
+                                  </div>
                                 </div>
-                              </label>
-                            </span>
+                              </div>
+                            </div>
+                            <div class="col-12-sm">
+                              <div className="grid">
+                                <div className="col-24-sm">
+                                  <div className="field">
+                                    <label className="hr"><span>Email template - status update</span></label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -679,11 +728,12 @@ const Settings = () => {
                   { (plan == 2) && (
                     <>
                       <div className="grid">
-                        <div className="col-12-sm">
+                        <div className="col-24-sm">
                           <div className="grid">
-                            <div className="col-8-sm">
+                            <div className="col-6-sm">
                               <div className="field">
                                 <label>Show branding?</label>
+                                <small>Show Giftify name in popup and emails</small>
                                 <span className="toggleSwitch">
                                   <input type="checkbox" id="toggleBranding" checked={ data.pro.branding } readOnly />
                                   <label htmlFor="toggleBranding" className="grid vcenter-xs" onClick={ () => { toggle('pro', 'branding') } }>
@@ -694,9 +744,10 @@ const Settings = () => {
                                 </span>
                               </div>
                             </div>
-                            <div className="col-8-sm">
+                            <div className="col-6-sm">
                               <div className="field">
                                 <label>Custom SMTP server</label>
+                                <small>Send emails using your domain</small>
                                 <span className="toggleSwitch">
                                   <input type="checkbox" id="toggleSMTP" checked={ data.pro.smtp.active } readOnly />
                                   <label htmlFor="toggleSMTP" className="grid vcenter-xs" onClick={ () => { toggle('pro', 'smtp', 'active') } }>
@@ -705,6 +756,40 @@ const Settings = () => {
                                     </div>
                                   </label>
                                 </span>
+                              </div>
+                            </div>
+                            <div className="col-12-sm">
+                              <div className="field">
+                                <label>Send email updates on fulfillments</label>
+                                <small>Let Recipients know about shipment status of their gifts</small>
+                                <span className="toggleSwitch">
+                                  <input type="checkbox" id="toggleUpdates" checked={ data.pro.smtp.updates } readOnly />
+                                  <label htmlFor="toggleUpdates" className="grid vcenter-xs" onClick={ () => { toggle('pro', 'updates') } }>
+                                    <div className="switch empty">
+                                      <div className="dot"></div>
+                                    </div>
+                                  </label>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="grid">
+                            <div class="col-12-sm">
+                              <div className="grid">
+                                <div className="col-24-sm">
+                                  <div className="field">
+                                    <label className="hr"><span>Email template - confirmation</span></label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12-sm">
+                              <div className="grid">
+                                <div className="col-24-sm">
+                                  <div className="field">
+                                    <label className="hr"><span>Email template - status update</span></label>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -777,11 +862,6 @@ const Settings = () => {
                         </>
                       )}
 
-                      <div className="grid">
-                        <div className="col-24-sm">
-                          <button className={ `btn ${ updating ? 'updating' : '' }` } onClick={ save }>Save</button>
-                        </div>
-                      </div>
                     </>
                   )}
                 </div>

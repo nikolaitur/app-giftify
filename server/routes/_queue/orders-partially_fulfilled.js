@@ -41,7 +41,7 @@ const ordersPartiallyFulfilled = async (ctx) => {
             { '$set': { 'order.fulfillment_status': order.fulfillment_status } }
           );
 
-          if (doc.plan == 2 && doc.active) {
+          if (doc.plan == 2 && doc.active && doc.settings.pro.updates) {
             order.line_items.forEach(function(line_item, index) {
               order.line_items[index].image = HOST + '/img?shop=' + queue.store + '.myshopify.com&pid=' + line_item.product_id + '&vid=' + line_item.variant_id
             });

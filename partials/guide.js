@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAppBridge } from '@shopify/app-bridge-react';
+import {Redirect} from '@shopify/app-bridge/actions'
 import Image from 'next/image';
 import Link from 'next/link';
 import Router from 'next/router'
@@ -9,6 +10,7 @@ import X from '../helpers/x';
 const Guide = () => {
 
   const app = useAppBridge();
+  const redirect = Redirect.create(app);
   const mount = useRef(true);
 
   useEffect(() => {
@@ -22,12 +24,6 @@ const Guide = () => {
       });
     } 
     start();
-
-    const url_params = new URLSearchParams(window.location.search);
-
-    if (url_params.get('view')) {
-      Router.push('/' + url_params.get('view'));
-    }
   }, []);
 
   const support_show = () => {

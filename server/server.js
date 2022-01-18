@@ -184,7 +184,7 @@ app.prepare().then(() => {
     ctx.res.end();
   };
 
-  router.get("/", async (ctx) => {
+  const handlePages = async (ctx) => {
     if (!ctx.query.shop) {
       ctx.status = 401;
       ctx.body = {
@@ -204,12 +204,16 @@ app.prepare().then(() => {
       ctx.redirect(`/auth?shop=${shop}`);
     } else {
       if (!ctx.query.host) {
-        ctx.redirect(`https://${ ctx.query.shop }/admin/apps/${ SHOPIFY_API_KEY }${ ctx.query.view ? '?view=' + ctx.query.view : '' }`);
+        ctx.redirect(`https://${ ctx.query.shop }/admin/apps/${ SHOPIFY_API_KEY }`);
       } else {
         await handleRequest(ctx);
       }
     }
-  });
+  };
+
+  router.get("/", handlePages);
+  router.get("/settings", handlePages);
+  router.get("/plan", handlePages);
   router.get("/confirm", confirm);
   server.use(routes());
 

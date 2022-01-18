@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAppBridge } from '@shopify/app-bridge-react';
 import DatePicker from 'react-date-picker/dist/entry.nostyle';
-import { Redirect } from '@shopify/app-bridge/actions';
+import { Redirect, History } from '@shopify/app-bridge/actions';
 
 // --- NEXT ----------------------------------------------------- //
 import Image from 'next/image';
@@ -24,6 +24,8 @@ const Index = () => {
   // --- INITS -------------------------------------------------- //
   const app = useAppBridge();
   const redirect = Redirect.create(app);
+  const history = History.create(app);
+  history.dispatch(History.Action.PUSH, '/');
   const mount = useRef(true);
 
   // --- STATES ------------------------------------------------- //

@@ -37,7 +37,7 @@ const confirm = async (ctx) => {
       }
     }
 
-    ctx.redirect(`/?shop=${shop}&view=plan`);
+    ctx.redirect(`/plan/?shop=${shop}`);
 
   } else {
     const s = new ShopifyApi(

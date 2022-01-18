@@ -77,6 +77,7 @@ module.exports = {
         encryption: '',
         authentication: 1,
         host: ''
-    }
+    },
+    updates: true
   }
 };

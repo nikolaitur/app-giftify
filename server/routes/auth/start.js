@@ -4,7 +4,6 @@ const createNonce = nonce();
 const { HOST, SHOPIFY_API_KEY, SCOPES } = process.env;
 
 const start = async (ctx) => {
-  console.log(ctx.request)
   const { query } = ctx.request.body;
   const scopes = SCOPES;
   const redirect_uri = HOST + '/auth/callback';

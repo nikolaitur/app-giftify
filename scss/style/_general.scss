@@ -119,6 +119,10 @@ h1 {
 	font-weight: 700;
 	color: $color;
 
+	+ .btn {
+		margin-top: -10px;
+	}
+
 	small {
 		font-size: 14px;
 		color: $grey;
