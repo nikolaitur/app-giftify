@@ -1,3 +1,5 @@
+const { HOST } = process.env;
+
 const preview = async (ctx) => {
   const { ...input } = JSON.parse(ctx.request.body);
 
@@ -8,7 +10,8 @@ const preview = async (ctx) => {
     );
 
     ctx.body = {
-      status: 'success'
+      status: 'success',
+      url: HOST + '/preview?shop=' + ctx.store + '.myshopify.com'
     };
 
   } catch(e) {

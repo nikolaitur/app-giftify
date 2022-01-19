@@ -211,10 +211,41 @@ app.prepare().then(() => {
     }
   };
 
+  const handlePreview = async (ctx) => {
+    if (!ctx.query.shop) {
+      ctx.status = 401;
+      ctx.body = {
+        status: 'error',
+        message: 'You are not authorized'
+      }
+      return;
+    }
+    const shop = ctx.query.shop;
+    const store = shop.replace('.myshopify.com', '');
+    const doc = await ctx.db.collection('stores').findOne(
+      { _store: store },
+      { fields: { status: 1 } }
+    );
+
+    if (!doc || doc.status != 'active') {
+      ctx.redirect(`/auth?shop=${shop}`);
+    } else {
+      if (!ctx.query.host) {
+        ctx.redirect(`https://${ ctx.query.shop }/admin/apps/${ SHOPIFY_API_KEY }`);
+      } else {
+        ctx.status = 200;
+        ctx.body = {
+          status: 'HTML'
+        }
+      }
+    }
+  };
+
   router.get("/", handlePages);
   router.get("/settings", handlePages);
   router.get("/plan", handlePages);
   router.get("/confirm", confirm);
+  router.get("/preview", handlePreview);
   server.use(routes());
 
   router.get("(/_next/image)", handleRequest);

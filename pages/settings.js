@@ -108,7 +108,7 @@ const Settings = () => {
       }, 
       space: param 
     }, res => {
-
+      document.querySelector('#preview').src = res.url
     }, (error) => {
       $_preview_active(false);
       Toast(app, error, 'ERROR');
@@ -939,7 +939,7 @@ const Settings = () => {
           <div className="body">
             <div className="grid">
               <div className="col-24-xs">
-                <iframe src=""></iframe>
+                <iframe id="preview"></iframe>
               </div>
             </div>
           </div>
