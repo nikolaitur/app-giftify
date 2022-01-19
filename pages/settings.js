@@ -42,6 +42,7 @@ const Settings = () => {
   const [ step, $_step ] = useState(1);
   const [ data, $_data, $_valid, errors ] = Formify(init_data, SettingsValidator);
   const [ plan, $_plan ] = useState(1);
+  const [ preview_active, $_preview_active ] = useState(false);
 
   // --- EFFECTS ------------------------------------------------ //
   useEffect(() => {
@@ -99,8 +100,17 @@ const Settings = () => {
   };
 
   const preview = async (param) => {
-    X(app).post('/a/settings/preview', data.pro.emails[param], res => {
+    $_preview_active(true);
+    X(app).post('/a/settings/preview', { 
+      data: {
+        subject: data.pro.emails[param].subject,
+        tmpl: data.pro.emails[param].tmpl
+      }, 
+      space: param 
+    }, res => {
+
     }, (error) => {
+      $_preview_active(false);
       Toast(app, error, 'ERROR');
     });
   };
@@ -142,12 +152,13 @@ const Settings = () => {
   };
 
   const overlay_off = () => {
+    $_preview_active(false);
     document.getElementById('support').classList.remove('active');
   };
 
   // --- RENDER ------------------------------------------------- //
   return (
-    <div className="inside">
+    <div className={ `inside ${ preview_active ? 'overlay-on' : '' }` }>
       <div className="overlay" onClick={ overlay_off }></div>
         <div className="grid">
           <Sidebar view="settings" />
@@ -720,7 +731,7 @@ const Settings = () => {
                             </div>
                           </div>
                           <div className="grid">
-                            <div class="col-12-sm">
+                            <div className="col-12-sm">
                               <div className="grid">
                                 <div className="col-24-sm">
                                   <div className="field">
@@ -733,7 +744,7 @@ const Settings = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="col-12-sm">
+                            <div className="col-12-sm">
                               <div className="grid">
                                 <div className="col-24-sm">
                                   <div className="field">
@@ -800,7 +811,7 @@ const Settings = () => {
                             </div>
                           </div>
                           <div className="grid">
-                            <div class="col-12-sm">
+                            <div className="col-12-sm">
                               <div className="grid">
                                 <div className="col-24-sm">
                                   <div className="field">
@@ -815,13 +826,13 @@ const Settings = () => {
                                   </div>
                                   <div className="field">
                                     <label>Body</label>
-                                    <small><div className="grid hspace-between-xs"><a>Preview</a><a onClick={ ()=> { default_tmpl('confirmation') } }>Revert to default</a></div></small>
+                                    <small><div className="grid hspace-between-xs"><a onClick={ ()=> { preview('confirmation') } }>Preview</a><a onClick={ ()=> { default_tmpl('confirmation') } }>Revert to default</a></div></small>
                                     <textarea className="tmpl-body" value={ data.pro.emails.confirmation.tmpl } onChange={ $_data } name="pro.emails.confirmation.tmpl" />
                                   </div>
                                 </div>
                               </div>
                             </div>
-                            <div class="col-12-sm">
+                            <div className="col-12-sm">
                               <div className="grid">
                                 <div className="col-24-sm">
                                   <div className="field">
@@ -918,6 +929,19 @@ const Settings = () => {
 
               </div>
             )}
+          </div>
+        </div>
+        <div className={ preview_active ? 'aside preview active' : 'aside preview' }>
+          <a className="close" onClick={ () => $_preview_active(false) }><Image src="/icons/x.svg" width="20" height="20" /></a>
+          <h2 className="mb-4">
+            Preview
+          </h2>
+          <div className="body">
+            <div className="grid">
+              <div className="col-24-xs">
+                <iframe src=""></iframe>
+              </div>
+            </div>
           </div>
         </div>
     </div>

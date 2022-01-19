@@ -31,6 +31,8 @@ const set = async (ctx) => {
     input.pro.emails.update.tmpl = '';
   }
 
+  input.pro.preview = null;
+
   try {
     await ctx.db.collection('stores').updateOne(
       { _store: ctx.store },
