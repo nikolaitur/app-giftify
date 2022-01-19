@@ -10,13 +10,17 @@ const get = async (ctx) => {
 
   Object.assign(config, store.settings);
 
+  const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/gift.liquid'), 'utf8');
+  config.pro.emails.confirmation.default = confirmation_tmpl.toString();
+
   if (config.pro.emails.confirmation.tmpl == '') {
-    const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/gift.liquid'), 'utf8');
     config.pro.emails.confirmation.tmpl = confirmation_tmpl.toString();
   }
 
+  const update_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/ship.liquid'), 'utf8');
+  config.pro.emails.update.default = update_tmpl.toString();
+
   if (config.pro.emails.update.tmpl == '') {
-    const update_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/ship.liquid'), 'utf8');
     config.pro.emails.update.tmpl = update_tmpl.toString();
   }
 

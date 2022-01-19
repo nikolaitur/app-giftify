@@ -13,13 +13,21 @@ const set = async (ctx) => {
     return;
   }
 
+  const doc = await ctx.db.collection('stores').findOne(
+    { _store: ctx.store },
+    { fields: { plan: 1 } }
+  );
+
   const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/gift.liquid'), 'utf8');
   const update_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/ship.liquid'), 'utf8');
 
-  if (confirmation_tmpl.toString() == input.pro.emails.confirmation.tmpl) {
+  delete input.pro.emails.confirmation.default;
+  delete input.pro.emails.update.default;
+
+  if (confirmation_tmpl.toString() == input.pro.emails.confirmation.tmpl || doc.plan == 1) {
     input.pro.emails.confirmation.tmpl = '';
   }
-  if (update_tmpl.toString() == input.pro.emails.update.tmpl) {
+  if (update_tmpl.toString() == input.pro.emails.update.tmpl || doc.plan == 1) {
     input.pro.emails.update.tmpl = '';
   }
 

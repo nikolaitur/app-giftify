@@ -86,6 +86,7 @@ const Settings = () => {
       Toast(app, 'Settings contain errors', 'ERROR');
     }
   };
+
   const smtp_verify = async () => {
     $_smtp_verifing(true);
     X(app).post('/a/settings/vsmtp', data.pro.smtp, res => {
@@ -93,6 +94,13 @@ const Settings = () => {
       Toast(app, 'SMTP connection works');
     }, (error) => {
       $_smtp_verifing(false);
+      Toast(app, error, 'ERROR');
+    });
+  };
+
+  const preview = async (param) => {
+    X(app).post('/a/settings/preview', data.pro.emails[param], res => {
+    }, (error) => {
       Toast(app, error, 'ERROR');
     });
   };
@@ -114,6 +122,16 @@ const Settings = () => {
       target: {
         name: param1 + '.' + param2 + (param3 ? '.' + param3 : ''),
         value: param3 ? !data[param1][param2][param3] : !data[param1][param2]
+      },
+      persist: () => {}
+    });
+  }
+
+  const default_tmpl = (param) => {
+    $_data({
+      target: {
+        name: `pro.emails.${ param }.tmpl`,
+        value: data.pro.emails[param].default
       },
       persist: () => {}
     });
@@ -797,6 +815,7 @@ const Settings = () => {
                                   </div>
                                   <div className="field">
                                     <label>Body</label>
+                                    <small><div className="grid hspace-between-xs"><a>Preview</a><a onClick={ ()=> { default_tmpl('confirmation') } }>Revert to default</a></div></small>
                                     <textarea className="tmpl-body" value={ data.pro.emails.confirmation.tmpl } onChange={ $_data } name="pro.emails.confirmation.tmpl" />
                                   </div>
                                 </div>
@@ -817,6 +836,7 @@ const Settings = () => {
                                   </div>
                                   <div className="field">
                                     <label>Body</label>
+                                    <small><div className="grid hspace-between-xs"><a>Preview</a><a>Revert to default</a></div></small>
                                     <textarea className="tmpl-body" value={ data.pro.emails.update.tmpl } onChange={ $_data } name="pro.emails.update.tmpl" />
                                   </div>
                                 </div>
