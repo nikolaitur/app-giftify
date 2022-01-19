@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import Validate from '~/helpers/validate';
 
 const set = async (ctx) => {
@@ -9,6 +11,16 @@ const set = async (ctx) => {
       message: 'Form contains errors'
     }
     return;
+  }
+
+  const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/gift.liquid'), 'utf8');
+  const update_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/ship.liquid'), 'utf8');
+
+  if (confirmation_tmpl.toString() == input.pro.emails.confirmation.tmpl) {
+    input.pro.emails.confirmation.tmpl = '';
+  }
+  if (update_tmpl.toString() == input.pro.emails.update.tmpl) {
+    input.pro.emails.update.tmpl = '';
   }
 
   try {

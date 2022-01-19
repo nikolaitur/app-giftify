@@ -54,7 +54,7 @@ const ordersPartiallyFulfilled = async (ctx) => {
               root: path.resolve(__dirname, './../../emails/'),
               extname: '.liquid'
             });
-            await engine.renderFile('ship', {
+            const data = {
               giftify: {
                 to: {
                   name: to[0],
@@ -66,7 +66,7 @@ const ordersPartiallyFulfilled = async (ctx) => {
                 },
                 message: giftify.Message
               },
-              line_items: order.line_items,
+              order: order,
               shop: {
                 name: doc.settings.general.name,
                 permanent_domain: queue.store + '.myshopify.com',
@@ -74,7 +74,8 @@ const ordersPartiallyFulfilled = async (ctx) => {
                 logo: doc.settings.general.logo
               },  
               host: HOST
-            }).then(function(html) {
+            };
+            await engine.renderFile('ship', data).then(function(html) {
               if (doc.plan == 2 && doc.settings.pro.smtp.active) {
                 let smtp_options = {
                   host: doc.settings.pro.smtp.host,
@@ -89,26 +90,30 @@ const ordersPartiallyFulfilled = async (ctx) => {
                     pass: doc.settings.pro.smtp.password
                   };
                 }
-                const transporter = nodemailer.createTransport(smtp_options);
-                transporter.sendMail({
-                  to: to[1].replace(')', ''),
-                  from: doc.settings.general.name + '<' + doc.settings.general.email + '>',
-                  replyTo: from[1].replace(')', ''),
-                  subject: 'A shipment for your gift is on the way!',
-                  html: html
-                }, function(err, info) {
-                  if (err) {
-                    console.log('Error during email SMTP Orders Partially Fulfilled: ', err);
 
-                    mg.messages.create('mg.giftify.email', {
-                      to: to[1].replace(')', ''),
-                      from: queue.store + '<noreply@giftify.email>',
-                      subject: 'A shipment for your gift is on the way!',
-                      html: html
-                    }).catch(function(err) {
-                      console.log('Error during email SMTP/MG Orders Partially Fulfilled: ', err);
-                    });
-                  }
+                const subject_engine = new Liquid();
+                subject_engine.parseAndRender(doc.settings.pro.emails.update.subject, data).then(function(subject) {
+                  const transporter = nodemailer.createTransport(smtp_options);
+                  transporter.sendMail({
+                    to: to[1].replace(')', ''),
+                    from: doc.settings.general.name + '<' + doc.settings.general.email + '>',
+                    replyTo: from[1].replace(')', ''),
+                    subject: subject,
+                    html: html
+                  }, function(err, info) {
+                    if (err) {
+                      console.log('Error during email SMTP Orders Partially Fulfilled: ', err);
+
+                      mg.messages.create('mg.giftify.email', {
+                        to: to[1].replace(')', ''),
+                        from: queue.store + '<noreply@giftify.email>',
+                        subject: subject,
+                        html: html
+                      }).catch(function(err) {
+                        console.log('Error during email SMTP/MG Orders Partially Fulfilled: ', err);
+                      });
+                    }
+                  });
                 });
 
               } else {

@@ -14,6 +14,20 @@ const SettingsValidator = [
       //if (value && /\S+@\S+\.\S+/.test(value)) { return 'Invalid email address'; }
       return null;
     }
+  },
+  {
+    field: 'pro.emails.confirmation.subject',
+    check: (value) => {
+      if (!value || (value && value.trim() === '')) { return 'Required'; }
+      return null;
+    }
+  },
+  {
+    field: 'pro.emails.update.subject',
+    check: (value) => {
+      if (!value || (value && value.trim() === '')) { return 'Required'; }
+      return null;
+    }
   }
 ];
 

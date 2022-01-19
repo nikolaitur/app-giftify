@@ -79,6 +79,13 @@
 		appearance: none;
 	}
 
+	textarea.tmpl-body {
+		min-height: 400px;
+		font-family: monospace;
+		resize: vertical;
+		font-size: 13px;
+	}
+
 	select {
 		height: 40px;
 		padding-right: 25px;

@@ -78,6 +78,16 @@ module.exports = {
         authentication: 1,
         host: ''
     },
-    updates: true
+    updates: true,
+    emails: {
+        confirmation: {
+            subject: '{{ giftify.from.name }} got you a gift!',
+            tmpl: ''
+        },
+        update: {
+            subject: 'A shipment for your gift is on the way!',
+            tmpl: ''
+        }
+    }
   }
 };

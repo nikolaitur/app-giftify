@@ -708,6 +708,10 @@ const Settings = () => {
                                   <div className="field">
                                     <label className="hr"><span>Email template - confirmation</span></label>
                                   </div>
+                                  <div className="field">
+                                    <label>Subject</label>
+                                    <input value={ data.pro.emails.confirmation.subject } type="text" />
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -716,6 +720,10 @@ const Settings = () => {
                                 <div className="col-24-sm">
                                   <div className="field">
                                     <label className="hr"><span>Email template - status update</span></label>
+                                  </div>
+                                  <div className="field">
+                                    <label>Subject</label>
+                                    <input value={ data.pro.emails.update.subject } type="text" />
                                   </div>
                                 </div>
                               </div>
@@ -780,6 +788,17 @@ const Settings = () => {
                                   <div className="field">
                                     <label className="hr"><span>Email template - confirmation</span></label>
                                   </div>
+                                  <div className="field">
+                                    <label>Subject</label>
+                                    { (errors['pro.emails.confirmation.subject']) && (
+                                      <div className="error">{ errors['pro.emails.confirmation.subject'] }</div>
+                                    )}
+                                    <input value={ data.pro.emails.confirmation.subject } onChange={ $_data } name="pro.emails.confirmation.subject" type="text" placeholder="e.g. You got a gift!" />
+                                  </div>
+                                  <div className="field">
+                                    <label>Body</label>
+                                    <textarea className="tmpl-body" value={ data.pro.emails.confirmation.tmpl } onChange={ $_data } name="pro.emails.confirmation.tmpl" />
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -788,6 +807,17 @@ const Settings = () => {
                                 <div className="col-24-sm">
                                   <div className="field">
                                     <label className="hr"><span>Email template - status update</span></label>
+                                  </div>
+                                  <div className="field">
+                                    <label>Subject</label>
+                                    { (errors['pro.emails.update.subject']) && (
+                                      <div className="error">{ errors['pro.emails.update.subject'] }</div>
+                                    )}
+                                    <input value={ data.pro.emails.update.subject } onChange={ $_data } name="pro.emails.update.subject" type="text" placeholder="e.g. Your gift is on the way!" />
+                                  </div>
+                                  <div className="field">
+                                    <label>Body</label>
+                                    <textarea className="tmpl-body" value={ data.pro.emails.update.tmpl } onChange={ $_data } name="pro.emails.update.tmpl" />
                                   </div>
                                 </div>
                               </div>
