@@ -663,8 +663,8 @@ const Settings = () => {
                                 <label>Show branding?</label>
                                 <small>Show Giftify name in popup and emails</small>
                                 <span className="toggleSwitch">
-                                  <input type="checkbox" id="toggleBranding" checked readOnly />
-                                  <label htmlFor="toggleBranding" className="grid vcenter-xs">
+                                  <input type="checkbox" checked readOnly />
+                                  <label className="grid vcenter-xs">
                                     <div className="switch empty">
                                       <div className="dot"></div>
                                     </div>
@@ -677,8 +677,8 @@ const Settings = () => {
                                 <label>Custom SMTP server</label>
                                 <small>Send emails using your domain</small>
                                 <span className="toggleSwitch">
-                                  <input type="checkbox" id="toggleSMTP" readOnly />
-                                  <label htmlFor="toggleSMTP" className="grid vcenter-xs">
+                                  <input type="checkbox" readOnly />
+                                  <label className="grid vcenter-xs">
                                     <div className="switch empty">
                                       <div className="dot"></div>
                                     </div>
@@ -691,8 +691,8 @@ const Settings = () => {
                                 <label>Send email updates on fulfillments</label>
                                 <small>Let Recipients know about shipment status of their gifts</small>
                                 <span className="toggleSwitch">
-                                  <input type="checkbox" id="toggleUpdates" checked readOnly />
-                                  <label htmlFor="toggleUpdates" className="grid vcenter-xs">
+                                  <input type="checkbox" checked readOnly />
+                                  <label className="grid vcenter-xs">
                                     <div className="switch empty">
                                       <div className="dot"></div>
                                     </div>
@@ -771,7 +771,7 @@ const Settings = () => {
                                 <label>Send email updates on fulfillments</label>
                                 <small>Let Recipients know about shipment status of their gifts</small>
                                 <span className="toggleSwitch">
-                                  <input type="checkbox" id="toggleUpdates" checked={ data.pro.smtp.updates } readOnly />
+                                  <input type="checkbox" id="toggleUpdates" checked={ data.pro.updates } readOnly />
                                   <label htmlFor="toggleUpdates" className="grid vcenter-xs" onClick={ () => { toggle('pro', 'updates') } }>
                                     <div className="switch empty">
                                       <div className="dot"></div>
