@@ -53,10 +53,8 @@ const ordersCreate = async (ctx) => {
           const mailgun = new Mailgun(formData);
           const mg = mailgun.client({ username: 'api', key: MAILGUN_API });
 
-          const engine = new Liquid({
-            root: path.resolve(__dirname, './../../emails/'),
-            extname: '.liquid'
-          });
+          const engine = new Liquid();
+          const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/gift.liquid'), 'utf8');
           const data = {
             giftify: {
               to: {
@@ -79,65 +77,62 @@ const ordersCreate = async (ctx) => {
             host: HOST
           };
           if (doc.plan == 2 && doc.settings.pro.emails.confirmation.tmpl != '') {
-            const render_engine = await engine.parseAndRender(doc.settings.pro.emails.confirmation.tmpl, data);
+            const render_body = await engine.parseAndRender(doc.settings.pro.emails.confirmation.tmpl, data);
+            const render_subject = await engine.parseAndRender(doc.settings.pro.emails.confirmation.subject, data)
           } else {
-            const render_engine = await engine.renderFile('gift', data);
+            const render_body = await engine.parseAndRender(confirmation_tmpl, data);
+            const render_subject = from[0] + ' got you a gift!'
           }
 
-          render_engine.then(function(html) {
-            if (doc.plan == 2 && doc.settings.pro.smtp.active) {
-              let smtp_options = {
-                host: doc.settings.pro.smtp.host,
-                port: doc.settings.pro.smtp.port
-              };
-              if (parseInt(doc.settings.pro.smtp.port) == 465) {
-                smtp_options.secure = true;
-              }
-              if (doc.settings.pro.smtp.authentication) {
-                smtp_options.auth = {
-                  user: doc.settings.pro.smtp.username,
-                  pass: doc.settings.pro.smtp.password
-                };
-              }
-
-              const subject_engine = new Liquid();
-              subject_engine.parseAndRender(doc.settings.pro.emails.confirmation.subject, data).then(function(subject) {
-                const transporter = nodemailer.createTransport(smtp_options);
-                transporter.sendMail({
-                  to: to[1].replace(')', ''),
-                  from: doc.settings.general.name + '<' + doc.settings.general.email + '>',
-                  replyTo: from[1].replace(')', ''),
-                  subject: subject,
-                  html: html
-                }, function(err, info) {
-                  if (err) {
-                    console.log('Error during email SMTP Orders Create: ', err);
-
-                    mg.messages.create('mg.giftify.email', {
-                      to: to[1].replace(')', ''),
-                      from: doc.settings.general.name + '<noreply@giftify.email>',
-                      'h:Reply-To': from[1].replace(')', ''),
-                      subject: subject,
-                      html: html
-                    }).catch(function(err) {
-                      console.log('Error during email SMTP/MG Orders Create: ', err);
-                    });
-                  }
-                });
-              });
-
-            } else {
-              mg.messages.create('mg.giftify.email', {
-                to: to[1].replace(')', ''),
-                from: doc.settings.general.name + '<noreply@giftify.email>',
-                'h:Reply-To': from[1].replace(')', ''),
-                subject: from[0] + ' got you a gift!',
-                html: html
-              }).catch(function(err) {
-                console.log('Error during email MG Orders Create: ', err);
-              });
+          if (doc.plan == 2 && doc.settings.pro.smtp.active) {
+            let smtp_options = {
+              host: doc.settings.pro.smtp.host,
+              port: doc.settings.pro.smtp.port
+            };
+            if (parseInt(doc.settings.pro.smtp.port) == 465) {
+              smtp_options.secure = true;
             }
-          });
+            if (doc.settings.pro.smtp.authentication) {
+              smtp_options.auth = {
+                user: doc.settings.pro.smtp.username,
+                pass: doc.settings.pro.smtp.password
+              };
+            }
+
+            const transporter = nodemailer.createTransport(smtp_options);
+            transporter.sendMail({
+              to: to[1].replace(')', ''),
+              from: doc.settings.general.name + '<' + doc.settings.general.email + '>',
+              replyTo: from[1].replace(')', ''),
+              subject: render_subject,
+              html: render_body
+            }, function(err, info) {
+              if (err) {
+                console.log('Error during email SMTP Orders Create: ', err);
+
+                mg.messages.create('mg.giftify.email', {
+                  to: to[1].replace(')', ''),
+                  from: doc.settings.general.name + '<noreply@giftify.email>',
+                  'h:Reply-To': from[1].replace(')', ''),
+                  subject: render_subject,
+                  html: render_body
+                }).catch(function(err) {
+                  console.log('Error during email SMTP/MG Orders Create: ', err);
+                });
+              }
+            });
+
+          } else {
+            mg.messages.create('mg.giftify.email', {
+              to: to[1].replace(')', ''),
+              from: doc.settings.general.name + '<noreply@giftify.email>',
+              'h:Reply-To': from[1].replace(')', ''),
+              subject: render_subject,
+              html: render_body
+            }).catch(function(err) {
+              console.log('Error during email MG Orders Create: ', err);
+            });
+          }
         }
       }
     }
