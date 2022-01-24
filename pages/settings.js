@@ -816,6 +816,73 @@ const Settings = () => {
                               </div>
                             </div>
                           </div>
+
+                          { (data.pro.smtp.active) && (
+                            <>
+                              <div className="grid">
+                                <div className="col-24-sm">
+                                  <div className="field">
+                                    <label className="hr"><span>SMTP Settings</span></label>
+                                    <small>Fill the fields below to use your own SMTP server to send emails within your domain. <br /><span className="text-error">IMPORTANT:</span> please verify your settings before saving. Emails may not be sent if SMTP settings are not set properly.</small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="grid">
+                                <div className="col-12-sm">
+                                  <div className="field">
+                                    <label>Username</label>
+                                    <input value={ data.pro.smtp.username } onChange={ $_data } name="pro.smtp.username" type="text" />
+                                  </div>
+                                </div>
+                                <div className="col-12-sm">
+                                  <div className="field">
+                                    <label>Password</label>
+                                    <input value={ data.pro.smtp.password } onChange={ $_data } name="pro.smtp.password" type="password" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="grid vend-xs">
+                                <div className="col-6-sm">
+                                  <div className="field">
+                                    <label>Host</label>
+                                    <input value={ data.pro.smtp.host } onChange={ $_data } name="pro.smtp.host" type="text" />
+                                  </div>
+                                </div>
+                                <div className="col-6-sm">
+                                  <div className="field">
+                                    <label>Port</label>
+                                    <input value={ data.pro.smtp.port } onChange={ $_data } name="pro.smtp.port" type="number" />
+                                  </div>
+                                </div>
+                                <div className="col-4-sm">
+                                  <div className="field">
+                                    <label>Encryption</label>
+                                    <select value={ data.pro.smtp.encryption } onChange={ $_data } name="pro.smtp.encryption">
+                                      <option value="">None</option>
+                                      <option value="ssl">SSL</option>
+                                      <option value="tls">TLS</option>
+                                    </select> 
+                                    <Image src="/icons/dropdown.svg" width="9" height="9" />
+                                  </div>
+                                </div>
+                                <div className="col-4-sm">
+                                  <div className="field">
+                                    <label>Authentication</label>
+                                    <select value={ data.pro.smtp.authentication } onChange={ $_data } name="pro.smtp.authentication">
+                                      <option value="1">Yes</option>
+                                      <option value="0">No</option>
+                                    </select> 
+                                    <Image src="/icons/dropdown.svg" width="9" height="9" />
+                                  </div>
+                                </div>
+                                <div className="col-4-sm">
+                                  <button className={ `btn error ${ smtp_verifing ? 'updating' : '' }` } onClick={ smtp_verify }>Verify SMTP</button>
+                                  <div className="field"></div>
+                                </div>
+                              </div>
+                            </>
+                          )}
+
                           <div className="grid">
                             <div className="col-12-sm">
                               <div className="grid">
@@ -860,74 +927,16 @@ const Settings = () => {
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-
-                      { (data.pro.smtp.active) && (
-                        <>
-                          <div className="grid">
+                          <div className="grid mt-2">
                             <div className="col-24-sm">
                               <div className="field">
-                                <label className="hr"><span>SMTP Settings</span></label>
-                                <small>Fill the fields below to use your own SMTP server to send emails within your domain. <br /><span className="text-error">IMPORTANT:</span> please verify your settings before saving. Emails may not be sent if SMTP settings are not set properly.</small>
+                                <label>Variables</label>
+                                <small>Click <a href="" target="_blank">here</a> to learn about liquid variables you can use in your templates.</small>
                               </div>
                             </div>
                           </div>
-                          <div className="grid">
-                            <div className="col-12-sm">
-                              <div className="field">
-                                <label>Username</label>
-                                <input value={ data.pro.smtp.username } onChange={ $_data } name="pro.smtp.username" type="text" />
-                              </div>
-                            </div>
-                            <div className="col-12-sm">
-                              <div className="field">
-                                <label>Password</label>
-                                <input value={ data.pro.smtp.password } onChange={ $_data } name="pro.smtp.password" type="password" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="grid vend-xs">
-                            <div className="col-6-sm">
-                              <div className="field">
-                                <label>Host</label>
-                                <input value={ data.pro.smtp.host } onChange={ $_data } name="pro.smtp.host" type="text" />
-                              </div>
-                            </div>
-                            <div className="col-6-sm">
-                              <div className="field">
-                                <label>Port</label>
-                                <input value={ data.pro.smtp.port } onChange={ $_data } name="pro.smtp.port" type="number" />
-                              </div>
-                            </div>
-                            <div className="col-4-sm">
-                              <div className="field">
-                                <label>Encryption</label>
-                                <select value={ data.pro.smtp.encryption } onChange={ $_data } name="pro.smtp.encryption">
-                                  <option value="">None</option>
-                                  <option value="ssl">SSL</option>
-                                  <option value="tls">TLS</option>
-                                </select> 
-                                <Image src="/icons/dropdown.svg" width="9" height="9" />
-                              </div>
-                            </div>
-                            <div className="col-4-sm">
-                              <div className="field">
-                                <label>Authentication</label>
-                                <select value={ data.pro.smtp.authentication } onChange={ $_data } name="pro.smtp.authentication">
-                                  <option value="1">Yes</option>
-                                  <option value="0">No</option>
-                                </select> 
-                                <Image src="/icons/dropdown.svg" width="9" height="9" />
-                              </div>
-                            </div>
-                            <div className="col-4-sm">
-                              <button className={ `btn error ${ smtp_verifing ? 'updating' : '' }` } onClick={ smtp_verify }>Verify SMTP</button>
-                              <div className="field"></div>
-                            </div>
-                          </div>
-                        </>
-                      )}
+                        </div>
+                      </div>
 
                     </>
                   )}
