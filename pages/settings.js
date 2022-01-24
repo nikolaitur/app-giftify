@@ -43,6 +43,7 @@ const Settings = () => {
   const [ data, $_data, $_valid, errors ] = Formify(init_data, SettingsValidator);
   const [ plan, $_plan ] = useState(1);
   const [ preview_active, $_preview_active ] = useState(false);
+  const [ previewing, $_previewing ] = useState(false);
 
   // --- EFFECTS ------------------------------------------------ //
   useEffect(() => {
@@ -101,6 +102,7 @@ const Settings = () => {
 
   const preview = async (param) => {
     $_preview_active(true);
+    $_previewing(true);
     X(app).post('/a/settings/preview', { 
       data: {
         subject: data.pro.emails[param].subject,
@@ -108,9 +110,11 @@ const Settings = () => {
       }, 
       space: param 
     }, res => {
-      document.querySelector('#preview').src = res.url
+      document.querySelector('#preview').src = res.url;
+      setTimeout(function() { $_previewing(false); }, 500)
     }, (error) => {
       $_preview_active(false);
+      $_previewing(false);
       Toast(app, error, 'ERROR');
     });
   };
@@ -936,10 +940,13 @@ const Settings = () => {
           <h2 className="mb-4">
             Preview
           </h2>
+          { (previewing) && (
+            <Loadbars />
+          )}
           <div className="body">
             <div className="grid">
               <div className="col-24-xs">
-                <iframe id="preview"></iframe>
+                <iframe id="preview" className={ previewing ? 'hide' : '' }></iframe>
               </div>
             </div>
           </div>

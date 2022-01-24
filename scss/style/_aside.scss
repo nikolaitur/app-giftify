@@ -21,7 +21,17 @@
 	}
 
 	&.preview {
-		width: 600px;
+		width: 670px;
+		padding: 15px 0;
+
+		h2.mb-4 {
+			padding-left: 25px;
+		}
+
+		.loading {
+			padding-left: 25px;
+			padding-right: 25px;
+		}
 
 		iframe {
 			width: 100%;

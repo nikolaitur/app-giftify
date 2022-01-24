@@ -22,37 +22,49 @@ const handlePreview = async (ctx) => {
   } else {
     ctx.status = 200;
 
-    const engine = new Liquid();
-    const data = {
-      giftify: {
-        to: {
-          name: 'John Recipient',
-          email: 'smith@recipient.com'
+    try {
+      const engine = new Liquid();
+      const data = {
+        giftify: {
+          to: {
+            name: 'John Recipient',
+            email: 'smith@recipient.com'
+          },
+          from: {
+            name: 'Joe Sender',
+            email: 'joe@sender.com'
+          },
+          message: 'Happy Birthday! This is your gift message :)'
         },
-        from: {
-          name: 'Joe Sender',
-          email: 'joe@sender.com'
-        },
-        message: 'Happy Birthday! This is your gift message :)'
-      },
-      order: {},
-      shop: {
-        name: doc.settings.general.name,
-        permanent_domain: store + '.myshopify.com',
-        email: doc.settings.general.email,
-        logo: doc.settings.general.logo
-      },  
-      host: HOST
-    };
-    const tmpl = await engine.parseAndRender(doc.settings.pro.preview.data.tmpl, data);
-    const subject = await engine.parseAndRender(doc.settings.pro.preview.data.subject, data);
+        order: {},
+        shop: {
+          name: doc.settings.general.name,
+          permanent_domain: store + '.myshopify.com',
+          email: doc.settings.general.email,
+          logo: doc.settings.general.logo
+        },  
+        host: HOST
+      };
+      const tmpl = await engine.parseAndRender(doc.settings.pro.preview.data.tmpl, data);
+      const subject = await engine.parseAndRender(doc.settings.pro.preview.data.subject, data);
 
-    ctx.body = `
-      <style>body{font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;}</style>
-      <h3><span style="color:#999870">Subject:</span> ${ subject }</h3>
-      <hr/>
-      ${ tmpl }
-    `;
+      ctx.body = `
+        <div style="padding:20px">
+        <style>body{box-sizing:border-box;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;}</style>
+        <h3 style="margin:0;padding:0"><span style="color:#009870">Subject:</span> ${ subject }</h3>
+        <hr style="margin-bottom:20px" />
+        ${ tmpl }
+        </div>
+      `;
+
+    } catch (e) {
+      ctx.body = `
+        <div style="padding:20px">
+        <style>body{box-sizing:border-box;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;}</style>
+        ${ e }
+        </div>
+      `;
+    }
   }
 };
 
