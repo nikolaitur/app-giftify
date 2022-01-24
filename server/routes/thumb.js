@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 import Shopify from '~/helpers/shopify';
 
 const thumb = async (ctx) => {
-  await new Promise(resolve => setTimeout(resolve, 600));
+  //await new Promise(resolve => setTimeout(resolve, 600));
 
   const s = await Shopify(ctx);
   const product = await s.product.get(ctx.query.pid,

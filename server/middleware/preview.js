@@ -114,7 +114,23 @@ const handlePreview = async (ctx) => {
             tags: 'CustomerTag1,CustomerTag2'
           },
           line_items: [
-
+            {
+              id: 101,
+              name: 'T-Shirt',
+              title: 'T-Shirt',
+              price: '5.00',
+              product_id: 2,
+              properties: {
+                prop1: 'val1',
+                prop2: 'val2'
+              },
+              quantity: 1,
+              requires_shipping: true,
+              sku: 'tshirt0001',
+              variant_title: 'Red',
+              vendor: 'Shirt Company Co',
+              image: 'https://giftify-mm.herokuapp.com/tshirt.jpg'
+            }
           ],
           shipping_lines: [
             {
