@@ -43,6 +43,7 @@ const Settings = () => {
   const [ data, $_data, $_valid, errors ] = Formify(init_data, SettingsValidator);
   const [ plan, $_plan ] = useState(1);
   const [ preview_active, $_preview_active ] = useState(false);
+  const [ preview_title, $_preview_title ] = useState('');
   const [ previewing, $_previewing ] = useState(false);
 
   // --- EFFECTS ------------------------------------------------ //
@@ -101,6 +102,7 @@ const Settings = () => {
   };
 
   const preview = async (param) => {
+    $_preview_title(param);
     $_preview_active(true);
     $_previewing(true);
     X(app).post('/a/settings/preview', { 
@@ -851,7 +853,7 @@ const Settings = () => {
                                   </div>
                                   <div className="field">
                                     <label>Body</label>
-                                    <small><div className="grid hspace-between-xs"><a>Preview</a><a>Revert to default</a></div></small>
+                                    <small><div className="grid hspace-between-xs"><a onClick={ ()=> { preview('update') } }>Preview</a><a>Revert to default</a></div></small>
                                     <textarea className="tmpl-body" value={ data.pro.emails.update.tmpl } onChange={ $_data } name="pro.emails.update.tmpl" />
                                   </div>
                                 </div>
@@ -938,7 +940,7 @@ const Settings = () => {
         <div className={ preview_active ? 'aside preview active' : 'aside preview' }>
           <a className="close" onClick={ () => $_preview_active(false) }><Image src="/icons/x.svg" width="20" height="20" /></a>
           <h2 className="mb-4">
-            Preview
+            Preview: { preview_title }
           </h2>
           { (previewing) && (
             <Loadbars />
