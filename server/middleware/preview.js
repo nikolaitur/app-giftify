@@ -36,7 +36,95 @@ const handlePreview = async (ctx) => {
           },
           message: 'Happy Birthday! This is your gift message :)'
         },
-        order: {},
+        order: {
+          id: 1234567890,
+          confirmed: true,
+          created_at: '2022-01-01T09:00:00-5:00',
+          currency: 'USD',
+          customer_locale: 'en',
+          email: 'joe@sender.com',
+          financial_status: 'paid',
+          gateway: 'bogus',
+          name: '#0123',
+          note: 'Sample note',
+          note_attributes: [
+            { name: 'Attr Name', value: 'Attr Value' },
+            { name: 'Attr Name 1', value: 'Attr Value 2' }
+          ],
+          number: 1,
+          order_number: 1001,
+          order_status_url: 'https://www.yourstore.com/status_url/of/your/order',
+          phone: '1200123456789',
+          subtotal_price: '5.00',
+          tags: 'Tag1,Tag2',
+          tax_lines: [
+            { price: 0.04, rate: 0.00375, title: 'Kings County Tax' },
+            { price: 0.40, rate: 0.04, title: 'New York State Tax' },
+            { price: 0.45, rate: 0.045, title: 'Brooklyn City Tax' },
+          ],
+          taxes_included: false,
+          test: true,
+          token: '314cfc6eb11111111111111',
+          total_discounts: '0.00',
+          total_line_items_price: '5.00',
+          total_price: '10.79',
+          total_tax: '0.89',
+          total_weight: 0,
+          billing_address: {
+            first_name: 'Joe',
+            address1: '100 Billing Street',
+            phone: '1200123456789',
+            city: 'New York',
+            zip: '11099',
+            province: 'New York',
+            country: 'United States',
+            last_name: 'Sender',
+            address2: 'Apt. 909',
+            company: 'Sender Co.',
+            name: 'Joe Sender',
+            country_code: 'US',
+            province_code: 'NY'
+          },
+          shipping_address: {
+            first_name: 'John',
+            address1: '100 Shipping Street',
+            phone: '98765321200',
+            city: 'New York',
+            zip: '10001',
+            province: 'New York',
+            country: 'United States',
+            last_name: 'Recipient',
+            address2: 'Apt. 101',
+            company: 'Recipient Co.',
+            name: 'John Recipient',
+            country_code: 'US',
+            province_code: 'NY'
+          },
+          customer: {
+            id: 123456789,
+            email: 'joe@sender.com',
+            accepts_marketing: true,
+            created_at: '2022-01-01T09:00:00-5:00',,
+            first_name: 'Joe',
+            last_name: 'Sender',
+            orders_count: 1,
+            total_spent: '5.00',
+            note: 'Customer Note',
+            phone: '1200123456789',
+            tags: 'CustomerTag1,CustomerTag2'
+          },
+          line_items: [
+
+          ],
+          shipping_lines: [
+            {
+              id: 01010101,
+              code: 'standard-shipping',
+              price: '4.90',
+              title: 'Standard Shipping'
+            }
+          ]
+        },
         shop: {
           name: doc.settings.general.name,
           permanent_domain: store + '.myshopify.com',
