@@ -19,6 +19,7 @@ import confirm from './confirm';
 import RedisStore from './redis';
 import generateScriptTag from './scripttag/app';
 import getShopInfo from './info';
+import handlePreview from './middleware/preview';
 
 // --- ENV ----------------------------------------------------- //
 dotenv.config();
@@ -197,7 +198,7 @@ app.prepare().then(() => {
     const store = shop.replace('.myshopify.com', '');
     const doc = await ctx.db.collection('stores').findOne(
       { _store: store },
-      { fields: { status: 1 } }
+      { fields: { status: 1, plan: 1 } }
     );
 
     if (!doc || doc.status != 'active') {
@@ -207,36 +208,6 @@ app.prepare().then(() => {
         ctx.redirect(`https://${ ctx.query.shop }/admin/apps/${ SHOPIFY_API_KEY }`);
       } else {
         await handleRequest(ctx);
-      }
-    }
-  };
-
-  const handlePreview = async (ctx) => {
-    if (!ctx.query.shop) {
-      ctx.status = 401;
-      ctx.body = {
-        status: 'error',
-        message: 'You are not authorized'
-      }
-      return;
-    }
-    const shop = ctx.query.shop;
-    const store = shop.replace('.myshopify.com', '');
-    const doc = await ctx.db.collection('stores').findOne(
-      { _store: store },
-      { fields: { status: 1 } }
-    );
-
-    if (!doc || doc.status != 'active') {
-      ctx.redirect(`/auth?shop=${shop}`);
-    } else {
-      if (!ctx.query.host) {
-        ctx.redirect(`https://${ ctx.query.shop }/admin/apps/${ SHOPIFY_API_KEY }`);
-      } else {
-        ctx.status = 200;
-        ctx.body = {
-          status: 'HTML'
-        }
       }
     }
   };

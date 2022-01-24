@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import config from './../../scripttag/partials/_config';
+import init from './../../scripttag/partials/_config';
 
 const get = async (ctx) => {
   const store = await ctx.db.collection('stores').findOne(
@@ -8,7 +8,26 @@ const get = async (ctx) => {
     { fields: { settings: 1, plan: 1 } }
   );
 
-  Object.assign(config, store.settings);
+  const superReplace = (object, value) => {
+    let replace = {};
+
+    Object.keys(object).forEach(prop => {
+      if (value[prop] !== undefined) {
+        if (typeof object[prop] === 'object' && object[prop] !== null) {
+          replace[prop] = superReplace(object[prop], value[prop]);
+        } else replace[prop] = value[prop];
+      } else replace[prop] = object[prop];
+    });
+
+    Object.keys(value).forEach(prop => {
+      if (object[prop] === undefined) {
+        replace[prop] = value[prop];
+      }
+    });
+
+    return replace;
+  };
+  let config = superReplace(init, store.settings);
 
   const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/gift.liquid'), 'utf8');
   config.pro.emails.confirmation.default = confirmation_tmpl.toString();
