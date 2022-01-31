@@ -134,7 +134,7 @@ const handlePreview = async (ctx) => {
           ],
           shipping_lines: [
             {
-              id: 01010101,
+              id: 1010101,
               code: 'standard-shipping',
               price: '4.90',
               title: 'Standard Shipping'
