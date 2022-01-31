@@ -58,7 +58,7 @@ const ordersCreate = async (ctx) => {
           await ctx.db.collection('gifts').insertOne({ 
             _store: queue.store,
             gift: giftify,
-            order: order, // NEED TO BE REDUCED
+            order: order,
             created_at: Fdate().format('server')
           });
 
