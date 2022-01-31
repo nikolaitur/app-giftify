@@ -104,7 +104,7 @@ const handlePreview = async (ctx) => {
             id: 123456789,
             email: 'joe@sender.com',
             accepts_marketing: true,
-            created_at: '2022-01-01T09:00:00-5:00',,
+            created_at: '2022-01-01T09:00:00-5:00',
             first_name: 'Joe',
             last_name: 'Sender',
             orders_count: 1,
