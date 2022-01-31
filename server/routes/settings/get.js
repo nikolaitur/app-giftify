@@ -29,14 +29,14 @@ const get = async (ctx) => {
   };
   let config = superReplace(init, store.settings);
 
-  const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/gift.liquid'), 'utf8');
+  const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/confirmation.liquid'), 'utf8');
   config.pro.emails.confirmation.default = confirmation_tmpl.toString();
 
   if (config.pro.emails.confirmation.tmpl == '') {
     config.pro.emails.confirmation.tmpl = confirmation_tmpl.toString();
   }
 
-  const update_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/ship.liquid'), 'utf8');
+  const update_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/update.liquid'), 'utf8');
   config.pro.emails.update.default = update_tmpl.toString();
 
   if (config.pro.emails.update.tmpl == '') {

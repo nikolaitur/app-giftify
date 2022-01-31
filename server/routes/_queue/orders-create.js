@@ -54,7 +54,7 @@ const ordersCreate = async (ctx) => {
           const mg = mailgun.client({ username: 'api', key: MAILGUN_API });
 
           const engine = new Liquid();
-          const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/gift.liquid'), 'utf8');
+          const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/confirmation.liquid'), 'utf8');
           const data = {
             giftify: {
               to: {

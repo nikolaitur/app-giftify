@@ -45,6 +45,99 @@ const ordersFulfilled = async (ctx) => {
             order.line_items.forEach(function(line_item, index) {
               order.line_items[index].image = HOST + '/img?shop=' + queue.store + '.myshopify.com&pid=' + line_item.product_id + '&vid=' + line_item.variant_id
             });
+
+            const to = giftify.To.split('('), from = giftify.From.split('(');
+            const mailgun = new Mailgun(formData);
+            const mg = mailgun.client({ username: 'api', key: MAILGUN_API });
+
+            const engine = new Liquid();
+            const update_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/update.liquid'), 'utf8');
+            const data = {
+              giftify: {
+                to: {
+                  name: to[0],
+                  email: to[1].replace(')', '')
+                },
+                from: {
+                  name: from[0],
+                  email: from[1].replace(')', '')
+                },
+                message: giftify.Message
+              },
+              order: order,
+              shop: {
+                name: doc.settings.general.name,
+                permanent_domain: queue.store + '.myshopify.com',
+                email: doc.settings.general.email,
+                logo: doc.settings.general.logo
+              },  
+              host: HOST
+            };
+            if (doc.plan == 2 && doc.settings.pro.emails.update.tmpl != '') {
+              const render_body = await engine.parseAndRender(doc.settings.pro.emails.update.tmpl, data);
+              const render_subject = await engine.parseAndRender(doc.settings.pro.emails.update.subject, data)
+            } else {
+              const render_body = await engine.parseAndRender(update_tmpl, data);
+              const render_subject = from[0] + ' got you a gift!'
+            }
+
+            if (doc.plan == 2 && doc.settings.pro.smtp.active) {
+              let smtp_options = {
+                host: doc.settings.pro.smtp.host,
+                port: doc.settings.pro.smtp.port
+              };
+              if (parseInt(doc.settings.pro.smtp.port) == 465) {
+                smtp_options.secure = true;
+              }
+              if (doc.settings.pro.smtp.authentication) {
+                smtp_options.auth = {
+                  user: doc.settings.pro.smtp.username,
+                  pass: doc.settings.pro.smtp.password
+                };
+              }
+
+              const transporter = nodemailer.createTransport(smtp_options);
+              transporter.sendMail({
+                to: to[1].replace(')', ''),
+                from: doc.settings.general.name + '<' + doc.settings.general.email + '>',
+                replyTo: from[1].replace(')', ''),
+                subject: render_subject,
+                html: render_body
+              }, function(err, info) {
+                if (err) {
+                  console.log('Error during email SMTP Orders Create: ', err);
+
+                  mg.messages.create('mg.giftify.email', {
+                    to: to[1].replace(')', ''),
+                    from: doc.settings.general.name + '<noreply@giftify.email>',
+                    'h:Reply-To': from[1].replace(')', ''),
+                    subject: render_subject,
+                    html: render_body
+                  }).catch(function(err) {
+                    console.log('Error during email SMTP/MG Orders Create: ', err);
+                  });
+                }
+              });
+
+            } else {
+              mg.messages.create('mg.giftify.email', {
+                to: to[1].replace(')', ''),
+                from: doc.settings.general.name + '<noreply@giftify.email>',
+                'h:Reply-To': from[1].replace(')', ''),
+                subject: render_subject,
+                html: render_body
+              }).catch(function(err) {
+                console.log('Error during email MG Orders Create: ', err);
+              });
+            }
+
+
+
+
+
+
+
+
             
             const to = giftify.To.split('('), from = giftify.From.split('(');
             const mailgun = new Mailgun(formData);

@@ -18,8 +18,8 @@ const set = async (ctx) => {
     { fields: { plan: 1 } }
   );
 
-  const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/gift.liquid'), 'utf8');
-  const update_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/ship.liquid'), 'utf8');
+  const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/confirmation.liquid'), 'utf8');
+  const update_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/update.liquid'), 'utf8');
 
   delete input.pro.emails.confirmation.default;
   delete input.pro.emails.update.default;
