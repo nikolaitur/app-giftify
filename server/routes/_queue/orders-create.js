@@ -49,6 +49,12 @@ const ordersCreate = async (ctx) => {
             delete order[key];
           });
 
+          Object.keys(order).forEach(function(key) {
+            if (key.indexOf('current_') > -1) {
+              delete order[key];
+            }
+          });
+
           await ctx.db.collection('gifts').insertOne({ 
             _store: queue.store,
             gift: giftify,
