@@ -42,6 +42,13 @@ const ordersCreate = async (ctx) => {
             order.line_items[index].image = HOST + '/img?shop=' + queue.store + '.myshopify.com&pid=' + line_item.product_id + '&vid=' + line_item.variant_id
           });
 
+          const blacklist = ['admin_graphql_api_id', 'browser_ip', 'cart_token', 'client_details', 'landing_site', 'landing_site_ref', 'reference', 'referring_site', 'source_identifier', 'source_name', 'source_url', 'subtotal_price_set',
+          'total_discounts_set', 'total_line_items_price_set', 'total_price_set', 'total_shipping_price_set', 'total_tax_set', 'user_id', 'payment_details'];
+
+          blacklist.forEach(function(key) {
+            delete order[key];
+          });
+
           await ctx.db.collection('gifts').insertOne({ 
             _store: queue.store,
             gift: giftify,
