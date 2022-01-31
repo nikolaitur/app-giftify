@@ -45,15 +45,13 @@ const ordersPartiallyFulfilled = async (ctx) => {
             order.line_items.forEach(function(line_item, index) {
               order.line_items[index].image = HOST + '/img?shop=' + queue.store + '.myshopify.com&pid=' + line_item.product_id + '&vid=' + line_item.variant_id
             });
-            
+
             const to = giftify.To.split('('), from = giftify.From.split('(');
             const mailgun = new Mailgun(formData);
             const mg = mailgun.client({ username: 'api', key: MAILGUN_API });
 
-            const engine = new Liquid({
-              root: path.resolve(__dirname, './../../emails/'),
-              extname: '.liquid'
-            });
+            const engine = new Liquid();
+            const update_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/update.liquid'), 'utf8');
             const data = {
               giftify: {
                 to: {
@@ -75,58 +73,63 @@ const ordersPartiallyFulfilled = async (ctx) => {
               },  
               host: HOST
             };
-            await engine.renderFile('ship', data).then(function(html) {
-              if (doc.plan == 2 && doc.settings.pro.smtp.active) {
-                let smtp_options = {
-                  host: doc.settings.pro.smtp.host,
-                  port: doc.settings.pro.smtp.port
-                };
-                if (parseInt(doc.settings.pro.smtp.port) == 465) {
-                  smtp_options.secure = true;
-                }
-                if (doc.settings.pro.smtp.authentication) {
-                  smtp_options.auth = {
-                    user: doc.settings.pro.smtp.username,
-                    pass: doc.settings.pro.smtp.password
-                  };
-                }
+            if (doc.plan == 2 && doc.settings.pro.emails.update.tmpl != '') {
+              const render_body = await engine.parseAndRender(doc.settings.pro.emails.update.tmpl, data);
+              const render_subject = await engine.parseAndRender(doc.settings.pro.emails.update.subject, data)
+            } else {
+              const render_body = await engine.parseAndRender(update_tmpl, data);
+              const render_subject = 'A shipment for your gift is on the way!';
+            }
 
-                const subject_engine = new Liquid();
-                subject_engine.parseAndRender(doc.settings.pro.emails.update.subject, data).then(function(subject) {
-                  const transporter = nodemailer.createTransport(smtp_options);
-                  transporter.sendMail({
-                    to: to[1].replace(')', ''),
-                    from: doc.settings.general.name + '<' + doc.settings.general.email + '>',
-                    replyTo: from[1].replace(')', ''),
-                    subject: subject,
-                    html: html
-                  }, function(err, info) {
-                    if (err) {
-                      console.log('Error during email SMTP Orders Partially Fulfilled: ', err);
-
-                      mg.messages.create('mg.giftify.email', {
-                        to: to[1].replace(')', ''),
-                        from: queue.store + '<noreply@giftify.email>',
-                        subject: subject,
-                        html: html
-                      }).catch(function(err) {
-                        console.log('Error during email SMTP/MG Orders Partially Fulfilled: ', err);
-                      });
-                    }
-                  });
-                });
-
-              } else {
-                mg.messages.create('mg.giftify.email', {
-                  to: to[1].replace(')', ''),
-                  from: queue.store + '<noreply@giftify.email>',
-                  subject: 'A shipment for your gift is on the way!',
-                  html: html
-                }).catch(function(err) {
-                  console.log('Error during email MG Orders Partially Fulfilled: ', err);
-                });
+            if (doc.plan == 2 && doc.settings.pro.smtp.active) {
+              let smtp_options = {
+                host: doc.settings.pro.smtp.host,
+                port: doc.settings.pro.smtp.port
+              };
+              if (parseInt(doc.settings.pro.smtp.port) == 465) {
+                smtp_options.secure = true;
               }
-            });
+              if (doc.settings.pro.smtp.authentication) {
+                smtp_options.auth = {
+                  user: doc.settings.pro.smtp.username,
+                  pass: doc.settings.pro.smtp.password
+                };
+              }
+
+              const transporter = nodemailer.createTransport(smtp_options);
+              transporter.sendMail({
+                to: to[1].replace(')', ''),
+                from: doc.settings.general.name + '<' + doc.settings.general.email + '>',
+                replyTo: from[1].replace(')', ''),
+                subject: render_subject,
+                html: render_body
+              }, function(err, info) {
+                if (err) {
+                  console.log('Error during email SMTP Orders Part. Fulfilled: ', err);
+
+                  mg.messages.create('mg.giftify.email', {
+                    to: to[1].replace(')', ''),
+                    from: doc.settings.general.name + '<noreply@giftify.email>',
+                    'h:Reply-To': from[1].replace(')', ''),
+                    subject: render_subject,
+                    html: render_body
+                  }).catch(function(err) {
+                    console.log('Error during email SMTP/MG Orders Part. Fulfilled: ', err);
+                  });
+                }
+              });
+
+            } else {
+              mg.messages.create('mg.giftify.email', {
+                to: to[1].replace(')', ''),
+                from: doc.settings.general.name + '<noreply@giftify.email>',
+                'h:Reply-To': from[1].replace(')', ''),
+                subject: render_subject,
+                html: render_body
+              }).catch(function(err) {
+                console.log('Error during email MG Orders Part. Fulfilled: ', err);
+              });
+            }
           }
         }
       }
@@ -137,7 +140,7 @@ const ordersPartiallyFulfilled = async (ctx) => {
     );
 
   } catch (e) {
-    console.log('Webhook Orders Partially Fulfilled error for: ' + queue.store, e);
+    console.log('Webhook Orders Part. Fulfilled error for: ' + queue.store, e);
   }
 
   ctx.body = {

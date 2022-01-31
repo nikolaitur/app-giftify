@@ -78,7 +78,7 @@ const ordersFulfilled = async (ctx) => {
               const render_subject = await engine.parseAndRender(doc.settings.pro.emails.update.subject, data)
             } else {
               const render_body = await engine.parseAndRender(update_tmpl, data);
-              const render_subject = from[0] + ' got you a gift!'
+              const render_subject = 'A shipment for your gift is on the way!';
             }
 
             if (doc.plan == 2 && doc.settings.pro.smtp.active) {
@@ -105,7 +105,7 @@ const ordersFulfilled = async (ctx) => {
                 html: render_body
               }, function(err, info) {
                 if (err) {
-                  console.log('Error during email SMTP Orders Create: ', err);
+                  console.log('Error during email SMTP Orders Fulfilled: ', err);
 
                   mg.messages.create('mg.giftify.email', {
                     to: to[1].replace(')', ''),
@@ -114,7 +114,7 @@ const ordersFulfilled = async (ctx) => {
                     subject: render_subject,
                     html: render_body
                   }).catch(function(err) {
-                    console.log('Error during email SMTP/MG Orders Create: ', err);
+                    console.log('Error during email SMTP/MG Orders Fulfilled: ', err);
                   });
                 }
               });
@@ -127,99 +127,9 @@ const ordersFulfilled = async (ctx) => {
                 subject: render_subject,
                 html: render_body
               }).catch(function(err) {
-                console.log('Error during email MG Orders Create: ', err);
+                console.log('Error during email MG Orders Fulfilled: ', err);
               });
             }
-
-
-
-
-
-
-
-
-            
-            const to = giftify.To.split('('), from = giftify.From.split('(');
-            const mailgun = new Mailgun(formData);
-            const mg = mailgun.client({ username: 'api', key: MAILGUN_API });
-
-            const engine = new Liquid({
-              root: path.resolve(__dirname, './../../emails/'),
-              extname: '.liquid'
-            });
-            const data = {
-              giftify: {
-                to: {
-                  name: to[0],
-                  email: to[1].replace(')', '')
-                },
-                from: {
-                  name: from[0],
-                  email: from[1].replace(')', '')
-                },
-                message: giftify.Message
-              },
-              order: order,
-              shop: {
-                name: doc.settings.general.name,
-                permanent_domain: queue.store + '.myshopify.com',
-                email: doc.settings.general.email,
-                logo: doc.settings.general.logo
-              },  
-              host: HOST
-            };
-            await engine.renderFile('ship', data).then(function(html) {
-              if (doc.plan == 2 && doc.settings.pro.smtp.active) {
-                let smtp_options = {
-                  host: doc.settings.pro.smtp.host,
-                  port: doc.settings.pro.smtp.port
-                };
-                if (parseInt(doc.settings.pro.smtp.port) == 465) {
-                  smtp_options.secure = true;
-                }
-                if (doc.settings.pro.smtp.authentication) {
-                  smtp_options.auth = {
-                    user: doc.settings.pro.smtp.username,
-                    pass: doc.settings.pro.smtp.password
-                  };
-                }
-
-                const subject_engine = new Liquid();
-                subject_engine.parseAndRender(doc.settings.pro.emails.update.subject, data).then(function(subject) {
-                  const transporter = nodemailer.createTransport(smtp_options);
-                  transporter.sendMail({
-                    to: to[1].replace(')', ''),
-                    from: doc.settings.general.name + '<' + doc.settings.general.email + '>',
-                    replyTo: from[1].replace(')', ''),
-                    subject: subject,
-                    html: html
-                  }, function(err, info) {
-                    if (err) {
-                      console.log('Error during email SMTP Orders Fulfilled: ', err);
-
-                      mg.messages.create('mg.giftify.email', {
-                        to: to[1].replace(')', ''),
-                        from: queue.store + '<noreply@giftify.email>',
-                        subject: subject,
-                        html: html
-                      }).catch(function(err) {
-                        console.log('Error during email SMTP/MG Orders Fulfilled: ', err);
-                      });
-                    }
-                  });
-                });
-
-              } else {
-                mg.messages.create('mg.giftify.email', {
-                  to: to[1].replace(')', ''),
-                  from: queue.store + '<noreply@giftify.email>',
-                  subject: 'A shipment for your gift is on the way!',
-                  html: html
-                }).catch(function(err) {
-                  console.log('Error during email MG Orders Fulfilled: ', err);
-                });
-              }
-            });
           }
         }
       }
