@@ -29,6 +29,10 @@ const get = async (ctx) => {
   };
   let config = superReplace(init, store.settings);
 
+  if (!config.pro.emails) {
+    config.pro.emails = {}
+  }
+
   const confirmation_tmpl = fs.readFileSync(path.join(__dirname, './../../emails/confirmation.liquid'), 'utf8');
   config.pro.emails.confirmation.default = confirmation_tmpl.toString();
 

@@ -413,6 +413,12 @@ const Settings = () => {
                           </span>
                         </a>
                       </div>
+                      <div className="field mt-3">
+                        <label>Custom Position</label>
+                        <small>If you want to have control over where the button is rendered in your theme, copy code below:</small>
+                        <input className="pre" type="text" value='<div class="giftify-wrapper"></div>' readonly />
+                        <small>and add it in <em>cart.liquid</em> file. Please refer to <a href="https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/edit-theme-code" target="_blank">this document</a> if you need more information or please <a onClick={ () => { document.getElementById('support').classList.add('active') } }>contact us</a>.</small> 
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -747,6 +753,10 @@ const Settings = () => {
                                     <label>Subject</label>
                                     <input value={ data.pro.emails.confirmation.subject } type="text" />
                                   </div>
+                                  <div className="field">
+                                    <label>Body</label>
+                                    <textarea className="tmpl-body" value={ data.pro.emails.confirmation.tmpl } />
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -759,6 +769,10 @@ const Settings = () => {
                                   <div className="field">
                                     <label>Subject</label>
                                     <input value={ data.pro.emails.update.subject } type="text" />
+                                  </div>
+                                  <div className="field">
+                                    <label>Body</label>
+                                    <textarea className="tmpl-body" value={ data.pro.emails.update.tmpl } />
                                   </div>
                                 </div>
                               </div>

@@ -28,9 +28,8 @@ const generateScriptTag = (settings, dev) => {
   			var wrappers = document.querySelectorAll('.giftify-wrapper'),
             checkoutButtons = document.querySelectorAll('[name="checkout"]');
   			if (wrappers.length) {
-  				this.renderButton(wrappers);
-  			}
-        if (checkoutButtons.length) {
+  				this.renderButton();
+  			} else if (checkoutButtons.length) {
           this.checkoutButton = checkoutButtons[0];
           checkoutButtons.forEach(function(checkoutButton) {
             var el = document.createElement('div');

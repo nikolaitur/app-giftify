@@ -1,0 +1,74 @@
+.pricing-plans {
+	.column {
+		border: 1px solid $border;
+		border-radius: 10px;
+		line-height: 1.5;
+		padding: 25px;
+
+		&.active {
+			border-color: $color;
+		}
+	}
+
+	.title {
+		font-weight: 700;
+		color: $color;
+		font-size: 14px;
+		text-transform: uppercase;
+		text-align: center;
+	}
+
+	.price {
+		font-size: 40px;
+		font-weight: 700;
+		text-align: center;
+		margin: 15px 0;
+
+		small {
+			font-size: 25px;
+			font-weight: 400;
+		}
+	}
+
+	ul {
+		li {
+			display: block;
+			padding-left: 20px;
+			position: relative;
+
+			&:before {
+				position: absolute;
+		    left: -7px;
+				top: 5px;
+				height: 7px;
+				width: 3px;
+		    background-color: $color;
+		    content: "";
+		    transform: translateX(10px) rotate(-45deg);
+		    transform-origin: left bottom;
+		    margin-top: 5px;
+			}
+
+			&:after {
+				position: absolute;
+		    left: -5px;
+				top: 12px;
+				height: 3px;
+				width: 9px;
+		    background-color: $color;
+		    content: "";
+		    transform: translateX(10px) rotate(-45deg);
+		    transform-origin: left bottom;
+			}
+
+			&.uncheck {
+				color: rgb(190,190,190);
+				text-decoration: line-through;
+			}
+
+			+ li {
+				margin-top: 20px;
+			}
+		}
+	}
+}
