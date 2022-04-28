@@ -1,4 +1,5 @@
 const { HOST, MONGO_CRON, MAILGUN_API, MAILGUN_PUBLIC } = process.env;
+import fs from 'fs';
 import path from 'path';
 import nodemailer from 'nodemailer';
 import { ObjectId } from 'mongodb';
