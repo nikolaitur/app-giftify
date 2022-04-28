@@ -88,7 +88,7 @@ const Plan = () => {
                         <li class="uncheck">Hide Branding</li>
                         <li class="uncheck">Custom SMTP Server</li>
                         <li class="uncheck">Send email updates on fulfillments</li>
-                        <li class="uncheck">Custom emails</li>
+                        <li class="uncheck">Edit email templates</li>
                       </ul>
                       <div className="text-center mt-4">
                         { (plan == 1) && (
@@ -110,7 +110,7 @@ const Plan = () => {
                         <li class="check">Hide Branding</li>
                         <li class="check">Custom SMTP Server</li>
                         <li class="check">Send email updates on fulfillments</li>
-                        <li class="check">Custom emails</li>
+                        <li class="check">Edit email templates</li>
                       </ul>
                       <div className="text-center mt-4">
                         { (plan == 2) && (

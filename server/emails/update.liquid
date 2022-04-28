@@ -54,10 +54,21 @@
                                           <td style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;">
                                              <h2 style="font-weight: normal; font-size: 24px; margin: 0 0 10px;">Your gift is on the way, {{ giftify.to.name }}!</h2>
                                              <p style="color: #777; line-height: 150%; font-size: 16px; margin: 0;">Track shipment of your gift to see the delivery status.</p>
-                                             {% if giftify.message != '' %}
+                                             {% if order.fulfillment.tracking_numbers.size > 0 %}
                                              <p class="disclaimer__subtext" style="color: #999; line-height: 150%; font-size: 14px; margin: 0;">
                                                 <br>
-                                                <em>UPS tracking number: <a>123456</a></em>
+                                                <em>
+                                                   {% if fulfillment.tracking_numbers.size == 1 and fulfillment.tracking_company and fulfillment.tracking_url %}
+                                                      {{ fulfillment.tracking_company }} tracking number: <a href="{{ fulfillment.tracking_url }}">{{ fulfillment.tracking_numbers.first }}</a>
+                                                   {% elsif fulfillment.tracking_numbers.size == 1 %}
+                                                      Tracking number: {{ fulfillment.tracking_numbers.first }}
+                                                   {% else %}
+                                                      Tracking numbers:<br />
+                                                   {% for tracking_number in fulfillment.tracking_numbers %}
+                                                     {{ tracking_number }}<br />
+                                                      {% endfor %}
+                                                   {% endif %}
+                                                </em>
                                              </p>
                                              {% endif %}
                                              <table class="row actions" style="width: 100%; border-spacing: 0; border-collapse: collapse; margin-top: 20px;">
