@@ -38,11 +38,18 @@ const Guide = () => {
     <div id="guide" className="alert info mb-3 hide">
       <a className="close" onClick={ hide_guide }><Image src="/icons/x.svg" width="20" height="20" /></a>
       <div className="heading">
-        <h3>Let's send some gits!</h3>
-        <div className="message">Follow the guide below to create your first event.</div>
+        <h3>Let's send some gifts!</h3>
+        <div className="message">Follow the guide below to set up the app.</div>
       </div>
       <div className="tutorial">
-        <ol></ol>
+        <ol>
+          <li>Enable app in <strong>General</strong> tab under the <Link href="/settings"><a><Image src="/icons/cog.svg" width="16" height="16" /> Settings</a></Link> . Set up your store settings there too - those will be used in the emails to recipients.</li>
+          <li>Still in Settings, go to <strong>Button</strong> tab to configure your Giftify trigger. Button will be displayed in the cart.</li>
+          <li>Under <strong>Popup</strong> tab you can change how the Giftify popup looks like to match your theme's look.</li>
+          <li><strong>Pro</strong> tab gives you advanced settings if you have higher plan activated.</li>
+          <li>Go to <Link href="/"><a><Image src="/icons/rocket.svg" width="16" height="16" /> Dashboard</a></Link> to see all gifts sent by your customers and check statuses of orders.</li>
+          <li>If you need help - don't hesitate and contact us. Any information you will find in <a onClick={ support_show }>Support</a>.</li>
+        </ol>
       </div>
     </div>
   );

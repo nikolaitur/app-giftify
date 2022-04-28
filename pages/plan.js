@@ -76,48 +76,54 @@ const Plan = () => {
               <Loadbars />
             )}
             { (!loading) && (
-              <>
-                { plan }
-                <button onClick={ () => { changePlan(1) } }>Upgrade to 1</button>
-                <button onClick={ () => { changePlan(2) } }>Upgrade to 2</button>
-
-                <div className="pricing-plans">
-                  <div className="grid">
-                    <div className="col-16-sm">
-                      <div className="grid">
-                        <div className="col-12-sm">
-                          <div className={ plan == 1 ? 'active column' : 'column' }>
-                            <div className="title">Basic</div>
-                            <div className="price">$5 <small>/ month</small></div>
-                            <ul>
-                              <li class="check">Customizable button and popup</li>
-                              <li class="check">Confirmation emails</li>
-                              <li class="uncheck">Hide Branding</li>
-                              <li class="uncheck">Custom SMTP Server</li>
-                              <li class="uncheck">Send email updates on fulfillments</li>
-                              <li class="uncheck">Custom emails</li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div className="col-12-sm">
-                          <div className={ plan == 2 ? 'active column' : 'column' }>
-                            <div className="title">Pro</div>
-                            <div className="price">$10 <small>/ month</small></div>
-                            <ul>
-                              <li class="check">Customizable button and popup</li>
-                              <li class="check">Confirmation emails</li>
-                              <li class="check">Hide Branding</li>
-                              <li class="check">Custom SMTP Server</li>
-                              <li class="check">Send email updates on fulfillments</li>
-                              <li class="check">Custom emails</li>
-                            </ul>
-                          </div>
-                        </div>  
-                      </div>  
+              <div className="pricing-plans mt-3">
+                <div className="grid">
+                  <div className="col-12-sm">
+                    <div className={ plan == 1 ? 'active column' : 'column' }>
+                      <div className="title">Basic</div>
+                      <div className="price">$5 <small>/ month</small></div>
+                      <ul>
+                        <li class="check">Customizable button and popup</li>
+                        <li class="check">Confirmation emails</li>
+                        <li class="uncheck">Hide Branding</li>
+                        <li class="uncheck">Custom SMTP Server</li>
+                        <li class="uncheck">Send email updates on fulfillments</li>
+                        <li class="uncheck">Custom emails</li>
+                      </ul>
+                      <div className="text-center mt-4">
+                        { (plan == 1) && (
+                          <a className="btn disabled">Selected</a>
+                        )}
+                        { (plan == 2) && (
+                          <a className="btn" onClick={ () => { changePlan(1) } }>Select this plan</a>
+                        )}
+                      </div>
                     </div>
                   </div>
+                  <div className="col-12-sm">
+                    <div className={ plan == 2 ? 'active column' : 'column' }>
+                      <div className="title">Pro</div>
+                      <div className="price">$10 <small>/ month</small></div>
+                      <ul>
+                        <li class="check">Customizable button and popup</li>
+                        <li class="check">Confirmation emails</li>
+                        <li class="check">Hide Branding</li>
+                        <li class="check">Custom SMTP Server</li>
+                        <li class="check">Send email updates on fulfillments</li>
+                        <li class="check">Custom emails</li>
+                      </ul>
+                      <div className="text-center mt-4">
+                        { (plan == 2) && (
+                          <a className="btn disabled">Selected</a>
+                        )}
+                        { (plan == 1) && (
+                          <a className="btn" onClick={ () => { changePlan(2) } }>Select this plan</a>
+                        )}
+                      </div>
+                    </div>
+                  </div>  
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>

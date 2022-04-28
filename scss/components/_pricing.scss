@@ -1,4 +1,6 @@
 .pricing-plans {
+	max-width: 675px;
+
 	.column {
 		border: 1px solid $border;
 		border-radius: 10px;
@@ -62,8 +64,25 @@
 			}
 
 			&.uncheck {
-				color: rgb(190,190,190);
+				color: #bebebe;
 				text-decoration: line-through;
+
+				&:before {
+					background: #bebebe;
+					width: 12px;
+					height: 3px;
+					transform: translateX(10px) rotate(45deg);
+					left: -10px;
+					top: 1px;
+				}
+
+				&:after {
+					background: #bebebe;
+					width: 12px;
+					height: 3px;
+					left: -8px;
+					top: 14px;
+				}
 			}
 
 			+ li {
