@@ -139,7 +139,7 @@ app.prepare().then(() => {
         webhook(shop, accessToken, 'orders/create');
         webhook(shop, accessToken, 'orders/fulfilled');
         webhook(shop, accessToken, 'orders/partially_fulfilled');
-        //webhook(shop, accessToken, 'fulfillment_events/create');
+        webhook(shop, accessToken, 'fulfillment_events/create');
 
         // Redirect to app with shop parameter upon auth and subscription
         const subscriptionUrl = await subscribe(shop, accessToken, `${ HOST }/confirm?shop=${ shop }`, trial, dev || store == 'minion-made-apps' || store == 'minionmadeapps');

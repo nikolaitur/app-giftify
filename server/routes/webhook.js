@@ -1,5 +1,5 @@
 const webhook = async (ctx) => {
-  if (ctx._matchedRoute.indexOf('gdpr') != -1) {
+  if (ctx._matchedRoute.indexOf('gdpr') != -1 || ctx._matchedRoute.indexOf('fulfillment_events') != -1) {
     ctx.body = {
       status: 'success'
     };
