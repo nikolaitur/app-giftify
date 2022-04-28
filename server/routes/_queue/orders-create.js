@@ -62,6 +62,18 @@ const ordersCreate = async (ctx) => {
             created_at: Fdate().format('server')
           });
 
+          ctx.store = queue.store;
+
+          const s = await Shopify(ctx);
+          const order_update = await s.order.update(
+            order.id,
+            { tags: order.tags + ',Giftify' }
+          );
+
+          if (order_update.errors) {
+            console.log('Error adding tag: ' + order.id + ', for: ' + queue.store);
+          }
+
           const to = giftify.To.split('('), from = giftify.From.split('(');
           const mailgun = new Mailgun(formData);
           const mg = mailgun.client({ username: 'api', key: MAILGUN_API });
