@@ -114,8 +114,6 @@ const ordersCreate = async (ctx) => {
             render_subject = from[0] + ' got you a gift!';
           }
 
-          console.log(render_subject)
-
           if (doc.plan == 2 && doc.settings.pro.smtp.active) {
             let smtp_options = {
               host: doc.settings.pro.smtp.host,
