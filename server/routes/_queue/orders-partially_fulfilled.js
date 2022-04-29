@@ -76,12 +76,16 @@ const ordersPartiallyFulfilled = async (ctx) => {
               },  
               host: HOST
             };
+
+            let render_body = '';
+            let render_subject = '';
+            
             if (doc.plan == 2 && doc.settings.pro.emails.update.tmpl != '') {
-              const render_body = await engine.parseAndRender(doc.settings.pro.emails.update.tmpl, data);
-              const render_subject = await engine.parseAndRender(doc.settings.pro.emails.update.subject, data)
+              render_body = await engine.parseAndRender(doc.settings.pro.emails.update.tmpl, data);
+              render_subject = await engine.parseAndRender(doc.settings.pro.emails.update.subject, data)
             } else {
-              const render_body = await engine.parseAndRender(update_tmpl, data);
-              const render_subject = 'A shipment for your gift is on the way!';
+              render_body = await engine.parseAndRender(update_tmpl, data);
+              render_subject = 'A shipment for your gift is on the way!';
             }
 
             if (doc.plan == 2 && doc.settings.pro.smtp.active) {

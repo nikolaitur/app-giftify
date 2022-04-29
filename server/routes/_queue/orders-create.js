@@ -102,13 +102,19 @@ const ordersCreate = async (ctx) => {
             },  
             host: HOST
           };
+
+          let render_body = '';
+          let render_subject = '';
+
           if (doc.plan == 2 && doc.settings.pro.emails.confirmation.tmpl != '') {
-            const render_body = await engine.parseAndRender(doc.settings.pro.emails.confirmation.tmpl, data);
-            const render_subject = await engine.parseAndRender(doc.settings.pro.emails.confirmation.subject, data)
+            render_body = await engine.parseAndRender(doc.settings.pro.emails.confirmation.tmpl, data);
+            render_subject = await engine.parseAndRender(doc.settings.pro.emails.confirmation.subject, data);
           } else {
-            const render_body = await engine.parseAndRender(confirmation_tmpl, data);
-            const render_subject = from[0] + ' got you a gift!'
+            render_body = await engine.parseAndRender(confirmation_tmpl, data);
+            render_subject = from[0] + ' got you a gift!';
           }
+
+          console.log(render_subject)
 
           if (doc.plan == 2 && doc.settings.pro.smtp.active) {
             let smtp_options = {
