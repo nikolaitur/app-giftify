@@ -139,7 +139,15 @@ const handlePreview = async (ctx) => {
               price: '4.90',
               title: 'Standard Shipping'
             }
-          ]
+          ],
+          fulfillment: {
+            "tracking_company": "FedEx",
+            "tracking_number": "123456789",
+            "tracking_numbers": [
+              "123456789"
+            ],
+            "tracking_url": "https://www.fedex.com/fedextrack/?trknbr=123456789"
+          }
         },
         shop: {
           name: doc.settings.general.name,

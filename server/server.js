@@ -96,6 +96,9 @@ app.prepare().then(() => {
     await KoaBody({
       includeUnparsed: true,
       multipart: true,
+      jsonLimit: '2mb',
+      textLimit: '2mb',
+      formLimit: '2mb'
     })(ctx, next);
   });
   server.use(
@@ -128,7 +131,7 @@ app.prepare().then(() => {
 
         // Calculate trial days
         const id = doc.value ? doc.value._id : doc.lastErrorObject.upserted;
-        let trial = 14;
+        let trial = 7;
 
         if (doc.value) {
           trial = trial - parseInt(Math.floor((Date.now() - parseInt(id.toString().substring(0,8), 16) * 1000) / (60*60*24*1000)));

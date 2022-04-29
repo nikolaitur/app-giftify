@@ -47,6 +47,7 @@ const ordersFulfilled = async (ctx) => {
             order.line_items.forEach(function(line_item, index) {
               order.line_items[index].image = HOST + '/img?shop=' + queue.store + '.myshopify.com&pid=' + line_item.product_id + '&vid=' + line_item.variant_id
             });
+            order.fulfillment = order.fulfillments ? order.fulfillments[0] : {};
 
             const to = giftify.To.split('('), from = giftify.From.split('(');
             const mailgun = new Mailgun(formData);

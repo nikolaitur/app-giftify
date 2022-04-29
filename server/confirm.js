@@ -32,7 +32,7 @@ const confirm = async (ctx) => {
       if (charge && charge.status == 'active') {
         await ctx.db.collection('stores').updateOne(
           { _store: store },
-          { $set: { plan: charge.name.indexOf('Premium') > -1 ? 2 : 1 } }
+          { $set: { plan: charge.name.indexOf('Pro') > -1 ? 2 : 1 } }
         );
       }
     }

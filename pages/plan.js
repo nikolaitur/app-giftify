@@ -81,9 +81,10 @@ const Plan = () => {
                   <div className="col-12-sm">
                     <div className={ plan == 1 ? 'active column' : 'column' }>
                       <div className="title">Basic</div>
-                      <div className="price">$5 <small>/ month</small></div>
+                      <div className="price">$9.99 <small>/ month</small></div>
                       <ul>
-                        <li class="check">Customizable button and popup</li>
+                        <li class="check">Unlimited gift emails</li>
+                        <li class="check">Customizable trigger button and gift popup</li>
                         <li class="check">Confirmation emails</li>
                         <li class="uncheck">Hide Branding</li>
                         <li class="uncheck">Custom SMTP Server</li>
@@ -103,9 +104,10 @@ const Plan = () => {
                   <div className="col-12-sm">
                     <div className={ plan == 2 ? 'active column' : 'column' }>
                       <div className="title">Pro</div>
-                      <div className="price">$10 <small>/ month</small></div>
+                      <div className="price">$19.99 <small>/ month</small></div>
                       <ul>
-                        <li class="check">Customizable button and popup</li>
+                        <li class="check">Unlimited gift emails</li>
+                        <li class="check">Customizable trigger button and gift popup</li>
                         <li class="check">Confirmation emails</li>
                         <li class="check">Hide Branding</li>
                         <li class="check">Custom SMTP Server</li>

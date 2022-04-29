@@ -14,7 +14,7 @@ const plan = async (ctx) => {
 	if (ctx.request.method == 'POST') {
 		const { ...input } = JSON.parse(ctx.request.body);
 		const dev = NODE_ENV !== "production" || ctx.store == 'minion-made-apps' || ctx.store == 'minionmadeapps';
-		const trial = 14 - parseInt(Math.floor((Date.now() - parseInt(store._id.toString().substring(0,8), 16) * 1000) / (60*60*24*1000)));
+		const trial = 7 - parseInt(Math.floor((Date.now() - parseInt(store._id.toString().substring(0,8), 16) * 1000) / (60*60*24*1000)));
 
 		const bytes = CryptoJS.AES.decrypt(store.token, process.env.SHOPIFY_API_SECRET);
 	  const token = bytes.toString(CryptoJS.enc.Utf8);

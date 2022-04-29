@@ -753,10 +753,6 @@ const Settings = () => {
                                     <label>Subject</label>
                                     <input value={ data.pro.emails.confirmation.subject } type="text" />
                                   </div>
-                                  <div className="field">
-                                    <label>Body</label>
-                                    <textarea className="tmpl-body" value={ data.pro.emails.confirmation.tmpl } />
-                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -769,10 +765,6 @@ const Settings = () => {
                                   <div className="field">
                                     <label>Subject</label>
                                     <input value={ data.pro.emails.update.subject } type="text" />
-                                  </div>
-                                  <div className="field">
-                                    <label>Body</label>
-                                    <textarea className="tmpl-body" value={ data.pro.emails.update.tmpl } />
                                   </div>
                                 </div>
                               </div>

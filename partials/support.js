@@ -23,11 +23,11 @@ const Support = () => {
             </li>
             <li>
               <span><Image src="/icons/help.svg" width="16" height="16" /></span>
-              <a href="https://minionmade.com/shopify-apps/theme-on-time#section-faq" target="_blank">FAQ</a>
+              <a href="https://minionmade.com/shopify-apps/giftify#section-faq" target="_blank">FAQ</a>
             </li>
             <li>
               <span><Image src="/icons/contact.svg" width="16" height="16" /></span>
-              <a href="https://minionmade.com/shopify-apps/theme-on-time#contact" target="_blank">Contact Us</a>
+              <a href="https://minionmade.com/shopify-apps/giftify#contact" target="_blank">Contact Us</a>
             </li>
           </ul>
         </div>
