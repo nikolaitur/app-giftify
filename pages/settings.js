@@ -45,6 +45,7 @@ const Settings = () => {
   const [ preview_active, $_preview_active ] = useState(false);
   const [ preview_title, $_preview_title ] = useState('');
   const [ previewing, $_previewing ] = useState(false);
+  const [ modal_active, $_modal_active ] = useState(false);
 
   // --- EFFECTS ------------------------------------------------ //
   useEffect(() => {
@@ -159,12 +160,13 @@ const Settings = () => {
 
   const overlay_off = () => {
     $_preview_active(false);
+    $_modal_active(false);
     document.getElementById('support').classList.remove('active');
   };
 
   // --- RENDER ------------------------------------------------- //
   return (
-    <div className={ `inside ${ preview_active ? 'overlay-on' : '' }` }>
+    <div className={ `inside ${ preview_active || modal_active ? 'overlay-on' : '' }` }>
       <div className="overlay" onClick={ overlay_off }></div>
         <div className="grid">
           <Sidebar view="settings" />
@@ -937,7 +939,7 @@ const Settings = () => {
                             <div className="col-24-sm">
                               <div className="field">
                                 <label>Variables</label>
-                                <small>Click <a href="" target="_blank">here</a> to learn about liquid variables you can use in your templates.</small>
+                                <small>Click <a onClick={ () => $_modal_active(true) }>here</a> to learn about liquid variables you can use in your templates.</small>
                               </div>
                             </div>
                           </div>
@@ -950,6 +952,63 @@ const Settings = () => {
 
               </div>
             )}
+          </div>
+        </div>
+        <div className={ modal_active ? 'aside active' : 'aside' }>
+          <a className="close" onClick={ () => $_modal_active(false) }><Image src="/icons/x.svg" width="20" height="20" /></a>
+          <h2 className="mb-4">
+            Variables
+          </h2>
+          <div className="body">
+            <div className="grid">
+              <div className="col-24-xs">
+                <h3 class="mb-3">Giftify variables</h3>
+                <div className="field">
+                  <label class="text-success">{ `{{ giftify.to.name }}` }</label>
+                  Recipient's name
+                </div>
+                <div className="field">
+                  <label class="text-success">{ `{{ giftify.to.email }}` }</label>
+                  Recipient's email
+                </div>
+                <div className="field">
+                  <label class="text-success">{ `{{ giftify.from.name }}` }</label>
+                  Sender's name
+                </div>
+                <div className="field">
+                  <label class="text-success">{ `{{ giftify.from.email }}` }</label>
+                  Sender's email
+                </div>
+                <div className="field">
+                  <label class="text-success">{ `{{ giftify.message }}` }</label>
+                  Sender's message
+                </div>
+
+
+                <h3 class="mt-4 mb-3">Shop variables</h3>
+                <div className="field">
+                  <label class="text-success">{ `{{ shop.name }}` }</label>
+                  Shop name
+                </div>
+                <div className="field">
+                  <label class="text-success">{ `{{ shop.permanent_domain }}` }</label>
+                  Shop permanent domain
+                </div>
+                <div className="field">
+                  <label class="text-success">{ `{{ shop.logo }}` }</label>
+                  Shop logo
+                </div>
+                <div className="field">
+                  <label class="text-success">{ `{{ shop.email }}` }</label>
+                  Shop email
+                </div>
+
+                <h3 class="mt-4 mb-3">Order variables</h3>
+                <div className="field">
+                  All variables from the order object are available. Please read documentation <a className="text-success" href="https://shopify.dev/api/admin-rest/2022-04/resources/order#resource-object" target="_blank">here</a> to see what you can use.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className={ preview_active ? 'aside preview active' : 'aside preview' }>
