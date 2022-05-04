@@ -59,7 +59,7 @@ const _popup = (config, backend = false) => {
                         </form>
                     </div>
     			</div>
-                ${ config.pro.branding ? '<div>Sent via <a href="" target="_blank">Giftify</a></div>' : '' }
+                ${ config.pro.branding ? '<div>Sent via <a href="https://minionmade.com/shopify-apps/giftify" target="_blank">Giftify</a></div>' : '' }
     		</div>
     		${ config.popup.image != '' ? '<div class="giftify-popup__right" style="background-image: url(' + config.popup.image + ')"></div>' : '' }
     	</div>
