@@ -113,7 +113,7 @@ const _css = (config) => {
     }
     .giftify-popup__left {
       width: ${ config.popup.image == '' ? 100 : 50 }%;
-      padding: 75px 50px;
+      padding: 50px 50px 75px;
       position: relative;
     }
     .giftify-popup__header {
@@ -201,7 +201,7 @@ const _css = (config) => {
       width: 20px;
       height: 20px;
       border: 3px solid ${ config.popup.buttons.next.txtColor };
-      border-top: 3px solid transparent;
+      border-top: 3px solid transparent!important;
       border-radius: 50%;
       margin-left: -10px;
       margin-top: -10px;
@@ -221,6 +221,7 @@ const _css = (config) => {
     .giftify-popup__step ol {
       counter-reset: giftify;
       list-style: none;
+      padding: 0;
     }
     .giftify-popup__step li {
       color: ${ config.popup.lines.txtColor };
