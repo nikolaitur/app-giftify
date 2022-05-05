@@ -188,23 +188,23 @@ const Index = () => {
               <div className="grid">
                 <div className="col-24-xs">
                   <div className="field">
-                    <label class="text-success">Recipient Name</label>
+                    <label className="text-success">Recipient Name</label>
                     { data.gift.To.split(' (')[0] }
                   </div>
                   <div className="field">
-                    <label class="text-success">Recipient Email</label>
+                    <label className="text-success">Recipient Email</label>
                     { data.gift.To.replace(')', '').split(' (')[1] }
                   </div>
                   <div className="field">
-                    <label class="text-success">Sender Name</label>
+                    <label className="text-success">Sender Name</label>
                     { data.gift.From.split(' (')[0] }
                   </div>
                   <div className="field">
-                    <label class="text-success">Sender Email</label>
+                    <label className="text-success">Sender Email</label>
                     { data.gift.From.replace(')', '').split(' (')[1] }
                   </div>
                   <div className="field">
-                    <label class="text-success">Message</label>
+                    <label className="text-success">Message</label>
                     { data.gift.Message }
                   </div>
                 </div>

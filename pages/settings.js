@@ -419,7 +419,7 @@ const Settings = () => {
                         <label>Custom Position</label>
                         <small>Button Trigger is available as app block in themes integrated with Online Store 2.0, where you can put it anywhere it's allowed.</small>
                         <small>If you want to have control over where the button is rendered in your theme without app blocks or your theme doesn't support Online Store 2.0, copy code below:</small>
-                        <input className="pre" type="text" value='<div class="giftify-wrapper"></div>' readonly />
+                        <input className="pre" type="text" value='<div className="giftify-wrapper"></div>' readOnly />
                         <small>and add it in <em>cart.liquid</em> file. Please refer to <a href="https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/edit-theme-code" target="_blank">this document</a> if you need more information or please <a onClick={ () => { document.getElementById('support').classList.add('active') } }>contact us</a>.</small> 
                       </div>
                     </div>
@@ -696,7 +696,7 @@ const Settings = () => {
                     <>
                       <div className="grid">
                         <div className="col-24-sm">
-                          <p className="grid vcenter-xs"><Image src="/icons/error.svg" width="25" height="24" /><span className="pl-2">You need higher plan to edit these settings. Click <Link href="/plan"><a className="text-success">here</a></Link> to switch plans.</span></p>
+                          <div className="grid vcenter-xs"><Image src="/icons/error.svg" width="25" height="24" /><span className="pl-2">You need higher plan to edit these settings. Click <Link href="/plan"><a className="text-success">here</a></Link> to switch plans.</span></div>
                         </div>
                       </div>
                       <div className="grid disabled mt-4">
@@ -754,7 +754,7 @@ const Settings = () => {
                                   </div>
                                   <div className="field">
                                     <label>Subject</label>
-                                    <input value={ data.pro.emails.confirmation.subject } type="text" />
+                                    <input value={ data.pro.emails.confirmation.subject } type="text" readOnly />
                                   </div>
                                 </div>
                               </div>
@@ -767,7 +767,7 @@ const Settings = () => {
                                   </div>
                                   <div className="field">
                                     <label>Subject</label>
-                                    <input value={ data.pro.emails.update.subject } type="text" />
+                                    <input value={ data.pro.emails.update.subject } type="text" readOnly />
                                   </div>
                                 </div>
                               </div>
@@ -963,48 +963,48 @@ const Settings = () => {
           <div className="body">
             <div className="grid">
               <div className="col-24-xs">
-                <h3 class="mb-3">Giftify variables</h3>
+                <h3 className="mb-3">Giftify variables</h3>
                 <div className="field">
-                  <label class="text-success">{ `{{ giftify.to.name }}` }</label>
+                  <label className="text-success">{ `{{ giftify.to.name }}` }</label>
                   Recipient's name
                 </div>
                 <div className="field">
-                  <label class="text-success">{ `{{ giftify.to.email }}` }</label>
+                  <label className="text-success">{ `{{ giftify.to.email }}` }</label>
                   Recipient's email
                 </div>
                 <div className="field">
-                  <label class="text-success">{ `{{ giftify.from.name }}` }</label>
+                  <label className="text-success">{ `{{ giftify.from.name }}` }</label>
                   Sender's name
                 </div>
                 <div className="field">
-                  <label class="text-success">{ `{{ giftify.from.email }}` }</label>
+                  <label className="text-success">{ `{{ giftify.from.email }}` }</label>
                   Sender's email
                 </div>
                 <div className="field">
-                  <label class="text-success">{ `{{ giftify.message }}` }</label>
+                  <label className="text-success">{ `{{ giftify.message }}` }</label>
                   Sender's message
                 </div>
 
 
-                <h3 class="mt-4 mb-3">Shop variables</h3>
+                <h3 className="mt-4 mb-3">Shop variables</h3>
                 <div className="field">
-                  <label class="text-success">{ `{{ shop.name }}` }</label>
+                  <label className="text-success">{ `{{ shop.name }}` }</label>
                   Shop name
                 </div>
                 <div className="field">
-                  <label class="text-success">{ `{{ shop.permanent_domain }}` }</label>
+                  <label className="text-success">{ `{{ shop.permanent_domain }}` }</label>
                   Shop permanent domain
                 </div>
                 <div className="field">
-                  <label class="text-success">{ `{{ shop.logo }}` }</label>
+                  <label className="text-success">{ `{{ shop.logo }}` }</label>
                   Shop logo
                 </div>
                 <div className="field">
-                  <label class="text-success">{ `{{ shop.email }}` }</label>
+                  <label className="text-success">{ `{{ shop.email }}` }</label>
                   Shop email
                 </div>
 
-                <h3 class="mt-4 mb-3">Order variables</h3>
+                <h3 className="mt-4 mb-3">Order variables</h3>
                 <div className="field">
                   All variables from the order object are available. Please read documentation <a className="text-success" href="https://shopify.dev/api/admin-rest/2022-04/resources/order#resource-object" target="_blank">here</a> to see what you can use.
                 </div>

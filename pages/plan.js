@@ -83,13 +83,13 @@ const Plan = () => {
                       <div className="title">Basic</div>
                       <div className="price">$9.99 <small>/ month</small></div>
                       <ul>
-                        <li class="check">Unlimited gift emails</li>
-                        <li class="check">Customizable trigger button and gift popup</li>
-                        <li class="check">Confirmation emails</li>
-                        <li class="uncheck">Hide Branding</li>
-                        <li class="uncheck">Custom SMTP Server</li>
-                        <li class="uncheck">Send email updates on fulfillments</li>
-                        <li class="uncheck">Edit email templates</li>
+                        <li className="check">Unlimited gift emails</li>
+                        <li className="check">Customizable trigger button and gift popup</li>
+                        <li className="check">Confirmation emails</li>
+                        <li className="uncheck">Hide Branding</li>
+                        <li className="uncheck">Custom SMTP Server</li>
+                        <li className="uncheck">Send email updates on fulfillments</li>
+                        <li className="uncheck">Edit email templates</li>
                       </ul>
                       <div className="text-center mt-4">
                         { (plan == 1) && (
@@ -106,13 +106,13 @@ const Plan = () => {
                       <div className="title">Pro</div>
                       <div className="price">$19.99 <small>/ month</small></div>
                       <ul>
-                        <li class="check">Unlimited gift emails</li>
-                        <li class="check">Customizable trigger button and gift popup</li>
-                        <li class="check">Confirmation emails</li>
-                        <li class="check">Hide Branding</li>
-                        <li class="check">Custom SMTP Server</li>
-                        <li class="check">Send email updates on fulfillments</li>
-                        <li class="check">Edit email templates</li>
+                        <li className="check">Unlimited gift emails</li>
+                        <li className="check">Customizable trigger button and gift popup</li>
+                        <li className="check">Confirmation emails</li>
+                        <li className="check">Hide Branding</li>
+                        <li className="check">Custom SMTP Server</li>
+                        <li className="check">Send email updates on fulfillments</li>
+                        <li className="check">Edit email templates</li>
                       </ul>
                       <div className="text-center mt-4">
                         { (plan == 2) && (
