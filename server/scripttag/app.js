@@ -15,8 +15,21 @@ const generateScriptTag = (settings, dev) => {
       window.Giftify = {
         checkoutButton: false,
         init: function() {
+          this.reset();
           this.insertStyle();
           this.initiateButton();
+        },
+        reset: function() {
+          var xhr = new XMLHttpRequest;
+          xhr.open('POST', window.Shopify.routes.root + 'cart/update.js');
+          xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+          xhr.send(JSON.stringify({
+            attributes: {
+              'Giftify • To': '',
+              'Giftify • From': '',
+              'Giftify • Message': ''
+            }
+          }));
         },
         insertStyle: function() {
           var head = document.head || document.getElementsByTagName('head')[0],
@@ -104,7 +117,7 @@ const generateScriptTag = (settings, dev) => {
           var form = e.target;
           document.querySelector('.giftify-popup').classList.add('giftify-popup--loading');
           var xhr = new XMLHttpRequest;
-          xhr.open('POST', '/cart/update.js');
+          xhr.open('POST', window.Shopify.routes.root + 'cart/update.js');
           xhr.onload = function() {
             if (window.Giftify.checkoutButton) {
               window.Giftify.checkoutButton.click();
