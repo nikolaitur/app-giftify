@@ -43,7 +43,13 @@ const Guide = () => {
       </div>
       <div className="tutorial">
         <ol>
-          <li>Enable app in <strong>General</strong> tab under the <Link href="/settings"><a><Image src="/icons/cog.svg" width="16" height="16" /> Settings</a></Link> . Set up your store settings there too - those will be used in the emails to recipients.</li>
+          <li>Enable app in <strong>General</strong> tab under the <Link href="/settings"><a><Image src="/icons/cog.svg" width="16" height="16" /> Settings</a></Link>.
+            <ul>
+              <li>If your live theme supports Online Store 2.0, go to <strong>Online Store</strong> <span className="text-success">❯</span> <strong>Customize</strong> <span className="text-success">❯</span> <strong>Templates</strong> <span className="text-success">❯</span> <strong>Cart</strong> <span className="text-success">❯</span> <strong>Add Block</strong> <span className="text-success">❯</span> <strong>Giftify Button Trigger</strong></li>
+              <li>If your live theme doesn't support Online Store 2.0 - you don't need to do anything, app will automatically detect position where Button Trigger should be placed.</li>
+            </ul>
+          </li>
+          <li>Set up your store settings there too - those will be used in the emails to recipients.</li>
           <li>Still in Settings, go to <strong>Button</strong> tab to configure your Giftify trigger. Button will be displayed in the cart.</li>
           <li>Under <strong>Popup</strong> tab you can change how the Giftify popup looks like to match your theme's look.</li>
           <li><strong>Pro</strong> tab gives you advanced settings if you have higher plan activated.</li>

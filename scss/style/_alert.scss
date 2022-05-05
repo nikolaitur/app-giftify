@@ -79,14 +79,29 @@
 	ol {
 		counter-reset: counter;
 
-		li {
-			position: relative;
-			padding-left: 25px;
-			margin-top: 10px;
+		> li {
 			counter-increment: counter;
 
 			&:before {
 				content: counter(counter);
+			}
+
+			li {
+				counter-increment: counter2;
+
+				&:before {
+					content: counter(counter)'.'counter(counter2);
+			    letter-spacing: -1px;
+				}
+			}
+		}
+
+		li {
+			position: relative;
+			padding-left: 25px;
+			margin-top: 10px;
+
+			&:before {
 				display: block;
 				position: absolute;
 				width: 15px;
@@ -99,6 +114,10 @@
 				border-radius: 50%;
 				left: 0;
 				top: 2px;
+			}
+
+			ul {
+				counter-reset: counter2;
 			}
 		}
 	}

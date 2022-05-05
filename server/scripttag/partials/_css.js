@@ -4,7 +4,7 @@ const _css = (config) => {
     .giftify-wrapper { width: 100% }
     .giftify-button { 
       margin: ${ config.button.margin.top ? config.button.margin.top : 0 }px ${ config.button.margin.right ? config.button.margin.right : 0 }px ${ config.button.margin.bottom ? config.button.margin.bottom : 0 }px ${ config.button.margin.left ? config.button.margin.left : 0 }px; 
-      display: inline-block;
+      display: block;
       transition: all .2s ease;
       text-decoration: none!important;
     }
@@ -18,6 +18,7 @@ const _css = (config) => {
       white-space: nowrap;
       transition: all .2s ease;
       align-items: center;
+      justify-content: center;
     }
     .giftify-button svg { 
       fill: ${ config.button.iconColor };
@@ -68,6 +69,7 @@ const _css = (config) => {
       height: 100%;
       background: rgba(0,0,0,.6);
       z-index: 1;
+      display: block!important;
     }
     .giftify-popup__inside {
       position: absolute;
@@ -160,6 +162,7 @@ const _css = (config) => {
       border: 0;
       border-radius: 0!important;
       background: none!important;
+      cursor: pointer;
     }
     .giftify-popup__button span {
       border-radius: ${ config.popup.buttons.borderRadius ? config.popup.buttons.borderRadius : 0 }px;
@@ -253,6 +256,11 @@ const _css = (config) => {
     }
     .giftify-popup__field > * {
       width: 100%;
+    }
+    .giftify-popup__field input,
+    .giftify-popup__field textarea {
+      padding: 10px;
+      border: 1px solid #d2d2d2;
     }
     .giftify-popup--loading .giftify-popup__next span {
       color: transparent!important;

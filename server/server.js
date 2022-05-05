@@ -18,6 +18,7 @@ import subscribe from './subscribe';
 import confirm from './confirm';
 import RedisStore from './redis';
 import generateScriptTag from './scripttag/app';
+import generateConfig from './scripttag/config';
 import getShopInfo from './info';
 import handlePreview from './middleware/preview';
 
@@ -176,6 +177,24 @@ app.prepare().then(() => {
     ctx.res.end();
   };
 
+  const handleProxy = async (ctx) => {
+    ctx.res.statusCode = 200;
+    ctx.res.type = 'application/json';
+    const store = ctx.query.shop.replace('.myshopify.com', '');
+    const doc = await ctx.db.collection('stores').findOne(
+      { _store: store },
+      { fields: { status: 1, settings: 1, active: 1 } }
+    );
+
+    if (doc && doc.status == 'active' && doc.active) {
+      ctx.res.write(generateConfig(doc.settings));
+    } else {
+      ctx.res.write('{"error":"Not Active"}');
+    }
+    
+    ctx.res.end();
+  };
+
   const handleThumbnails = async (ctx) => {
     ctx.res.statusCode = 200;
     const store = ctx.query.shop.replace('.myshopify.com', '');
@@ -226,6 +245,7 @@ app.prepare().then(() => {
   router.get("(/_next/static/.*)", handleRequest);
   router.get("/_next/webpack-hmr", handleRequest);
   router.get("/app.js", handleJS);
+  router.post("/proxy", handleProxy);
   router.get("/img", handleThumbnails);
   router.get("(.*)", verifyRequest({accessMode: 'offline'}), handleRequest);
 
