@@ -4,7 +4,7 @@ const _css = (config) => {
     .giftify-wrapper { width: 100% }
     .giftify-button { 
       margin: ${ config.button.margin.top ? config.button.margin.top : 0 }px ${ config.button.margin.right ? config.button.margin.right : 0 }px ${ config.button.margin.bottom ? config.button.margin.bottom : 0 }px ${ config.button.margin.left ? config.button.margin.left : 0 }px; 
-      display: block;
+      display: inline-block;
       transition: all .2s ease;
       text-decoration: none!important;
     }
