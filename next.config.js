@@ -1,7 +1,7 @@
 const { parsed: localEnv } = require("dotenv").config();
 const withSass = require('@zeit/next-sass');
 const path = require('path');
-const { withSentryConfig } = require('@sentry/nextjs');
+//const { withSentryConfig } = require('@sentry/nextjs');
 
 const webpack = require("webpack");
 const apiKey = JSON.stringify(process.env.SHOPIFY_API_KEY);
@@ -21,4 +21,4 @@ const moduleExports = withSass({
 });
 
 const SentryWebpackPluginOptions = {}
-module.exports = withSentryConfig(moduleExports, SentryWebpackPluginOptions);
+module.exports = moduleExports

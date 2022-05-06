@@ -25,7 +25,6 @@
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.6.2",
     "@babel/register": "^7.6.2",
-    "@sentry/nextjs": "^6.3.5",
     "@shopify/app-bridge-react": "^2.0.2",
     "@shopify/app-bridge-utils": "^2.0.2",
     "@shopify/app-cli-node-generator-helper": "^1.1.2",
