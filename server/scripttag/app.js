@@ -78,7 +78,7 @@ const generateScriptTag = (settings, dev) => {
               if (localStorage.getItem('giftify')) { 
                 saved = JSON.parse(localStorage.getItem('giftify')); 
               }
-              var popupHTML = '${ popup.replace(/'/g, "’") }'
+              var popupHTML = '${ popup.replace(/'/g, "’") }';
               popupHTML.replace('{saved.to.name}', saved.to.name);
               popupHTML.replace('{saved.to.email}', saved.to.email);
               popupHTML.replace('{saved.from.name}', saved.from.name);
