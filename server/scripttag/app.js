@@ -79,11 +79,11 @@ const generateScriptTag = (settings, dev) => {
                 saved = JSON.parse(localStorage.getItem('giftify')); 
               }
               var popupHTML = '${ popup.replace(/'/g, "’") }';
-              popupHTML.replace('{saved.to.name}', saved.to.name);
-              popupHTML.replace('{saved.to.email}', saved.to.email);
-              popupHTML.replace('{saved.from.name}', saved.from.name);
-              popupHTML.replace('{saved.from.email}', saved.from.email);
-              popupHTML.replace('{saved.message}', saved.message);
+              popupHTML = popupHTML.replace('{saved.to.name}', saved.to.name);
+              popupHTML = popupHTML.replace('{saved.to.email}', saved.to.email);
+              popupHTML = popupHTML.replace('{saved.from.name}', saved.from.name);
+              popupHTML = popupHTML.replace('{saved.from.email}', saved.from.email);
+              popupHTML = popupHTML.replace('{saved.message}', saved.message);
               var popupEl = document.createElement('div');
               popupEl.classList.add('giftify-popup');
               popupEl.innerHTML = popupHTML;

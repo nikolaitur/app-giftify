@@ -29,24 +29,24 @@ const _popup = (config, backend = false) => {
                             <div class="giftify-popup__label">${ config.popup.texts.to }</div>
                             <div class="giftify-popup__grid">
                                 <div class="giftify-popup__field">
-                                    <input type="text" name="rname" placeholder="${ config.popup.texts.rname }" value="{saved.to.name}" required />
+                                    <input type="text" name="rname" placeholder="${ config.popup.texts.rname }" ${ backend ? '' : 'value="{saved.to.name}"' } required />
                                 </div>
                                 <div class="giftify-popup__field">
-                                    <input type="email" name="remail" placeholder="${ config.popup.texts.remail }" value="{saved.to.email}" required />
+                                    <input type="email" name="remail" placeholder="${ config.popup.texts.remail }" ${ backend ? '' : 'value="{saved.to.email}"' } required />
                                 </div>
                             </div>
                             <div class="giftify-popup__label">${ config.popup.texts.from }</div>
                             <div class="giftify-popup__grid">
                                 <div class="giftify-popup__field">
-                                    <input type="text" name="yname" placeholder="${ config.popup.texts.yname }" value="{saved.from.name}" required />
+                                    <input type="text" name="yname" placeholder="${ config.popup.texts.yname }" ${ backend ? '' : 'value="{saved.from.name}"' } required />
                                 </div>
                                 <div class="giftify-popup__field">
-                                    <input type="email" name="yemail" placeholder="${ config.popup.texts.yemail }" value="{saved.form.email}" required />
+                                    <input type="email" name="yemail" placeholder="${ config.popup.texts.yemail }" ${ backend ? '' : 'value="{saved.from.email}"' } required />
                                 </div>
                             </div>
                             <div class="giftify-popup__label">${ config.popup.texts.message }</div>
                             <div class="giftify-popup__field">
-                                <textarea name="ymessage" placeholder="${ config.popup.texts.ymessage }">{saved.message}</textarea>
+                                <textarea name="ymessage" placeholder="${ config.popup.texts.ymessage }">${ backend ? '' : '{saved.message}' }</textarea>
                             </div>
                             <div class="giftify-popup__action">
                                 <button class="giftify-popup__button giftify-popup__prev"${ backend ? 'id="popup-prev"' : '' }>
