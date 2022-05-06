@@ -70,6 +70,19 @@ const generateScriptTag = (settings, dev) => {
             });
 
             if (!document.querySelector('.giftify-popup')) {
+              var saved = {
+                to: { name: '', email: '' },
+                from: { name: '', email: '' },
+                message: ''
+              }
+              if (localStorage.getItem('giftify')) {
+                saved = JSON.parse(localStorage.getItem('giftify'));
+              }
+              popup.replace('{saved.to.name}', saved.to.name);
+              popup.replace('{saved.to.email}', saved.to.email);
+              popup.replace('{saved.from.name}', saved.from.name);
+              popup.replace('{saved.from.email}', saved.from.email);
+              popup.replace('{saved.message}', saved.message);
               var popupEl = document.createElement('div');
               popupEl.classList.add('giftify-popup');
               popupEl.innerHTML = '${ popup.replace(/'/g, "’") }';
@@ -114,7 +127,12 @@ const generateScriptTag = (settings, dev) => {
         },
         submitGift: function(e) {
           e.preventDefault();
-          var form = e.target;
+          var form = e.target, attrs = {
+            to: { name: form.rname.value, email: form.remail.value },
+            from: { name: form.yname.value, email: form.yemail.value },
+            message: form.ymessage.value
+          };
+          localStorage.setItem('giftify', JSON.stringify(attrs));
           document.querySelector('.giftify-popup').classList.add('giftify-popup--loading');
           var xhr = new XMLHttpRequest;
           xhr.open('POST', window.Shopify.routes.root + 'cart/update.js');
@@ -128,9 +146,9 @@ const generateScriptTag = (settings, dev) => {
           xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
           xhr.send(JSON.stringify({
             attributes: {
-              'Giftify • To': form.rname.value + ' (' + form.remail.value + ')',
-              'Giftify • From': form.yname.value + ' (' + form.yemail.value + ')',
-              'Giftify • Message': (form.ymessage.value ? form.ymessage.value : '-')
+              'Giftify • To': attrs.to.name + ' (' + attrs.to.email + ')',
+              'Giftify • From': attrs.from.name + ' (' + attrs.from.name + ')',
+              'Giftify • Message': (attrs.message ? attrs.message : '-')
             }
           }));
         }
