@@ -74,7 +74,7 @@ const generateScriptTag = (settings, dev) => {
                 to: { name: '', email: '' },
                 from: { name: '', email: '' },
                 message: ''
-              }
+              };
               if (localStorage.getItem('giftify')) {
                 saved = JSON.parse(localStorage.getItem('giftify'));
               }

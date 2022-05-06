@@ -419,7 +419,7 @@ const Settings = () => {
                         <label>Custom Position</label>
                         <small>Button Trigger is available as app block in themes integrated with Online Store 2.0, where you can put it anywhere it's allowed.</small>
                         <small>If you want to have control over where the button is rendered in your theme without app blocks or your theme doesn't support Online Store 2.0, copy code below:</small>
-                        <input className="pre" type="text" value='<div className="giftify-wrapper"></div>' readOnly />
+                        <input className="pre" type="text" value='<div class="giftify-wrapper"></div>' readOnly />
                         <small>and add it in <em>cart.liquid</em> file. Please refer to <a href="https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/edit-theme-code" target="_blank">this document</a> if you need more information or please <a onClick={ () => { document.getElementById('support').classList.add('active') } }>contact us</a>.</small> 
                       </div>
                     </div>
