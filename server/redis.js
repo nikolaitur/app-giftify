@@ -60,7 +60,7 @@ class RedisStore {
             }
         };
         // Create a new redis client
-        const rtg   = url.parse(process.env.REDISTOGO_URL);
+        const rtg   = url.parse(process.env.REDISCLOUD_URL);
         this.client = redis.createClient(rtg.port, rtg.hostname);
         this.client.auth(rtg.auth.split(":")[1]);
 
