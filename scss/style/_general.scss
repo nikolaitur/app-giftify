@@ -154,6 +154,16 @@ h3 {
 	}
 }
 
+h4 {
+	text-transform: uppercase;
+	font-size: 14px;
+	font-weight: 700;
+
+	@media (max-width: 767px) {
+		font-size: 12px;
+	}
+}
+
 main {
 	background: #fff;
 	padding: 15px 10px;

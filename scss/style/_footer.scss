@@ -89,3 +89,47 @@
 		}
 	}
 }
+
+.app-item {
+	margin-top: 15px;
+	max-width: 500px;
+	border: 1px solid #fff;
+	padding: 15px;
+
+	.thumb {
+		width: 120px;
+	border: 1px solid #fff;
+	}
+
+	.info {
+		width: calc(100% - 120px);
+		padding-left: 20px;
+	}
+
+	.title {
+		font-weight: 700;
+		color: $color;
+		font-size: 18px;
+	}
+
+	.short {
+		font-size: 14px;
+		margin-top: 5px;
+		margin-bottom: 10px;
+	}
+
+	.long {
+		line-height: 1.3;
+		padding-bottom: 5px;
+		color: $grey;
+	}
+
+	.more {
+		color: $color;
+
+		> div {
+			vertical-align: middle;
+			margin-top: -1px!important;
+		}
+	}
+}
