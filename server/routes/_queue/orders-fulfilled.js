@@ -116,7 +116,7 @@ const ordersFulfilled = async (ctx) => {
 
                   mg.messages.create('mg.giftify.email', {
                     to: to[1].replace(')', ''),
-                    from: doc.settings.general.name + '<noreply@giftify.email>',
+                    from: doc.settings.general.name + '<noreply@mg.giftify.email>',
                     'h:Reply-To': from[1].replace(')', ''),
                     subject: render_subject,
                     html: render_body
@@ -129,7 +129,7 @@ const ordersFulfilled = async (ctx) => {
             } else {
               mg.messages.create('mg.giftify.email', {
                 to: to[1].replace(')', ''),
-                from: doc.settings.general.name + '<noreply@giftify.email>',
+                from: doc.settings.general.name + '<noreply@mg.giftify.email>',
                 'h:Reply-To': from[1].replace(')', ''),
                 subject: render_subject,
                 html: render_body
