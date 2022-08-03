@@ -193,6 +193,7 @@ const Settings = () => {
                   <a onClick={ () => { $_tabs(2) } } className={ tabs == 2 ? 'active' : '' }>Button</a>
                   <a onClick={ () => { $_tabs(3) } } className={ tabs == 3 ? 'active' : '' }>Popup</a>
                   <a onClick={ () => { $_tabs(4) } } className={ tabs == 4 ? 'active' : '' }>Pro</a>
+                  <a onClick={ () => { $_tabs(5) } } className={ tabs == 5 ? 'active' : '' }>Other</a>
                 </div>  
 
                 <div className="tab" style={{display : tabs == 1 ? 'block' : 'none' }}>
@@ -949,6 +950,25 @@ const Settings = () => {
 
                     </>
                   )}
+                </div>
+
+
+                <div className="tab" style={{display : tabs == 5 ? 'block' : 'none' }}>
+                  <div className="grid">
+                    <div className="col-24-sm">
+                      <div className="field mb-4">
+                        <label>Turn Email Notifications Off</label>
+                        <span className="toggleSwitch">
+                          <input type="checkbox" id="toggleNotiOff" checked={ data.other.turn_noti_off } readOnly />
+                          <label htmlFor="toggleNotiOff" className="grid vcenter-xs" onClick={ () => { toggle('other', 'turn_noti_off') } }>
+                            <div className="switch empty">
+                              <div className="dot"></div>
+                            </div>
+                          </label>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
               </div>

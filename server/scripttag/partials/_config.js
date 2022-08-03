@@ -89,5 +89,8 @@ module.exports = {
             tmpl: ''
         }
     }
+  },
+  other: {
+    turn_noti_off: false
   }
 };
