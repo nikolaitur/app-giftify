@@ -157,17 +157,22 @@ const handlePreview = async (ctx) => {
         },  
         host: HOST
       };
-      const tmpl = await engine.parseAndRender(doc.settings.pro.preview.data.tmpl, data);
-      const subject = await engine.parseAndRender(doc.settings.pro.preview.data.subject, data);
 
-      ctx.body = `
-        <div style="padding:20px">
-        <style>body{box-sizing:border-box;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;}</style>
-        <h3 style="margin:0;padding:0"><span style="color:#009870">Subject:</span> ${ subject }</h3>
-        <hr style="margin-bottom:20px" />
-        ${ tmpl }
-        </div>
-      `;
+      if (doc.settings.pro.preview) {
+        const tmpl = await engine.parseAndRender(doc.settings.pro.preview.data.tmpl, data);
+        const subject = await engine.parseAndRender(doc.settings.pro.preview.data.subject, data);
+
+        ctx.body = `
+          <div style="padding:20px">
+          <style>body{box-sizing:border-box;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;}</style>
+          <h3 style="margin:0;padding:0"><span style="color:#009870">Subject:</span> ${ subject }</h3>
+          <hr style="margin-bottom:20px" />
+          ${ tmpl }
+          </div>
+        `;
+      } else {
+        ctx.body = '';
+      }
 
     } catch (e) {
       ctx.body = `
